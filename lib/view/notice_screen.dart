@@ -74,6 +74,9 @@ class _announce_screenState extends State<announce_screen> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
+          appBar: AppBar(
+              title: const Text('InfoU', style: TextStyle(color: Colors.blueAccent),)
+          ),
           resizeToAvoidBottomInset: false,
           body: Container(
             width: MediaQuery.of(context).size.width,

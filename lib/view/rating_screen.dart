@@ -266,6 +266,17 @@ class _evalute_screenState extends State<evaluate_screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+            title: const Text('InfoU', style: TextStyle(color: Colors.blueAccent),),
+            actions: [
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.search,
+                    size: 25,
+                    color: Colors.black54,
+                  )),
+            ]),
         body: Container(
           child: Column(
             children: [

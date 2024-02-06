@@ -28,9 +28,6 @@ class _main_screenState extends State<main_screen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-          title: const Text('InfoU', style: TextStyle(color: Colors.blueAccent),)
-      ),
       body: _screen_list[_selected_index],
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
