@@ -268,6 +268,7 @@ class _evalute_screenState extends State<evaluate_screen> {
     return Scaffold(
         appBar: AppBar(
             title: const Text('InfoU', style: TextStyle(color: Colors.blueAccent),),
+            backgroundColor: Colors.white,
             actions: [
               IconButton(
                   onPressed: () {},

@@ -75,7 +75,8 @@ class _announce_screenState extends State<announce_screen> {
       },
       child: Scaffold(
           appBar: AppBar(
-              title: const Text('InfoU', style: TextStyle(color: Colors.blueAccent),)
+              title: const Text('InfoU', style: TextStyle(color: Colors.blueAccent),),
+            backgroundColor: Colors.white,
           ),
           resizeToAvoidBottomInset: false,
           body: Container(
