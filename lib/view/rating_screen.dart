@@ -278,6 +278,7 @@ class _evalute_screenState extends State<evaluate_screen> {
                   )),
             ]),
         body: Container(
+          color: Colors.white,
           child: Column(
             children: [
               Padding(

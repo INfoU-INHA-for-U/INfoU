@@ -79,6 +79,7 @@ class _announce_screenState extends State<announce_screen> {
           ),
           resizeToAvoidBottomInset: false,
           body: Container(
+            color: Colors.white,
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Column(
