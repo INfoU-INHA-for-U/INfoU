@@ -30,6 +30,7 @@ class _main_screenState extends State<main_screen> {
       resizeToAvoidBottomInset: false,
       body: _screen_list[_selected_index],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
