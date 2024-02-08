@@ -5,10 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/utils.dart';
 
 //--
-import 'package:myapp/view/noticescreen.dart';
+//import 'package:myapp/view/noticescreen.dart';
 //import 'package:myapp/view/homescreen.dart';
 //import 'package:myapp/view/ratingscreen.dart';
-//import 'package:myapp/view/mypagescreen.dart';
+import 'package:myapp/view/mypagescreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: SingleChildScrollView(
-          child: Scene(),
+          child: mypageScreen(),
         ),
       ),
     );
