@@ -11,7 +11,7 @@ class announce_screen extends StatefulWidget {
 
 Widget sss() {
   return Container(
-    height: 300,
+    height: 280,
     child: Padding(
         padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
         child: Column(
@@ -52,7 +52,7 @@ Widget sss() {
                   },
                 )
             ),
-            Divider(thickness: 2,color: Colors.grey,),
+            Divider(thickness: 1,color: Colors.grey,),
           ],
         )
     ),
@@ -144,16 +144,17 @@ class _announce_screenState extends State<announce_screen> {
                     ),
                     width: MediaQuery.of(context).size.width * 0.87,
                     height: 35,
+                    margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.search, size: 17),
+                        Icon(Icons.search, size: 19),
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                             child: TextField(
                               controller: _controller,
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                               decoration: InputDecoration(
                                   hintText: '검색어를 입력해주세요',
                                   border: InputBorder.none,
@@ -176,6 +177,34 @@ class _announce_screenState extends State<announce_screen> {
                       ],
                     )
                 ),
+                Container(
+                  height: 37,
+                  width: 400,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(23, 8, 0, 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        //index에 따라 api에서 가져온 값 넣어주면 됨.
+                        Expanded(
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 5,
+                            itemBuilder: (context, index) {
+                              return announce_tag_widget(index);
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Divider(thickness: 1,color: Colors.grey),
+                ),
+
                 //각각 widget 형성된걸로 넣어줌. 하나의 예시일뿐 api에 따라 listview처리 해줘야함.
                 //Container의 height, width, Expanded의 처리가 까다로움 주의.
                 sss(),
