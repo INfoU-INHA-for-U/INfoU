@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../view/notice_screen.dart';
 import '../view/homescreen.dart';
 import '../view/rating_screen.dart';
+import '../view/mypagescreen.dart';
+import '../view/point_screen.dart';
 
 class main_screen extends StatefulWidget {
   const main_screen({super.key});
@@ -10,18 +12,19 @@ class main_screen extends StatefulWidget {
   State<main_screen> createState() => _main_screenState();
 }
 
-
 class _main_screenState extends State<main_screen> {
-
   void _onItemTapped(int index) {
     setState(() {
       _selected_index = index;
     });
   }
+
   final _screen_list = [
     home_screen(),
-    announce_screen(),
-    evaluate_screen(),
+    notice_screen(),
+    rating_screen(),
+    point_screen(),
+    mypage_screen()
   ];
   int _selected_index = 0;
   @override

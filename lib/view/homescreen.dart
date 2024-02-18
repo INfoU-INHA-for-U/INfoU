@@ -10,7 +10,6 @@ class home_screen extends StatefulWidget {
 }
 
 class _home_screenState extends State<home_screen> {
-
   //공지사항 위젯
   List<Widget> announce_list = [
     Text('공지사항 1번'),
@@ -23,15 +22,19 @@ class _home_screenState extends State<home_screen> {
   var activeBannerIndex = 0;
 
   List bannerPath = [
-    'asset/img/graph.png',
-    'asset/img/image.png',
-    'asset/img/Logo.png',
+    'assets/images/logo.png',
+    'assets/samples/ad_sample1.png',
+    'assets/samples/ad_sample2.png',
   ];
 
   Widget bannerSlider(path, index) {
     return Container(
-        child: Image.asset(path, fit: BoxFit.fill,)
-    );
+        width: MediaQuery.of(context).size.width, // 화면 전체 너비로 설정
+        margin: EdgeInsets.symmetric(horizontal: 5.0),
+        child: Image.asset(
+          path,
+          fit: BoxFit.cover,
+        ));
   }
 
   Widget sliderBannerIndicator() {
@@ -68,8 +71,7 @@ class _home_screenState extends State<home_screen> {
                   activeBannerIndex = index;
                 });
               },
-            )
-        ),
+            )),
         Align(
           alignment: Alignment.bottomCenter,
           child: sliderBannerIndicator(),
@@ -78,11 +80,11 @@ class _home_screenState extends State<home_screen> {
           padding: EdgeInsets.all(20),
           child: Align(
             alignment: Alignment.bottomRight,
-            child: Text((activeBannerIndex + 1).toString() +
-                '|' +
-                bannerPath.length.toString(), style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 20
-            )),
+            child: Text(
+                (activeBannerIndex + 1).toString() +
+                    '|' +
+                    bannerPath.length.toString(),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
           ),
         )
       ],
@@ -93,71 +95,74 @@ class _home_screenState extends State<home_screen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-          child: Column(
-            children: [
-              Container(
-                height: 180,
-                child: sliderBannerWidget(),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height*0.2,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('오늘의 공지사항', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
-                          TextButton(onPressed: () {}, child: Text('더 보기 > '))
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                        child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount: announce_list.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                  padding: EdgeInsets.all(5),
-                                  child: announce_list[index]);
-                            }
-                        )
-                    ),
-                  ],
-                ),
-              ),
-              Divider(color: Colors.black,),
-              Expanded(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('최근 강의평', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                          TextButton(onPressed: () {}, child: Text('더보기 > '))
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                        child: ListView.builder(
-                          itemCount: announce_list.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                                padding: EdgeInsets.all(5),
-                                child: announce_list[index]
-                            );
-                          },
-                        )
-                    )
-                  ],
-                ),
-              )
-            ],
+      child: Column(
+        children: [
+          Container(
+            height: 180,
+            child: sliderBannerWidget(),
           ),
-        )
-    );
+          Container(
+            height: MediaQuery.of(context).size.height * 0.2,
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '오늘의 공지사항',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                      TextButton(onPressed: () {}, child: Text('더 보기 > '))
+                    ],
+                  ),
+                ),
+                Expanded(
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: announce_list.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                              padding: EdgeInsets.all(5),
+                              child: announce_list[index]);
+                        })),
+              ],
+            ),
+          ),
+          Divider(
+            color: Colors.black,
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('최근 강의평',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
+                      TextButton(onPressed: () {}, child: Text('더보기 > '))
+                    ],
+                  ),
+                ),
+                Expanded(
+                    child: ListView.builder(
+                  itemCount: announce_list.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                        padding: EdgeInsets.all(5),
+                        child: announce_list[index]);
+                  },
+                ))
+              ],
+            ),
+          )
+        ],
+      ),
+    ));
   }
 }
