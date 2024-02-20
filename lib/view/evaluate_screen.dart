@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:blur/blur.dart';
 
 import '../component/fetch_data.dart';
+import 'evaluate_search_screen.dart';
 
 class evaluate_screen extends StatefulWidget {
   const evaluate_screen({super.key});
@@ -25,6 +26,11 @@ class _evalute_screenState extends State<evaluate_screen> {
       setState(() { });
     });
   }
+
+  //값에 따라 강의평 홈 / 강의평 검색 / 강의평 추가 화면 을 setState로 구별해야할듯.
+  //아래에 있는 bottomNaviagtorBar때문.
+  // 강의평 홈 = 0 / 강의평 검색 = 1 / 강의평 추가 화면 = 2
+  int search_screen_state_number = 0;
 
   Map _recent_evaluate_data = {
     '0' : {
@@ -271,7 +277,13 @@ class _evalute_screenState extends State<evaluate_screen> {
             backgroundColor: Colors.white,
             actions: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      search_screen_state_number = 1;
+                      //Navigator.pushNamed나 Get.to 사용 안됩니다..
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => evaluate_search_screen()));
+                    });
+                  },
                   icon: Icon(
                     Icons.search,
                     size: 25,
