@@ -6,14 +6,14 @@ import 'package:blur/blur.dart';
 import '../component/fetch_data.dart';
 import 'evaluate_search_screen.dart';
 
-class rating_screen extends StatefulWidget {
-  const rating_screen({super.key});
+class evaluate_screen extends StatefulWidget {
+  const evaluate_screen({super.key});
 
   @override
-  State<rating_screen> createState() => _evalute_screenState();
+  State<evaluate_screen> createState() => _evalute_screenState();
 }
 
-class _evalute_screenState extends State<rating_screen> {
+class _evalute_screenState extends State<evaluate_screen> {
   @override
   void initState() {
     // TODO: implement initState
@@ -26,7 +26,7 @@ class _evalute_screenState extends State<rating_screen> {
     });
   }
 
-  //값에 따라 강의평 홈 / 강의평 검색 / 강의평 추가 화면 을 setState로 구별해야할듯.
+  //값에 따라 강의평 홈 / 강의평 검색 / 강의평 추가 화면 을 setState로 구별.
   //아래에 있는 bottomNaviagtorBar때문.
   // 강의평 홈 = 0 / 강의평 검색 = 1 / 강의평 추가 화면 = 2
   int search_screen_state_number = 0;

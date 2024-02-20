@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/view/evaluate_search_screen.dart';
-import '../view/announce_screen.dart';
-import '../view/homescreen.dart';
-<<<<<<< HEAD:lib/main_screen.dart
-import '../view/evaluate_screen.dart';
-import 'package:myapp/view/mypagescreen.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-=======
-import '../view/rating_screen.dart';
-import '../view/mypagescreen.dart';
-import '../view/point_screen.dart';
->>>>>>> origin/okm1172:lib/view/main_screen.dart
+import 'notice_screen.dart';
+import 'homescreen.dart';
+import 'evaluate_screen.dart';
+import 'mypagescreen.dart';
+import 'evaluate_search_screen.dart';
+import 'point_screen.dart';
 
 class main_screen extends StatefulWidget {
   const main_screen({super.key});
@@ -20,29 +14,15 @@ class main_screen extends StatefulWidget {
 }
 
 class _main_screenState extends State<main_screen> {
-<<<<<<< HEAD:lib/main_screen.dart
 
   late List<GlobalKey<NavigatorState>> _navigatorKeyList;
 
   final _pages = [
     home_screen(),
-    announce_screen(),
-    evaluate_screen(),
-    Scene(),
-=======
-  void _onItemTapped(int index) {
-    setState(() {
-      _selected_index = index;
-    });
-  }
-
-  final _screen_list = [
-    home_screen(),
     notice_screen(),
-    rating_screen(),
+    evaluate_screen(),
     point_screen(),
-    mypage_screen()
->>>>>>> origin/okm1172:lib/view/main_screen.dart
+    mypage_screen(),
   ];
 
   @override
@@ -88,11 +68,10 @@ class _main_screenState extends State<main_screen> {
               icon: Icon(Icons.library_books),
               label: '강의평가',
             ),
-        /*
             BottomNavigationBarItem(
               icon: Icon(Icons.attach_money),
               label: '포인트',
-            ),*/
+            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: '마이',

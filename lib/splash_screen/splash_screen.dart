@@ -49,6 +49,7 @@ class _splash_screenState extends State<splash_screen> {
                 SizedBox(
                   height: 30,
                 ),
+                /*
                 Row(
                   children: [
                     // GradientText(
@@ -64,7 +65,7 @@ class _splash_screenState extends State<splash_screen> {
                     //   ],
                     // ),
                   ],
-                )
+                )*/
               ],
             )
           ],
