@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import '../splash_screen/splash_screen.dart';
 
 void main() {
-  runApp(
-      MaterialApp(
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home:splash_screen(),
+    home: splash_screen(),
   ));
 }

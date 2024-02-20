@@ -6,24 +6,23 @@ import 'package:blur/blur.dart';
 import '../component/fetch_data.dart';
 import 'evaluate_search_screen.dart';
 
-class evaluate_screen extends StatefulWidget {
-  const evaluate_screen({super.key});
+class rating_screen extends StatefulWidget {
+  const rating_screen({super.key});
 
   @override
-  State<evaluate_screen> createState() => _evalute_screenState();
+  State<rating_screen> createState() => _evalute_screenState();
 }
 
-class _evalute_screenState extends State<evaluate_screen> {
-
+class _evalute_screenState extends State<rating_screen> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     //새로운 api 형식에 따라 넣어뒀음. class lecture에 하나하나씩 차곡차곡 쌓이게 작업해뒀고,
     //그중 가장 첫번째 데이터를 정리해서 print로 출력하였으니 참고바람.
-    WidgetsBinding.instance.addPostFrameCallback((_) async{
-      await fetchData('데이터베이스','컴퓨터공학과');
-      setState(() { });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await fetchData('데이터베이스', '컴퓨터공학과');
+      setState(() {});
     });
   }
 
@@ -33,21 +32,21 @@ class _evalute_screenState extends State<evaluate_screen> {
   int search_screen_state_number = 0;
 
   Map _recent_evaluate_data = {
-    '0' : {
-      'class' : '파이썬 프로그래밍',
-      'professor' : '서영덕',
-      'star_rate' : 4,
-      'evaluate1' : '정말 좋아요',
-      'evaluate2' : '적당해요',
-      'recommend_rate' : 4.7
+    '0': {
+      'class': '파이썬 프로그래밍',
+      'professor': '서영덕',
+      'star_rate': 4,
+      'evaluate1': '정말 좋아요',
+      'evaluate2': '적당해요',
+      'recommend_rate': 4.7
     },
-    '1' : {
-      'class' : '클라우드 컴퓨팅',
-      'professor' : '권구인',
-      'star_rate' : 4,
-      'evaluate1' : '정말 좋아요',
-      'evaluate2' : '어려워요',
-      'recommend_rate' : 4.9
+    '1': {
+      'class': '클라우드 컴퓨팅',
+      'professor': '권구인',
+      'star_rate': 4,
+      'evaluate1': '정말 좋아요',
+      'evaluate2': '어려워요',
+      'recommend_rate': 4.9
     },
   };
 
@@ -62,10 +61,12 @@ class _evalute_screenState extends State<evaluate_screen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(_current_evaluate_data['class'] +
-                  ' [' +
-                  _current_evaluate_data['professor'] +
-                  ']', style: TextStyle(fontSize: 15)),
+              Text(
+                  _current_evaluate_data['class'] +
+                      ' [' +
+                      _current_evaluate_data['professor'] +
+                      ']',
+                  style: TextStyle(fontSize: 15)),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: Container(
@@ -87,14 +88,17 @@ class _evalute_screenState extends State<evaluate_screen> {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0,0,5,0),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
                     child: Container(
-                      decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(15)),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
                         child: Row(
                           children: [
-                            Text(_current_evaluate_data['evaluate1'] + ' ', style: TextStyle(fontSize: 15)),
+                            Text(_current_evaluate_data['evaluate1'] + ' ',
+                                style: TextStyle(fontSize: 15)),
                             Icon(Icons.thumb_up_alt_outlined, size: 16)
                           ],
                         ),
@@ -104,28 +108,29 @@ class _evalute_screenState extends State<evaluate_screen> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                     child: Container(
-                        decoration: BoxDecoration(color :Colors.white,borderRadius: BorderRadius.circular(15)),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15)),
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
                           child: Row(
                             children: [
-                              Text(_current_evaluate_data['evaluate2'] + ' ', style: TextStyle(fontSize: 15)),
+                              Text(_current_evaluate_data['evaluate2'] + ' ',
+                                  style: TextStyle(fontSize: 15)),
                               Icon(Icons.thumb_down_alt_outlined, size: 16)
                             ],
                           ),
-                        )
-                    ),
+                        )),
                   )
                 ],
               )
             ],
           ),
-          Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('추천도'),
-                Text(_current_evaluate_data['recommend_rate'].toString(),style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25))
-              ])
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text('추천도'),
+            Text(_current_evaluate_data['recommend_rate'].toString(),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25))
+          ])
         ],
       ),
     );
@@ -133,17 +138,21 @@ class _evalute_screenState extends State<evaluate_screen> {
 
   //인기 강의평 위젯 (현재 블러 처리 되어있음)
   Widget _popular_class_evaluate_widget() {
-    return Blur( // <- 블러 처리
+    return Blur(
+      // <- 블러 처리
       blur: 4,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20,10,10,0),
+        padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Icon(Icons.person, size: 30,),
-                Text('  익명의 거북이 [경영학과]',style: TextStyle(fontSize: 17))
+                Icon(
+                  Icons.person,
+                  size: 30,
+                ),
+                Text('  익명의 거북이 [경영학과]', style: TextStyle(fontSize: 17))
               ],
             ),
             Text('과목명  파이썬 프로그래밍', style: TextStyle(fontSize: 17)),
@@ -157,13 +166,12 @@ class _evalute_screenState extends State<evaluate_screen> {
                       scrollDirection: Axis.horizontal,
                       itemCount: 2,
                       itemBuilder: (context, index) {
-                        if(index==0)
+                        if (index == 0)
                           return Text('홍길동, ', style: TextStyle(fontSize: 17));
                         else
                           return Text('홍길동', style: TextStyle(fontSize: 17));
                       },
-                    )
-                ),
+                    )),
               ],
             ),
             Container(
@@ -174,7 +182,7 @@ class _evalute_screenState extends State<evaluate_screen> {
                 itemCount: 5,
                 itemBuilder: (context, index) {
                   //별 표시해주는겁니다. api식으로 바로 사용할수있게 코딩해놨습니다.
-                  if(index < 4)
+                  if (index < 4)
                     return Icon(Icons.star, color: Colors.amber, size: 30);
                   else
                     return Icon(Icons.star, color: Colors.grey, size: 30);
@@ -192,7 +200,7 @@ class _evalute_screenState extends State<evaluate_screen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       //눌렀을때 api내 값을 변경해줘야함.
                       //따로 firebase와 같은 서버로 로그인에 따른 값을 처리해야함.
                       debugPrint("sssss");
@@ -200,15 +208,13 @@ class _evalute_screenState extends State<evaluate_screen> {
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Colors.black
-                      ),
+                          color: Colors.black),
                       child: Padding(
                         padding: EdgeInsets.all(1.0),
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Colors.white
-                          ),
+                              color: Colors.white),
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
                             child: Row(
@@ -229,22 +235,20 @@ class _evalute_screenState extends State<evaluate_screen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       //눌럿을때 api와 통신하며 값을 변경해야함.
                       debugPrint("sssss");
                     },
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Colors.black
-                      ),
+                          color: Colors.black),
                       child: Padding(
                         padding: EdgeInsets.all(1.0),
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Colors.white
-                          ),
+                              color: Colors.white),
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
                             child: Row(
@@ -273,7 +277,10 @@ class _evalute_screenState extends State<evaluate_screen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: const Text('InfoU', style: TextStyle(color: Colors.blueAccent),),
+            title: const Text(
+              'InfoU',
+              style: TextStyle(color: Colors.blueAccent),
+            ),
             backgroundColor: Colors.white,
             actions: [
               IconButton(
@@ -303,11 +310,11 @@ class _evalute_screenState extends State<evaluate_screen> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
-                        )
-                    ),
+                        )),
                     TextButton(
                       onPressed: () {},
-                      child: Text('더 보기 > ',style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text('더 보기 > ',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                     )
                   ],
                 ),
@@ -316,24 +323,37 @@ class _evalute_screenState extends State<evaluate_screen> {
                 height: 260,
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    return Padding(padding: EdgeInsets.fromLTRB(20, 10, 20, 10), child: Container(
-                      decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(15)),
-                      height: 110,
-                      child: _recent_evaluate_widget(index),
-                    )
-                    );
+                    return Padding(
+                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(15)),
+                          height: 110,
+                          child: _recent_evaluate_widget(index),
+                        ));
                   },
                   itemCount: _recent_evaluate_data.length,
                 ),
               ),
-              Divider(color: Colors.grey.shade300, thickness: 5,),
+              Divider(
+                color: Colors.grey.shade300,
+                thickness: 5,
+              ),
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('인기 강의평', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                    TextButton(onPressed: (){}, child: Text('더 보기 > ',style: TextStyle(fontWeight: FontWeight.bold),)),
+                    Text('인기 강의평',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18)),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          '더 보기 > ',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
                   ],
                 ),
               ),
@@ -346,20 +366,17 @@ class _evalute_screenState extends State<evaluate_screen> {
                     //이용권 구매 여부에 따라 삼항 연산자로 묶으면 됨.
                     const Align(
                       alignment: Alignment.center,
-                      child: Text(
-                          '이용권 구매시 열람이 가능합니다 :D',
+                      child: Text('이용권 구매시 열람이 가능합니다 :D',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                          )
-                      ),
+                          )),
                     )
                   ],
                 ),
               ),
             ],
           ),
-        )
-    );
+        ));
   }
 }
