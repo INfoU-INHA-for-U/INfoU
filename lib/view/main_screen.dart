@@ -42,6 +42,7 @@ class _main_screenState extends State<main_screen> {
         return !(await _navigatorKeyList[_current_index].currentState!.maybePop());
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Navigator(
           key: _navigatorKeyList[_current_index],
           onGenerateRoute: (_) {
@@ -82,41 +83,8 @@ class _main_screenState extends State<main_screen> {
           showUnselectedLabels: true,
           type: BottomNavigationBarType.fixed,
           iconSize: 26,
-        ),
-        /*resizeToAvoidBottomInset: false,
-        body: _screen_list[_selected_index],
-        bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.white,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: '홈',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard),
-              label: '공지사항',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.library_books),
-              label: '강의평가',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.attach_money),
-              label: '포인트',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: '마이',
-            ),
-          ],
-          currentIndex: _selected_index,
-          selectedItemColor: Colors.blueAccent,
-          onTap: _onItemTapped,
-          unselectedItemColor: Colors.grey,
-          showUnselectedLabels: true,
-          type: BottomNavigationBarType.fixed,
-          iconSize: 26,
-        ),*/
+        ),
       ),
     );
   }
