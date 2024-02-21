@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/class/lecture.dart';
+import 'package:myapp/view/evaluate_professor_search_screen.dart';
 
 class evaluate_search_screen extends StatefulWidget {
-  const evaluate_search_screen({super.key});
+
+  final List<Lecture> lecture_list;
+
+  const evaluate_search_screen({super.key, required this.lecture_list});
 
   @override
   State<evaluate_search_screen> createState() => _evaluate_search_screenState();
-}
-
-Widget professor_search_widget() {
-  return Column(
-    children: [
-
-    ],
-  );
 }
 
 Widget class_search_widget() {
@@ -35,9 +32,19 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
 
   TextEditingController? _controller = TextEditingController(text: '');
 
+  late List<Lecture> _lecture_list;
+
   List<String> _search_menu = ['교수 검색','강의명 검색','학과 검색'];
   //0 : 교수 검색, 1 : 강의명 검색, 2 : 학과 검색
-  int _search_menu_index = 0;
+  int _search_menu_index_not_submitted = 0;
+  int _search_menu_index_submitted = 3;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _lecture_list = widget.lecture_list;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +59,10 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Row(
                   children: [
-                    Icon(Icons.keyboard_backspace),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                        child: Icon(Icons.keyboard_backspace)
+                    ),
                     Container(
                       padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                       decoration: BoxDecoration(
@@ -76,6 +86,9 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
                                     hintText: '검색어를 입력해주세요',
                                     border: InputBorder.none,
                                     hintStyle: TextStyle(color: Colors.black12)),
+                                onSubmitted: (value) {
+                                  _search_menu_index_submitted = _search_menu_index_not_submitted;
+                                },
                               ),
                             ),
                           ),
@@ -114,7 +127,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
                     return GestureDetector(
                       onTap: () {
                         setState(() {
-                          _search_menu_index = index;
+                          _search_menu_index_not_submitted = index;
                         });
                         print(index);
                       },
@@ -125,7 +138,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight:
-                              (index == _search_menu_index)
+                              (index == _search_menu_index_not_submitted)
                                   ? FontWeight.bold
                                   : FontWeight.normal),
                         ),
@@ -135,6 +148,12 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
                 ),
               ),
             ),
+            _search_menu_index_submitted == 0
+                ? evaluate_professor_search_screen(lecture_list : _lecture_list, input_name : _controller!.text) :
+            ((_search_menu_index_submitted == 1)
+                ? class_search_widget() :
+            (_search_menu_index_submitted==2
+            ? major_search_widget() : Container())),
             ],
         ),
       )
