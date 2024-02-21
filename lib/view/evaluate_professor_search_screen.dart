@@ -52,15 +52,19 @@ class _evaluate_professor_search_screenState
 
   //순위 별 아이콘 선별
   Widget _rate_check(int index) {
+    //1등
     if(index==0) {
       return Icon(Icons.add);
     }
+    //2등
     else if(index==1) {
       return Icon(Icons.abc);
     }
+    //3등
     else if(index==2) {
       return Icon(Icons.ac_unit);
     }
+    //나머지 (빈칸 처리)
     else
       return SizedBox(width: 22,height: 12);
   }
@@ -74,7 +78,9 @@ class _evaluate_professor_search_screenState
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          //1,2,3등은 아이콘/사진을 출력해야하기에 따로 함수화 하였음.
           _rate_check(index),
+          //순위 출력
           Text((index+1).toString()),
           Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -95,6 +101,7 @@ class _evaluate_professor_search_screenState
                   padding: EdgeInsets.fromLTRB(10, 2.5, 0, 0),
                   width: 290,
                     height: 25,
+                    //동일한 과목에 여러명의 교수님이 존재하기에, ListView로 구현함.
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
@@ -110,6 +117,7 @@ class _evaluate_professor_search_screenState
               ],
             ),
           ),
+          //평점 기준을 몰라서 일단 가장 첫번째 평점인 option_1을 사용함. 추후 수정 가능.
           Center(
             child: Text(double.parse(_one_lecture_list.options['option_1']!).toStringAsFixed(1)),
           )
