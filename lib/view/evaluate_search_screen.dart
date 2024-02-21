@@ -169,6 +169,26 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
     }
   }
 
+  //2가지 경우시 해당 if문이 rebuild된다.
+  //1. 일반적으로 textfield자체에서 enter를 통한 경우.
+  //2. 단어 입력 시 자동으로 화면에 보여지는 추천 단어를 클릭 시.
+  Widget _screen_select() {
+    if(_search_menu_index_submitted == 0) {
+      return evaluate_professor_search_screen(lecture_list : _lecture_list, input_name : _controller!.text);
+    }
+    else if(_search_menu_index_submitted == 1) {
+      return evaluate_class_search_screen(lecture_list : _lecture_list, input_name : _controller!.text);
+    }
+    else if(_search_menu_index_submitted == 2) {
+      return evaluate_major_search_screen(lecture_list : _lecture_list, input_name : _controller!.text);
+    }
+    else if(_search_menu_index_submitted == 4 ) {
+      return evaluate_word_search_screen(_lecture_list, _controller!.text, _search_menu_index_not_submitted);
+    }
+    else {
+      return Container();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -304,16 +324,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
                   ),
                 ),
               ),
-              //2가지 경우시 해당 if문이 rebuild된다.
-              //1. 일반적으로 textfield자체에서 enter를 통한 경우.
-              //2. 단어 입력 시 자동으로 화면에 보여지는 추천 단어를 클릭 시.
-              _search_menu_index_submitted == 0
-                  ? evaluate_professor_search_screen(lecture_list : _lecture_list, input_name : _controller!.text) :
-              ((_search_menu_index_submitted == 1)
-                  ? evaluate_class_search_screen(lecture_list : _lecture_list, input_name : _controller!.text) :
-              (_search_menu_index_submitted==2
-              ? evaluate_major_search_screen(lecture_list : _lecture_list, input_name : _controller!.text) :
-              (_search_menu_index_submitted==4 ? evaluate_word_search_screen(_lecture_list, _controller!.text, _search_menu_index_not_submitted) : Container()))),
+              _screen_select(),
               ],
           ),
         )
