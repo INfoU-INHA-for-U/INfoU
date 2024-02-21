@@ -64,7 +64,7 @@ class _evaluate_menu_search_screenState
     // TODO: implement initState
     super.initState();
     print(widget.selected_menu_index);
-    //학과 명에 따른 lecture_list를 추출함.
+    //선택한 menu에 따라 index를 참고하여 필요한 정보의 list를 추출함.
     if(widget.selected_menu_index == 0) {
       _lecture_list = lecture_professor_list_check(widget.lecture_list, widget.input_name);
     }
@@ -81,6 +81,8 @@ class _evaluate_menu_search_screenState
 
   //INHA = 0 , INfoU = 1
   int _information_type_index = 1;
+
+  int _upper_lower_index = 1;
 
   //순위 별 아이콘 선별
   Widget _rate_check(int index) {
@@ -155,46 +157,72 @@ class _evaluate_menu_search_screenState
     return Column(
       children: [
         Divider(thickness: 3, color: Colors.black26),
-        Container(
-          padding: EdgeInsets.fromLTRB(0, 5, 0, 3),
-          height: 33,
-          child: Center(
-            child: ListView.separated(
-              shrinkWrap: true,
-              separatorBuilder: (context, index) {
-                return Text(
-                  '|',
-                  style: TextStyle(fontSize: 14),
-                );
-              },
-              itemCount: _information_type.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                    setState(() {
-                      _information_type_index = index;
-                    });
-                    print(index);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                    child: Text(
-                      _information_type[index],
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight:
-                          (index == _information_type_index)
-                              ? FontWeight.bold
-                              : FontWeight.normal),
+        Stack(children: [
+          Container(
+            padding: EdgeInsets.fromLTRB(0, 5, 0, 3),
+            height: 33,
+            child: Center(
+              child: ListView.separated(
+                shrinkWrap: true,
+                separatorBuilder: (context, index) {
+                  return Text(
+                    '|',
+                    style: TextStyle(fontSize: 14),
+                  );
+                },
+                itemCount: _information_type.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      setState(() {
+                        _information_type_index = index;
+                      });
+                      print(index);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      child: Text(
+                        _information_type[index],
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: (index == _information_type_index)
+                                ? FontWeight.bold
+                                : FontWeight.normal),
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
-        ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 2.5, 10, 0),
+              child: GestureDetector(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(Icons.access_alarm),
+                      Text(_upper_lower_index==2 ? '내림차순' : '오름차순', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10))
+                    ],
+                  ),
+                  onTap: () {
+                    setState(() {
+                      if(_upper_lower_index == 0) {
+                        _upper_lower_index = 1;
+                      }
+                      else {
+                        _upper_lower_index = 3 - _upper_lower_index;
+                      }
+                    });
+                    print('오름차순');
+                  }),
+            ),
+          )
+        ]),
         Container(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
             height: 650,
