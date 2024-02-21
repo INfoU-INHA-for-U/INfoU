@@ -82,90 +82,42 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
   //단어 추천은 Widget으로 구현 되엇기에, 어쩔수없이 같은 코드 파일 안에서 함수를 구현하였음.
   Widget evaluate_word_search_screen(List<Lecture> lecture_list, String input_word, int search_menu_index) {
 
-    //교수 검색
+    late List<String> _word_list;
+    
     if(search_menu_index==0) {
-      List<String> _professor_list = lecture_professor_word_list_check(lecture_list,input_word);
-      return Padding(
-        padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-        child: Container(
-          height:600,
-          child: ListView.separated(
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      _search_menu_index_submitted = 0;
-                      _controller?.text = _professor_list[index];
-                    });
-                  },
-                  child: Text(_professor_list[index]),
-                );
-              },
-              separatorBuilder: (context, index) => Divider(
-                  thickness: 2,
-                  color: Colors.black26
-              ),
-              itemCount: _professor_list.length
-          ),
-        ),
-      );
+      _word_list = lecture_professor_word_list_check(lecture_list,input_word);
     }
-    //강의명 검색
     else if(search_menu_index==1) {
-      List<String> _class_list = lecture_class_word_list_check(lecture_list,input_word);
-      return Padding(
-        padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-        child: Container(
-          height: 600,
-          child: ListView.separated(
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      _search_menu_index_submitted = 1;
-                      _controller?.text = _class_list[index];
-                    });
-                  },
-                  child: Text(_class_list[index]),
-                );
-              },
-              separatorBuilder: (context, index) =>
-                  Divider(thickness: 2, color: Colors.black26),
-              itemCount: _class_list.length),
-        ),
-      );
+      _word_list = lecture_class_word_list_check(lecture_list,input_word);
     }
-    //학과 검색
-    else {
-      List<String> _major_list = lecture_major_word_list_check(lecture_list,input_word);
-      return Padding(
-        padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-        child: Container(
-          height: 600,
-          child: ListView.separated(
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      _search_menu_index_submitted = 2;
-                      _controller?.text = _major_list[index];
-                    });
-                  },
-                  child: Text(_major_list[index]),
-                );
-              },
-              separatorBuilder: (context, index) => Divider(
-                  thickness: 2,
-                  color: Colors.black26
-              ),
-              itemCount: _major_list.length
-          ),
-        ),
-      );
+    else if(search_menu_index==2) {
+      _word_list = lecture_major_word_list_check(lecture_list,input_word);
     }
+    return Padding(
+      padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+      child: Container(
+        height:600,
+        child: ListView.separated(
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    _search_menu_index_submitted = 0;
+                    _controller?.text = _word_list[index];
+                  });
+                },
+                child: Text(_word_list[index]),
+              );
+            },
+            separatorBuilder: (context, index) => Divider(
+                thickness: 2,
+                color: Colors.black26
+            ),
+            itemCount: _word_list.length
+        ),
+      ),
+    );
   }
 
   //2가지 경우시 해당 if문이 rebuild된다.
