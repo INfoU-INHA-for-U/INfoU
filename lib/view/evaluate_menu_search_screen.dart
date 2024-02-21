@@ -73,6 +73,7 @@ class _evaluate_menu_search_screenState
     }
     else if(widget.selected_menu_index == 2) {
       _lecture_list = lecture_major_list_check(widget.lecture_list, widget.input_name);
+      print(_lecture_list.length.toString());
     }
   }
 

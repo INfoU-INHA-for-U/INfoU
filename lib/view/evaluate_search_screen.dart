@@ -83,7 +83,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
   Widget evaluate_word_search_screen(List<Lecture> lecture_list, String input_word, int search_menu_index) {
 
     late List<String> _word_list;
-    
+
     if(search_menu_index==0) {
       _word_list = lecture_professor_word_list_check(lecture_list,input_word);
     }
@@ -103,7 +103,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
                 onTap: () {
                   setState(() {
                     FocusManager.instance.primaryFocus?.unfocus();
-                    _search_menu_index_submitted = 0;
+                    _search_menu_index_submitted = search_menu_index;
                     _controller?.text = _word_list[index];
                   });
                 },
