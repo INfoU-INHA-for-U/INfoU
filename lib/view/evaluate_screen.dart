@@ -18,7 +18,6 @@ class _evalute_screenState extends State<evaluate_screen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(milliseconds:500));
     //새로운 api 형식에 따라 넣어뒀음. class lecture에 하나하나씩 차곡차곡 쌓이게 작업해뒀고,
     //그중 가장 첫번째 데이터를 정리해서 print로 출력하였으니 참고바람.
     WidgetsBinding.instance.addPostFrameCallback((_) async {

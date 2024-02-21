@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/class/lecture.dart';
-import 'package:myapp/view/evaluate_professor_search_screen.dart';
-import 'package:myapp/view/evaluate_class_search_screen.dart';
-import 'package:myapp/view/evaluate_major_search_screen.dart';
+import 'evaluate_menu_search_screen.dart';
 
 class evaluate_search_screen extends StatefulWidget {
 
@@ -31,11 +29,12 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    Future.delayed(Duration(milliseconds:500));
     _lecture_list = widget.lecture_list;
   }
 
   //evaluate_professor_search_screen.dart에 있는 함수와 다른 함수이다.
-  List<String> lecture_professor_list_check(List<Lecture> lecture_list, String input_name) {
+  List<String> lecture_professor_word_list_check(List<Lecture> lecture_list, String input_name) {
     List<String> _return_lecture_list = [];
     for(int i=0;i<lecture_list.length;i++) {
       for(int j=0;j<lecture_list[i].professors.length;j++)
@@ -51,7 +50,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
   }
 
   //evaluate_class_search_screen.dart에 있는 함수와 다른 함수이다.
-  List<String> lecture_class_list_check(List<Lecture> lecture_list, String input_name) {
+  List<String> lecture_class_word_list_check(List<Lecture> lecture_list, String input_name) {
     List<String> _return_lecture_list = [];
     for(int i=0;i<lecture_list.length;i++)
     {
@@ -65,7 +64,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
   }
 
   //evaluate_major_search_screen.dart에 있는 함수와 다른 함수이다.
-  List<String> lecture_major_list_check(List<Lecture> lecture_list, String input_name) {
+  List<String> lecture_major_word_list_check(List<Lecture> lecture_list, String input_name) {
     List<String> _return_lecture_list = [];
     for(int i=0;i<lecture_list.length;i++)
     {
@@ -85,7 +84,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
 
     //교수 검색
     if(search_menu_index==0) {
-      List<String> _professor_list = lecture_professor_list_check(lecture_list,input_word);
+      List<String> _professor_list = lecture_professor_word_list_check(lecture_list,input_word);
       return Padding(
         padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
         child: Container(
@@ -105,7 +104,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
               },
               separatorBuilder: (context, index) => Divider(
                   thickness: 2,
-                  color: Colors.black
+                  color: Colors.black26
               ),
               itemCount: _professor_list.length
           ),
@@ -114,7 +113,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
     }
     //강의명 검색
     else if(search_menu_index==1) {
-      List<String> _class_list = lecture_class_list_check(lecture_list,input_word);
+      List<String> _class_list = lecture_class_word_list_check(lecture_list,input_word);
       return Padding(
         padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
         child: Container(
@@ -133,14 +132,14 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
                 );
               },
               separatorBuilder: (context, index) =>
-                  Divider(thickness: 2, color: Colors.black),
+                  Divider(thickness: 2, color: Colors.black26),
               itemCount: _class_list.length),
         ),
       );
     }
     //학과 검색
     else {
-      List<String> _major_list = lecture_major_list_check(lecture_list,input_word);
+      List<String> _major_list = lecture_major_word_list_check(lecture_list,input_word);
       return Padding(
         padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
         child: Container(
@@ -160,7 +159,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
               },
               separatorBuilder: (context, index) => Divider(
                   thickness: 2,
-                  color: Colors.black
+                  color: Colors.black26
               ),
               itemCount: _major_list.length
           ),
@@ -173,16 +172,12 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
   //1. 일반적으로 textfield자체에서 enter를 통한 경우.
   //2. 단어 입력 시 자동으로 화면에 보여지는 추천 단어를 클릭 시.
   Widget _screen_select() {
-    if(_search_menu_index_submitted == 0) {
-      return evaluate_professor_search_screen(lecture_list : _lecture_list, input_name : _controller!.text);
+    if(_search_menu_index_submitted == 0 || _search_menu_index_submitted == 1 || _search_menu_index_submitted == 2) {
+      return evaluate_menu_search_screen(lecture_list : _lecture_list, input_name : _controller!.text, selected_menu_index : _search_menu_index_submitted);
     }
-    else if(_search_menu_index_submitted == 1) {
-      return evaluate_class_search_screen(lecture_list : _lecture_list, input_name : _controller!.text);
-    }
-    else if(_search_menu_index_submitted == 2) {
-      return evaluate_major_search_screen(lecture_list : _lecture_list, input_name : _controller!.text);
-    }
-    else if(_search_menu_index_submitted == 4 ) {
+    else if(_search_menu_index_submitted == 4) {
+      print("!!");
+      print(_search_menu_index_submitted.toString());
       return evaluate_word_search_screen(_lecture_list, _controller!.text, _search_menu_index_not_submitted);
     }
     else {
