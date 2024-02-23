@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/class/lecture.dart';
 
+import '../component/announce_tag.dart';
+
 class evaluate_menu_search_screen extends StatefulWidget {
 
   final List<Lecture> lecture_list;
@@ -104,7 +106,7 @@ class _evaluate_menu_search_screenState
     //_one_lecture_list엔 listview에서 index에 따른 각각의 lecture 정보가 포함되어 있다.
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 80,
+      height: 95,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -115,38 +117,58 @@ class _evaluate_menu_search_screenState
             padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+
               children: [
                 Padding(
                   padding: EdgeInsets.fromLTRB(10, 2.5, 0, 0),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(_one_lecture_list.lectureName),
-                      Text(_one_lecture_list.academicNumber),
+                      Text(_one_lecture_list.lectureName, style: TextStyle(fontWeight: FontWeight.w500)),
+                      Text(' ' + _one_lecture_list.academicNumber,
+                      style: TextStyle(
+                        fontSize: 12, color: Colors.grey,
+                      ),),
                     ],
                   ),
                 ),
 
                 Container(
-                    padding: EdgeInsets.fromLTRB(10, 2.5, 0, 0),
+                    padding: EdgeInsets.fromLTRB(10, 3.5, 0, 0),
                     width: 290,
                     height: 25,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return Text(_one_lecture_list.professors[index].name);
+                          return Text(_one_lecture_list.professors[index].name + ' 교수 ', style: TextStyle(fontSize: 11));
                         },
                         itemCount: _one_lecture_list.professors.length
                     )
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(10, 2.5, 0, 0),
-                  child: Text(_one_lecture_list.department),
+                  child: Text(_one_lecture_list.department, style: TextStyle(fontSize: 11)),
                 ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 6, 0, 0),
+                  width: 200,
+                    height: 28,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 2,
+                      itemBuilder: (context, index) {
+                        return announce_tag_widget(index);
+                      },
+                      separatorBuilder: (context, index) {
+                        return SizedBox(width: 4,height: 20);
+                      },
+                    ))
               ],
             ),
           ),
           Center(
-            child: Text(double.parse(_one_lecture_list.options['option_1']!).toStringAsFixed(1)),
+            child: Text(double.parse(_one_lecture_list.options['option_1']!).toStringAsFixed(1),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           )
         ],
       ),
