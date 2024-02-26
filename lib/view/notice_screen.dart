@@ -36,12 +36,15 @@ Widget sss() {
                       //index에 따라 api에서 가져온 값 넣어주면 됨.
                       Text('[현장실습] 2024-1학기'),
                       Container(
-                          height: 25,
-                          child: ListView.builder(
+                          height: 23,
+                          child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemCount: 2,
                             itemBuilder: (context, index) {
                               return announce_tag_widget(index);
+                            },
+                            separatorBuilder: (context, index) {
+                              return SizedBox(width:4 ,height: 25);
                             },
                           ))
                     ],

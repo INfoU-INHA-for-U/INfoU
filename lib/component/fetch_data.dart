@@ -6,7 +6,7 @@ import '../class/lecture.dart';
 
 String _fetch_url = 'http://ec2-3-135-196-121.us-east-2.compute.amazonaws.com/v1/api/portals/total';
 
-Future<void> fetchData(String department, String lecture_name) async {
+Future<List<Lecture>?> fetchData(String department, String lecture_name) async {
   var url = Uri.parse(_fetch_url);
   var queryParams = {
     'department' : department,
@@ -26,6 +26,7 @@ Future<void> fetchData(String department, String lecture_name) async {
       List<dynamic> content_data = jsonData['result']['content'];
       print(content_data[0]);
       List<Lecture> _lectures = content_data.map((json) { return Lecture.fromJson(json);}).toList();
+      return _lectures;
       /*
       double sum = 0;
       int count = 0;

@@ -16,7 +16,6 @@ Widget announce_tag_widget(int index) {
   return Padding(
     padding: EdgeInsets.all(1),
     child: Container(
-        margin: EdgeInsets.fromLTRB(2, 0, 2, 0),
         width: announce_tag_name[index].length == 2 ? 60 : 70,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
