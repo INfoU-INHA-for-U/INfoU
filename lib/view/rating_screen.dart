@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:blur/blur.dart';
+import 'package:myapp/view/rating_screen_write.dart';
 
 import '../component/fetch_data.dart';
 
@@ -323,6 +324,16 @@ class _evalute_screenState extends State<rating_screen> {
                   },
                   itemCount: _recent_evaluate_data.length,
                 ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RatingScreenWrite()));
+                },
+                child: Text('평가 작성하기',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
               ),
               Divider(
                 color: Colors.grey.shade300,
