@@ -1,6 +1,10 @@
+# InfoU
+- 학교 사이트에 퍼져있는 공지사항들을 내가 원하는 태그만 선택해서 해당 태그에 있는 공지사항을 모아볼 수 있는 기능을 제공하자
+
+## 1. 디자인 시안
 [https://www.figma.com/file/3n4p6q9TJkTX3HgGCqQIwu/infou?type=design&node-id=0%3A1&mode=design&t=P13PPPZJevavxQB1-1](https://www.figma.com/file/3n4p6q9TJkTX3HgGCqQIwu/infou?type=design&node-id=0%3A1&mode=design&t=P13PPPZJevavxQB1-1)
 
-## 3. 회의 및 개발 일정
+## 2. 회의 및 개발 일정
 
 ### 1차 회의
 
