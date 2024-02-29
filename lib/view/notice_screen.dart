@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../component/announce_tag.dart';
 
-class announce_screen extends StatefulWidget {
-  const announce_screen({super.key});
+class notice_screen extends StatefulWidget {
+  const notice_screen({super.key});
 
   @override
-  State<announce_screen> createState() => _announce_screenState();
+  State<notice_screen> createState() => _notice_screenState();
 }
 
 Widget sss() {
@@ -17,54 +17,55 @@ Widget sss() {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('2024.01.30', style:
-            TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold
-            ),),
+            Text(
+              '2024.01.30',
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            ),
             Expanded(
                 child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: EdgeInsets.fromLTRB(0, 2, 0, 2),
-                      height: 53,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //index에 따라 api에서 가져온 값 넣어주면 됨.
-                          Text('[현장실습] 2024-1학기'),
-                          Container(
-                              height: 25,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: 2,
-                                itemBuilder: (context, index) {
-                                  return announce_tag_widget(index);
-                                },
-                              )
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                )
+              physics: NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                return Container(
+                  padding: EdgeInsets.fromLTRB(0, 2, 0, 2),
+                  height: 53,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //index에 따라 api에서 가져온 값 넣어주면 됨.
+                      Text('[현장실습] 2024-1학기'),
+                      Container(
+                          height: 23,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 2,
+                            itemBuilder: (context, index) {
+                              return announce_tag_widget(index);
+                            },
+                            separatorBuilder: (context, index) {
+                              return SizedBox(width:4 ,height: 25);
+                            },
+                          ))
+                    ],
+                  ),
+                );
+              },
+            )),
+            Divider(
+              thickness: 1,
+              color: Colors.grey,
             ),
-            Divider(thickness: 1,color: Colors.grey,),
           ],
-        )
-    ),
+        )),
   );
 }
 
-class _announce_screenState extends State<announce_screen> {
-
-  List<String> announce_topic_name = ['인하대학교','SW중심대학','컴퓨터공학'];
+class _notice_screenState extends State<notice_screen> {
+  List<String> announce_topic_name = ['인하대학교', 'SW중심대학', '컴퓨터공학'];
   int min_list_num = 1;
   int current_list_num = 0;
-  int announce_screen_topic_num = 0;
+  int notice_screen_topic_num = 0;
   TextEditingController? _controller = TextEditingController(text: '');
 
   @override
@@ -75,7 +76,10 @@ class _announce_screenState extends State<announce_screen> {
       },
       child: Scaffold(
           appBar: AppBar(
-              title: const Text('InfoU', style: TextStyle(color: Colors.blueAccent),),
+            title: const Text(
+              'InfoU',
+              style: TextStyle(color: Colors.blueAccent),
+            ),
             backgroundColor: Colors.white,
           ),
           resizeToAvoidBottomInset: false,
@@ -104,7 +108,7 @@ class _announce_screenState extends State<announce_screen> {
                           return GestureDetector(
                             onTap: () {
                               setState(() {
-                                announce_screen_topic_num = index;
+                                notice_screen_topic_num = index;
                               });
                               print(index);
                             },
@@ -114,9 +118,10 @@ class _announce_screenState extends State<announce_screen> {
                                 announce_topic_name[index],
                                 style: TextStyle(
                                     fontSize: 14,
-                                    fontWeight: (index == announce_screen_topic_num)
-                                        ? FontWeight.bold
-                                        : FontWeight.normal),
+                                    fontWeight:
+                                        (index == notice_screen_topic_num)
+                                            ? FontWeight.bold
+                                            : FontWeight.normal),
                               ),
                             ),
                           );
@@ -129,9 +134,12 @@ class _announce_screenState extends State<announce_screen> {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 2.5, 10, 0),
                       child: GestureDetector(
-                          child: Text('추가하기', style: TextStyle(color: Colors.black38, fontWeight:FontWeight.bold, fontSize: 11)),
-                          onTap: (){}
-                      ),
+                          child: Text('추가하기',
+                              style: TextStyle(
+                                  color: Colors.black38,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11)),
+                          onTap: () {}),
                     ),
                   )
                 ]),
@@ -154,17 +162,17 @@ class _announce_screenState extends State<announce_screen> {
                             padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                             child: TextField(
                               controller: _controller,
-                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.bold),
                               decoration: InputDecoration(
                                   hintText: '검색어를 입력해주세요',
                                   border: InputBorder.none,
-                                  hintStyle: TextStyle(color: Colors.black12)
-                              ),
+                                  hintStyle: TextStyle(color: Colors.black12)),
                             ),
                           ),
                         ),
                         GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               setState(() {
                                 print(1);
                                 _controller?.text = '';
@@ -172,11 +180,9 @@ class _announce_screenState extends State<announce_screen> {
                                 FocusManager.instance.primaryFocus?.unfocus();
                               });
                             },
-                            child: Icon(Icons.cancel_outlined, size: 17)
-                        ),
+                            child: Icon(Icons.cancel_outlined, size: 17)),
                       ],
-                    )
-                ),
+                    )),
                 Container(
                   height: 37,
                   width: 400,
@@ -202,7 +208,7 @@ class _announce_screenState extends State<announce_screen> {
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: Divider(thickness: 1,color: Colors.grey),
+                  child: Divider(thickness: 1, color: Colors.grey),
                 ),
 
                 //각각 widget 형성된걸로 넣어줌. 하나의 예시일뿐 api에 따라 listview처리 해줘야함.
@@ -221,7 +227,8 @@ class _announce_screenState extends State<announce_screen> {
                             (min_list_num != 1) ? min_list_num-- : min_list_num;
                           });
                         },
-                        child: Text('< ',
+                        child: Text(
+                          '< ',
                           style: TextStyle(
                             fontSize: 20,
                           ),
@@ -239,19 +246,27 @@ class _announce_screenState extends State<announce_screen> {
                               shadowColor: Colors.white,
                               child: Container(
                                 color: Colors.white,
-                                width: (MediaQuery.of(context).size.width-30.4)*0.069,
+                                width:
+                                    (MediaQuery.of(context).size.width - 30.4) *
+                                        0.069,
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      current_list_num = index + min_list_num - 1;
+                                      current_list_num =
+                                          index + min_list_num - 1;
                                     });
                                     print(index);
                                   },
-                                  child: Text((min_list_num+index).toString(),
+                                  child: Text(
+                                    (min_list_num + index).toString(),
                                     style: TextStyle(
-                                      fontSize:20,
-                                      fontWeight: current_list_num == (min_list_num + index - 1) ? FontWeight.bold : FontWeight.normal,
-                                    ),),
+                                      fontSize: 20,
+                                      fontWeight: current_list_num ==
+                                              (min_list_num + index - 1)
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
+                                    ),
+                                  ),
                                 ),
                               ),
                             );
@@ -267,16 +282,14 @@ class _announce_screenState extends State<announce_screen> {
                         child: Text(' >',
                             style: TextStyle(
                               fontSize: 20,
-                            )
-                        ),
+                            )),
                       ),
                     ],
                   ),
                 )
               ],
             ),
-          )
-      ),
+          )),
     );
   }
 }

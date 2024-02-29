@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
-import '../main_screen.dart';
+import '../view/main_screen.dart';
 
 class splash_screen extends StatefulWidget {
   const splash_screen({super.key});
@@ -37,37 +37,35 @@ class _splash_screenState extends State<splash_screen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GradientText("InfoU"
-                  ,textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 40,
-                      fontFamily: 'righteous',
-                      fontWeight: FontWeight.w800
-                  ),
-                  colors: [
-                    Colors.blueAccent,
-                    Colors.blueAccent,
-                  ],
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 300, // 이미지의 폭
+                  height: 300, // 이미지의 높이
+                  fit: BoxFit.contain, // 이미지의 크기 조절 옵션
                 ),
-                SizedBox(height: 30,),
+                SizedBox(
+                  height: 30,
+                ),
+                /*
                 Row(
-                  children: [GradientText("made by 졸업 예정자들"
-                    ,textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'righteous',
-                        fontWeight: FontWeight.w800
-                    ),
-                    colors: [
-                      Colors.blueAccent,
-                      Colors.blueAccent,
-                    ],
-                  ),],
-                )
+                  children: [
+                    // GradientText(
+                    //   "made by 졸업 예정자들",
+                    //   textAlign: TextAlign.center,
+                    //   style: TextStyle(
+                    //       fontSize: 20,
+                    //       fontFamily: 'righteous',
+                    //       fontWeight: FontWeight.w800),
+                    //   colors: [
+                    //     Colors.blueAccent,
+                    //     Colors.blueAccent,
+                    //   ],
+                    // ),
+                  ],
+                )*/
               ],
             )
           ],
@@ -76,4 +74,3 @@ class _splash_screenState extends State<splash_screen> {
     );
   }
 }
-
