@@ -52,25 +52,36 @@ class _evalute_screenState extends State<evaluate_screen> {
       'evaluate2': '어려워요',
       'recommend_rate': 4.9
     },
+    '2': {
+      'class': '클라우드 컴퓨팅',
+      'professor': '권구인',
+      'star_rate': 4,
+      'evaluate1': '정말 좋아요',
+      'evaluate2': '어려워요',
+      'recommend_rate': 4.9
+    },
   };
 
   //최근 강의평 위젯
   Widget _recent_evaluate_widget(int index) {
     Map _current_evaluate_data = _recent_evaluate_data[index.toString()];
     return Padding(
-      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+      padding: EdgeInsets.fromLTRB(13, 10, 20, 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                  _current_evaluate_data['class'] +
-                      ' [' +
-                      _current_evaluate_data['professor'] +
-                      ']',
-                  style: TextStyle(fontSize: 15)),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(3, 0, 0, 0),
+                child: Text(
+                    _current_evaluate_data['class'] +
+                        ' [' +
+                        _current_evaluate_data['professor'] +
+                        ']',
+                    style: TextStyle(fontSize: 15)),
+              ),
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: Container(
@@ -96,14 +107,16 @@ class _evalute_screenState extends State<evaluate_screen> {
                     child: Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(5)
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
                         child: Row(
                           children: [
                             Text(_current_evaluate_data['evaluate1'] + ' ',
-                                style: TextStyle(fontSize: 15)),
-                            Icon(Icons.thumb_up_alt_outlined, size: 16)
+                                style: TextStyle(fontSize: 14)),
+                            //해당 이미지가 없어서 일단 아이콘으로 대체했습니다.
+                            Icon(Icons.thumb_up_alt_outlined, size: 13)
                           ],
                         ),
                       ),
@@ -114,14 +127,15 @@ class _evalute_screenState extends State<evaluate_screen> {
                     child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(5)),
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
                           child: Row(
                             children: [
                               Text(_current_evaluate_data['evaluate2'] + ' ',
-                                  style: TextStyle(fontSize: 15)),
-                              Icon(Icons.thumb_down_alt_outlined, size: 16)
+                                  style: TextStyle(fontSize: 14)),
+                              //해당 이미지가 없어서 일단 아이콘으로 대체했습니다.
+                              Icon(Icons.thumb_down_alt_outlined, size: 13)
                             ],
                           ),
                         )),
@@ -140,12 +154,11 @@ class _evalute_screenState extends State<evaluate_screen> {
     );
   }
 
+  //나중에 필요한 구조일 수도 잇어서 주석 처리해놓았습니다.
+  /*
   //인기 강의평 위젯 (현재 블러 처리 되어있음)
   Widget _popular_class_evaluate_widget() {
-    return Blur(
-      // <- 블러 처리
-      blur: 4,
-      child: Padding(
+      return Padding(
         padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -273,9 +286,8 @@ class _evalute_screenState extends State<evaluate_screen> {
             )
           ],
         ),
-      ),
-    );
-  }
+      );
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -308,93 +320,93 @@ class _evalute_screenState extends State<evaluate_screen> {
             ]),
         body: Container(
           color: Colors.white,
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('최근 강의평',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        )),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text('더 보기 > ',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                height: 260,
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return Padding(
-                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(15)),
-                          height: 110,
-                          child: _recent_evaluate_widget(index),
-                        ));
-                  },
-                  itemCount: _recent_evaluate_data.length,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RatingScreenWrite()));
-                },
-                child: Text('평가 작성하기',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              Divider(
-                color: Colors.grey.shade300,
-                thickness: 5,
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('인기 강의평',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18)),
-                    TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          '더 보기 > ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Stack(
-                  children: [
-                    //여기에 블러 처리 되어있음. 블러 처리 방식도 따로 component형식으로 widget으로 빼놓으면 됨.
-                    //현재는 블러 처리된 widget으로 넣어둠.
-                    _popular_class_evaluate_widget(),
-                    //이용권 구매 여부에 따라 삼항 연산자로 묶으면 됨.
-                    const Align(
-                      alignment: Alignment.center,
-                      child: Text('이용권 구매시 열람이 가능합니다 :D',
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 10, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('최근 강의평',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                          )),
-                    )
-                  ],
+                          )
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                Container(
+                  height: 260,
+                  child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(15)),
+                            height: 110,
+                            child: _recent_evaluate_widget(index),
+                          ));
+                    },
+                    itemCount: _recent_evaluate_data.length-1,
+                  ),
+                ),/*
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RatingScreenWrite()));
+                  },
+                  child: Text('평가 작성하기',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ),*/
+                SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('인기 교양 순위보기',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
+                      TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            '더 보기 > ',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                    ],
+                  ),
+                ),
+                Container(
+                  //여기에 블러 처리 되어있음. 블러 처리 방식도 따로 component형식으로 widget으로 빼놓으면 됨.
+                  //현재는 블러 처리된 widget으로 넣어둠.
+                  height: 400,
+                  child : ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(15)),
+                            height: 110,
+                            child: _recent_evaluate_widget(index),
+                          ));
+                    },
+                    itemCount: _recent_evaluate_data.length,
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
   }
