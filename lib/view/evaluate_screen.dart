@@ -2,8 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:blur/blur.dart';
-import 'package:myapp/view/rating_screen_write.dart';
+import 'package:myapp/view/evaluate_screen_write.dart';
 import 'package:myapp/class/lecture.dart';
+import 'package:myapp/widget/header.dart';
 import '../component/fetch_data.dart';
 import 'evaluate_search_screen.dart';
 
@@ -142,137 +143,133 @@ class _evalute_screenState extends State<evaluate_screen> {
 
   //인기 강의평 위젯 (현재 블러 처리 되어있음)
   Widget _popular_class_evaluate_widget() {
-    return Blur(
-      // <- 블러 처리
-      blur: 4,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.person,
-                  size: 30,
-                ),
-                Text('  익명의 거북이 [경영학과]', style: TextStyle(fontSize: 17))
-              ],
-            ),
-            Text('과목명  파이썬 프로그래밍', style: TextStyle(fontSize: 17)),
-            Row(
-              children: [
-                Text('교수명  ', style: TextStyle(fontSize: 17)),
-                Container(
-                    width: 200,
-                    height: 25,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 2,
-                      itemBuilder: (context, index) {
-                        if (index == 0)
-                          return Text('홍길동, ', style: TextStyle(fontSize: 17));
-                        else
-                          return Text('홍길동', style: TextStyle(fontSize: 17));
-                      },
-                    )),
-              ],
-            ),
-            Container(
-              width: MediaQuery.of(context).size.height,
-              height: 40,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  //별 표시해주는겁니다. api식으로 바로 사용할수있게 코딩해놨습니다.
-                  if (index < 4)
-                    return Icon(Icons.star, color: Colors.amber, size: 30);
-                  else
-                    return Icon(Icons.star, color: Colors.grey, size: 30);
-                },
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.person,
+                size: 30,
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-              child: Text(
-                  '이러한 에러가 생기는 이유는 ListView는 부모 위젯의 높이에 따라 높이를 맞추게 되는데 ListView의 자식 내용이 적더라도 ListView는 자신이 사용할 수 있는 최대 공간을 사용하게 됩니다. Column의 높이는 무한이기 때문에 ListView의 높이도 따라 무한이 됨으로 에러가 생기게 되는 겁니다. '),
-            ),
-            Row(
-              children: [
-                //도움됐어요
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-                  child: GestureDetector(
-                    onTap: () {
-                      //눌렀을때 api내 값을 변경해줘야함.
-                      //따로 firebase와 같은 서버로 로그인에 따른 값을 처리해야함.
-                      debugPrint("sssss");
+              Text('  익명의 거북이 [경영학과]', style: TextStyle(fontSize: 17))
+            ],
+          ),
+          Text('과목명  파이썬 프로그래밍', style: TextStyle(fontSize: 17)),
+          Row(
+            children: [
+              Text('교수명  ', style: TextStyle(fontSize: 17)),
+              Container(
+                  width: 200,
+                  height: 25,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 2,
+                    itemBuilder: (context, index) {
+                      if (index == 0)
+                        return Text('홍길동, ', style: TextStyle(fontSize: 17));
+                      else
+                        return Text('홍길동', style: TextStyle(fontSize: 17));
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.black),
-                      child: Padding(
-                        padding: EdgeInsets.all(1.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-                            child: Row(
-                              children: [
-                                Text('도움됐어요 '),
-                                Icon(Icons.check),
-                                //api처리
-                                Text(' 16'),
-                              ],
-                            ),
+                  )),
+            ],
+          ),
+          Container(
+            width: MediaQuery.of(context).size.height,
+            height: 40,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                //별 표시해주는겁니다. api식으로 바로 사용할수있게 코딩해놨습니다.
+                if (index < 4)
+                  return Icon(Icons.star, color: Colors.amber, size: 30);
+                else
+                  return Icon(Icons.star, color: Colors.grey, size: 30);
+              },
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+            child: Text(
+                '이러한 에러가 생기는 이유는 ListView는 부모 위젯의 높이에 따라 높이를 맞추게 되는데 ListView의 자식 내용이 적더라도 ListView는 자신이 사용할 수 있는 최대 공간을 사용하게 됩니다. Column의 높이는 무한이기 때문에 ListView의 높이도 따라 무한이 됨으로 에러가 생기게 되는 겁니다. '),
+          ),
+          Row(
+            children: [
+              //도움됐어요
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
+                child: GestureDetector(
+                  onTap: () {
+                    //눌렀을때 api내 값을 변경해줘야함.
+                    //따로 firebase와 같은 서버로 로그인에 따른 값을 처리해야함.
+                    debugPrint("sssss");
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.black),
+                    child: Padding(
+                      padding: EdgeInsets.all(1.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+                          child: Row(
+                            children: [
+                              Text('도움됐어요 '),
+                              Icon(Icons.check),
+                              //api처리
+                              Text(' 16'),
+                            ],
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-                //별로에요
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      //눌럿을때 api와 통신하며 값을 변경해야함.
-                      debugPrint("sssss");
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.black),
-                      child: Padding(
-                        padding: EdgeInsets.all(1.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-                            child: Row(
-                              children: [
-                                Text('별로예요 '),
-                                Icon(Icons.dangerous_outlined),
-                                //이부분 api처리
-                                Text(' 3'),
-                              ],
-                            ),
+              ),
+              //별로에요
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    //눌럿을때 api와 통신하며 값을 변경해야함.
+                    debugPrint("sssss");
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.black),
+                    child: Padding(
+                      padding: EdgeInsets.all(1.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+                          child: Row(
+                            children: [
+                              Text('별로예요 '),
+                              Icon(Icons.dangerous_outlined),
+                              //이부분 api처리
+                              Text(' 3'),
+                            ],
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ],
-            )
-          ],
-        ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
@@ -310,24 +307,7 @@ class _evalute_screenState extends State<evaluate_screen> {
           color: Colors.white,
           child: Column(
             children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('최근 강의평',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        )),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text('더 보기 > ',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    )
-                  ],
-                ),
-              ),
+              const Header(header_name: "최근 강의평"),
               Container(
                 height: 260,
                 child: ListView.builder(
@@ -350,7 +330,7 @@ class _evalute_screenState extends State<evaluate_screen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const RatingScreenWrite()));
+                          builder: (context) => const EvaluateScreenWrite()));
                 },
                 child: Text('평가 작성하기',
                     style: TextStyle(fontWeight: FontWeight.bold)),
@@ -359,22 +339,8 @@ class _evalute_screenState extends State<evaluate_screen> {
                 color: Colors.grey.shade300,
                 thickness: 5,
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('인기 강의평',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18)),
-                    TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          '더 보기 > ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                  ],
-                ),
+              Header(
+                header_name: '인기 교양 순위보기',
               ),
               Expanded(
                 child: Stack(
