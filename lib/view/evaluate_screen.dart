@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:blur/blur.dart';
+import 'package:myapp/view/evaluate_screen_detail.dart';
 import 'package:myapp/view/evaluate_screen_write.dart';
 import 'package:myapp/class/lecture.dart';
 import 'package:myapp/widget/header.dart';
@@ -191,11 +192,11 @@ class _evalute_screenState extends State<evaluate_screen> {
               },
             ),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-            child: Text(
-                '이러한 에러가 생기는 이유는 ListView는 부모 위젯의 높이에 따라 높이를 맞추게 되는데 ListView의 자식 내용이 적더라도 ListView는 자신이 사용할 수 있는 최대 공간을 사용하게 됩니다. Column의 높이는 무한이기 때문에 ListView의 높이도 따라 무한이 됨으로 에러가 생기게 되는 겁니다. '),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+          //   child: Text(
+          //       '이러한 에러가 생기는 이유는 ListView는 부모 위젯의 높이에 따라 높이를 맞추게 되는데 ListView의 자식 내용이 적더라도 ListView는 자신이 사용할 수 있는 최대 공간을 사용하게 됩니다. Column의 높이는 무한이기 때문에 ListView의 높이도 따라 무한이 됨으로 에러가 생기게 되는 겁니다. '),
+          // ),
           Row(
             children: [
               //도움됐어요
@@ -303,64 +304,89 @@ class _evalute_screenState extends State<evaluate_screen> {
                     color: Colors.black54,
                   )),
             ]),
-        body: Container(
-          color: Colors.white,
-          child: Column(
-            children: [
-              const Header(header_name: "최근 강의평"),
-              Container(
-                height: 260,
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return Padding(
-                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(15)),
-                          height: 110,
-                          child: _recent_evaluate_widget(index),
-                        ));
+        body: InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EvaluateScreenDetail()));
+          },
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                const Header(header_name: "최근 강의평"),
+                Container(
+                  height: 260,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return Padding(
+                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(15)),
+                            height: 110,
+                            child: _recent_evaluate_widget(index),
+                          ));
+                    },
+                    itemCount: _recent_evaluate_data.length,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EvaluateScreenWrite()));
                   },
-                  itemCount: _recent_evaluate_data.length,
+                  child: Text('평가 작성하기',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const EvaluateScreenWrite()));
-                },
-                child: Text('평가 작성하기',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              Divider(
-                color: Colors.grey.shade300,
-                thickness: 5,
-              ),
-              Header(
-                header_name: '인기 교양 순위보기',
-              ),
-              Expanded(
-                child: Stack(
-                  children: [
-                    //여기에 블러 처리 되어있음. 블러 처리 방식도 따로 component형식으로 widget으로 빼놓으면 됨.
-                    //현재는 블러 처리된 widget으로 넣어둠.
-                    _popular_class_evaluate_widget(),
-                    //이용권 구매 여부에 따라 삼항 연산자로 묶으면 됨.
-                    const Align(
-                      alignment: Alignment.center,
-                      child: Text('이용권 구매시 열람이 가능합니다 :D',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          )),
-                    )
-                  ],
+                Divider(
+                  color: Colors.grey.shade300,
+                  thickness: 5,
                 ),
-              ),
-            ],
+                Header(
+                  header_name: '인기 교양 순위보기',
+                ),
+                Container(
+                  height: 260,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return Padding(
+                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(15)),
+                            height: 110,
+                            child: _recent_evaluate_widget(index),
+                          ));
+                    },
+                    itemCount: _recent_evaluate_data.length,
+                  ),
+                ),
+                // Expanded(
+                //   child: Stack(
+                //     children: [
+                //       //여기에 블러 처리 되어있음. 블러 처리 방식도 따로 component형식으로 widget으로 빼놓으면 됨.
+                //       //현재는 블러 처리된 widget으로 넣어둠.
+                //       _popular_class_evaluate_widget(),
+                //       //이용권 구매 여부에 따라 삼항 연산자로 묶으면 됨.
+                //       // const Align(
+                //       //   alignment: Alignment.center,
+                //       //   child: Text('이용권 구매시 열람이 가능합니다 :D',
+                //       //       style: TextStyle(
+                //       //         fontWeight: FontWeight.bold,
+                //       //         fontSize: 18,
+                //       //       )),
+                //       // )
+                //     ],
+                //   ),
+                // ),
+              ],
+            ),
           ),
         ));
   }

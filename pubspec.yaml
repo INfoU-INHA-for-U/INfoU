@@ -86,6 +86,8 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/logo.png
+    - assets/images/gold_star.png
+    - assets/images/grey_star.png
     - assets/samples/ad_sample1.png
     - assets/samples/ad_sample2.png
     - assets/page-1/images/vector.png

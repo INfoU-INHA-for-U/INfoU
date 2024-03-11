@@ -33,7 +33,7 @@ class _home_screenState extends State<home_screen> {
         margin: EdgeInsets.symmetric(horizontal: 5.0),
         child: Image.asset(
           path,
-          fit: BoxFit.cover,
+          fit: BoxFit.contain,
         ));
   }
 
