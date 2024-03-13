@@ -317,6 +317,7 @@ class _register_screen_majorState extends State<register_screen_major> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           backgroundColor: Colors.white,
           //여길 row로 바꿔야하나?
           leading: IconButton(
@@ -344,27 +345,30 @@ class _register_screen_majorState extends State<register_screen_major> {
               SizedBox(height: 10),
               Container(
                   height: MediaQuery.of(context).size.height-216,
-                  child: ListView.builder(
-                    itemCount: major_name_list.length,
-                    itemBuilder: (context, index) => GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if(major_select_index == -1) {
-                            major_select_index = index;
-                          } else {
-                            major_select_index = -1;
-                          }
-                        });
-                      },
-                      child: Container(
-                          padding: EdgeInsets.fromLTRB(2, 5, 0, 5),
-                          child: Text(
-                            major_name_list[index],
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: index == major_select_index ? Colors.black87 : Colors.black26,
-                            ),
-                          )),
+                  child: ScrollConfiguration(
+                    behavior: const ScrollBehavior().copyWith(overscroll: false),
+                    child: ListView.builder(
+                      itemCount: major_name_list.length,
+                      itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if(major_select_index == -1) {
+                              major_select_index = index;
+                            } else {
+                              major_select_index = -1;
+                            }
+                          });
+                        },
+                        child: Container(
+                            padding: EdgeInsets.fromLTRB(2, 5, 0, 5),
+                            child: Text(
+                              major_name_list[index],
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: index == major_select_index ? Colors.black87 : Colors.black26,
+                              ),
+                            )),
+                      ),
                     ),
                   )
               ),

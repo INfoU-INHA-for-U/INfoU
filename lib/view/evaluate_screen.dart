@@ -293,6 +293,7 @@ class _evalute_screenState extends State<evaluate_screen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
             title: const Text(
               'InfoU',
               style: TextStyle(color: Colors.blueAccent),
@@ -321,6 +322,7 @@ class _evalute_screenState extends State<evaluate_screen> {
         body: Container(
           color: Colors.white,
           child: SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
             child: Column(
               children: [
                 Padding(
