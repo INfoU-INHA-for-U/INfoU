@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'dart:ui';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:myapp/utils.dart';
+import '../splash_screen/splash_screen.dart';
 
+<<<<<<< HEAD
 //--
 //import 'package:myapp/view/noticescreen.dart';
 //import 'package:myapp/view/homescreen.dart';
@@ -29,4 +27,11 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+=======
+void main() {
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: splash_screen(),
+  ));
+>>>>>>> oha
 }
