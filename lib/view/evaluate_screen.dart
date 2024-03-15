@@ -304,23 +304,23 @@ class _evalute_screenState extends State<evaluate_screen> {
                     color: Colors.black54,
                   )),
             ]),
-        body: InkWell(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => EvaluateScreenDetail()));
-          },
-          child: Container(
-            color: Colors.white,
-            child: Column(
-              children: [
-                const Header(header_name: "최근 강의평"),
-                Container(
-                  height: 260,
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return Padding(
+        body: Container(
+          color: Colors.white,
+          child: Column(
+            children: [
+              const Header(header_name: "최근 강의평"),
+              Container(
+                height: 260,
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EvaluateScreenDetail()))
+                      },
+                      child: Padding(
                           padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                           child: Container(
                             decoration: BoxDecoration(
@@ -328,65 +328,56 @@ class _evalute_screenState extends State<evaluate_screen> {
                                 borderRadius: BorderRadius.circular(15)),
                             height: 110,
                             child: _recent_evaluate_widget(index),
-                          ));
-                    },
-                    itemCount: _recent_evaluate_data.length,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const EvaluateScreenWrite()));
+                          )),
+                    );
                   },
-                  child: Text('평가 작성하기',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  itemCount: _recent_evaluate_data.length,
                 ),
-                Divider(
-                  color: Colors.grey.shade300,
-                  thickness: 5,
+              ),
+
+              Divider(
+                color: Colors.grey.shade300,
+                thickness: 5,
+              ),
+              Header(
+                header_name: '인기 교양 순위보기',
+              ),
+              Container(
+                height: 260,
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return Padding(
+                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(15)),
+                          height: 110,
+                          child: _recent_evaluate_widget(index),
+                        ));
+                  },
+                  itemCount: _recent_evaluate_data.length,
                 ),
-                Header(
-                  header_name: '인기 교양 순위보기',
-                ),
-                Container(
-                  height: 260,
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return Padding(
-                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(15)),
-                            height: 110,
-                            child: _recent_evaluate_widget(index),
-                          ));
-                    },
-                    itemCount: _recent_evaluate_data.length,
-                  ),
-                ),
-                // Expanded(
-                //   child: Stack(
-                //     children: [
-                //       //여기에 블러 처리 되어있음. 블러 처리 방식도 따로 component형식으로 widget으로 빼놓으면 됨.
-                //       //현재는 블러 처리된 widget으로 넣어둠.
-                //       _popular_class_evaluate_widget(),
-                //       //이용권 구매 여부에 따라 삼항 연산자로 묶으면 됨.
-                //       // const Align(
-                //       //   alignment: Alignment.center,
-                //       //   child: Text('이용권 구매시 열람이 가능합니다 :D',
-                //       //       style: TextStyle(
-                //       //         fontWeight: FontWeight.bold,
-                //       //         fontSize: 18,
-                //       //       )),
-                //       // )
-                //     ],
-                //   ),
-                // ),
-              ],
-            ),
+              ),
+              // Expanded(
+              //   child: Stack(
+              //     children: [
+              //       //여기에 블러 처리 되어있음. 블러 처리 방식도 따로 component형식으로 widget으로 빼놓으면 됨.
+              //       //현재는 블러 처리된 widget으로 넣어둠.
+              //       _popular_class_evaluate_widget(),
+              //       //이용권 구매 여부에 따라 삼항 연산자로 묶으면 됨.
+              //       // const Align(
+              //       //   alignment: Alignment.center,
+              //       //   child: Text('이용권 구매시 열람이 가능합니다 :D',
+              //       //       style: TextStyle(
+              //       //         fontWeight: FontWeight.bold,
+              //       //         fontSize: 18,
+              //       //       )),
+              //       // )
+              //     ],
+              //   ),
+              // ),
+            ],
           ),
         ));
   }
