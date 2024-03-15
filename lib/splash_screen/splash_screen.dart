@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/view/register_screen.dart';
 import 'dart:async';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../view/main_screen.dart';
@@ -16,7 +17,7 @@ class _splash_screenState extends State<splash_screen> {
     super.initState();
     Timer(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => main_screen(),
+        pageBuilder: (context, animation, secondaryAnimation) => register_screen_nickname(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,
