@@ -97,7 +97,7 @@ class _register_screen_nicknameState extends State<register_screen_nickname> {
                       ),
                       border: InputBorder.none,
                       filled: true,
-                      fillColor: Colors.black12,
+                      fillColor: Colors.grey[100],
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(20)
@@ -115,11 +115,11 @@ class _register_screen_nicknameState extends State<register_screen_nickname> {
                     child: FilledButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(
-                              Colors.lightBlueAccent),
+                              Colors.blue[100]),
 
                         ),
                         onPressed: () => duplicate_check_nickname(),
-                        child: Text('중복확인', style: TextStyle(color: Colors.black, fontSize: 14))
+                        child: Text('중복확인', style: TextStyle(color: Colors.black54, fontSize: 15))
                     ),
                   ),
                 ],
@@ -132,10 +132,10 @@ class _register_screen_nicknameState extends State<register_screen_nickname> {
                   child: FilledButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(
-                            Colors.lightBlueAccent),
+                            Colors.blueAccent),
                       ),
                       onPressed: () => Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: register_screen_grade())),
-                      child: Text('다음', style: TextStyle(color: Colors.black))
+                      child: Text('다음', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))
                   ),
                 ),
               )
@@ -241,10 +241,10 @@ class _register_screen_gradeState extends State<register_screen_grade> {
                       child: FilledButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStatePropertyAll(
-                                Colors.lightBlueAccent),
+                                Colors.blueAccent),
                           ),
                           onPressed: () => Navigator.pop(context, PageTransition(type: PageTransitionType.fade, child: register_screen_nickname())),
-                          child: Text('이전', style: TextStyle(color: Colors.black))
+                          child: Text('이전', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))
                       ),
                     ),
                     SizedBox(width: 10),
@@ -253,7 +253,7 @@ class _register_screen_gradeState extends State<register_screen_grade> {
                       child: FilledButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStatePropertyAll(
-                                _selected_grade == 0 ? Colors.black12 : Colors.lightBlueAccent),
+                                _selected_grade == 0 ? Colors.black12 : Colors.blueAccent),
                           ),
                           onPressed: () {
                             if(_selected_grade != 0) {
@@ -262,7 +262,7 @@ class _register_screen_gradeState extends State<register_screen_grade> {
                                   child: register_screen_major()));
                             }
                           },
-                          child: Text('다음', style: TextStyle(color: Colors.black))
+                          child: Text('다음', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))
                       ),
                     ),
                   ],
@@ -364,7 +364,7 @@ class _register_screen_majorState extends State<register_screen_major> {
                             child: Text(
                               major_name_list[index],
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 color: index == major_select_index ? Colors.black87 : Colors.black26,
                               ),
                             )),
@@ -380,7 +380,7 @@ class _register_screen_majorState extends State<register_screen_major> {
                     child: FilledButton(
                         style: ButtonStyle(
                           backgroundColor:
-                              MaterialStatePropertyAll(Colors.lightBlueAccent),
+                              MaterialStatePropertyAll(Colors.blueAccent),
                         ),
                         onPressed: () => Navigator.pop(
                             context,
@@ -388,7 +388,7 @@ class _register_screen_majorState extends State<register_screen_major> {
                                 type: PageTransitionType.fade,
                                 child: register_screen_grade())),
                         child:
-                            Text('이전', style: TextStyle(color: Colors.black))),
+                            Text('이전', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))),
                   ),
                   SizedBox(width: 10),
                   SizedBox(
@@ -397,7 +397,7 @@ class _register_screen_majorState extends State<register_screen_major> {
                         style: ButtonStyle(
 
                           backgroundColor:
-                              MaterialStatePropertyAll(major_select_index != -1 ? Colors.lightBlueAccent : Colors.black12),
+                              MaterialStatePropertyAll(major_select_index != -1 ? Colors.blueAccent : Colors.black12),
                         ),
                         onPressed: () {
                           if(major_select_index != -1) {
@@ -410,7 +410,7 @@ class _register_screen_majorState extends State<register_screen_major> {
                             }
                         },
                         child:
-                            Text('다음', style: TextStyle(color: Colors.black))),
+                            Text('다음', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))),
                   ),
                 ],
               ),
@@ -469,7 +469,7 @@ class _register_screen_terms_and_conditionState extends State<register_screen_te
                     child: FilledButton(
                         style: ButtonStyle(
                           backgroundColor:
-                          MaterialStatePropertyAll(Colors.lightBlueAccent),
+                          MaterialStatePropertyAll(Colors.blueAccent),
                         ),
                         onPressed: () => Navigator.pop(
                             context,
@@ -477,7 +477,7 @@ class _register_screen_terms_and_conditionState extends State<register_screen_te
                                 type: PageTransitionType.fade,
                                 child: register_screen_major())),
                         child:
-                        Text('이전', style: TextStyle(color: Colors.black))),
+                        Text('이전', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))),
                   ),
                   SizedBox(width: 10),
                   SizedBox(
@@ -485,7 +485,7 @@ class _register_screen_terms_and_conditionState extends State<register_screen_te
                     child: FilledButton(
                         style: ButtonStyle(
                           backgroundColor:
-                          MaterialStatePropertyAll(Colors.lightBlueAccent),
+                          MaterialStatePropertyAll(Colors.blueAccent),
                         ),
                         onPressed: () {
                             Navigator.pushAndRemoveUntil(
@@ -498,7 +498,7 @@ class _register_screen_terms_and_conditionState extends State<register_screen_te
                             (route) => false,);
                         },
                         child:
-                        Text('가입 완료', style: TextStyle(color: Colors.black))),
+                        Text('가입 완료', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))),
                   ),
                 ],
               ),
