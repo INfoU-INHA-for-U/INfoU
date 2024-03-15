@@ -23,14 +23,14 @@ class _evalute_screenState extends State<evaluate_screen> {
     super.initState();
     //새로운 api 형식에 따라 넣어뒀음. class lecture에 하나하나씩 차곡차곡 쌓이게 작업해뒀고,
     //그중 가장 첫번째 데이터를 정리해서 print로 출력하였으니 참고바람.
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _lecture_list = (await fetchData('데이터베이스', '컴퓨터공학과'))!;
-      setState(() {});
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   _lecture_list = (await fetchData('데이터베이스', '컴퓨터공학과'))!;
+    //   setState(() {});
+    // });
   }
 
   // component/fetch_data에서 가져온 데이터를 return해서 lits를 evaluate_screen에서 받아줌.
-  late List<Lecture> _lecture_list;
+  // late List<Lecture> _lecture_list;
 
   //값에 따라 강의평 홈 / 강의평 검색 / 강의평 추가 화면 을 setState로 구별.
   //아래에 있는 bottomNaviagtorBar때문.
@@ -109,8 +109,7 @@ class _evalute_screenState extends State<evaluate_screen> {
                     child: Container(
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(5)
-                      ),
+                          borderRadius: BorderRadius.circular(5)),
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
                         child: Row(
@@ -154,6 +153,12 @@ class _evalute_screenState extends State<evaluate_screen> {
         ],
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
   }
 
   //나중에 필요한 구조일 수도 잇어서 주석 처리해놓았습니다.
@@ -394,8 +399,13 @@ class _evalute_screenState extends State<evaluate_screen> {
               //     ],
               //   ),
               // ),
+
+
             ],
           ),
         ));
   }
+}
+
+*/
 }
