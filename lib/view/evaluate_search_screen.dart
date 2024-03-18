@@ -84,12 +84,15 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
 
     late List<String> _word_list;
 
+    //교수 검색
     if(search_menu_index==0) {
       _word_list = lecture_professor_word_list_check(lecture_list,input_word);
     }
+    //강의명 검색
     else if(search_menu_index==1) {
       _word_list = lecture_class_word_list_check(lecture_list,input_word);
     }
+    //학과 검색
     else if(search_menu_index==2) {
       _word_list = lecture_major_word_list_check(lecture_list,input_word);
     }
@@ -101,11 +104,18 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  setState(() {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                    _search_menu_index_submitted = search_menu_index;
-                    _controller?.text = _word_list[index];
-                  });
+                  try {
+                    setState(() {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      //여러 추천 단어중 선택 하였을때, 현재 선택된 검색기준을 submitted로 바꿈으로서 evaluate_menu_search_screen.dart로 향하게 함.
+                      //이전까진 _search_menu_index_submitted = 4인 상태이고, search_menu_index엔 _search_menu_index_not_submitted값을 넘겨받음
+                      //다시말해 search_menu_index = _search_menu_index_not_submitted 임.
+                      _search_menu_index_submitted = search_menu_index;
+                      _controller?.text = _word_list[index];
+                    });
+                  } catch (e, s) {
+                    print(s);
+                  }
                 },
                 child: Text(_word_list[index]),
               );
@@ -123,15 +133,18 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
   //2가지 경우시 해당 if문이 rebuild된다.
   //1. 일반적으로 textfield자체에서 enter를 통한 경우.
   //2. 단어 입력 시 자동으로 화면에 보여지는 추천 단어를 클릭 시.
+  //여기에서 선택된 학과/교수명/과목명 선택 or 단어 추천 화면을 결정해줌.
   Widget _screen_select() {
     if(_search_menu_index_submitted == 0 || _search_menu_index_submitted == 1 || _search_menu_index_submitted == 2) {
       return evaluate_menu_search_screen(lecture_list : _lecture_list, input_name : _controller!.text, selected_menu_index : _search_menu_index_submitted);
     }
+    //단어 추천 화면 ->
     else if(_search_menu_index_submitted == 4) {
       print("!!");
       print(_search_menu_index_submitted.toString());
       return evaluate_word_search_screen(_lecture_list, _controller!.text, _search_menu_index_not_submitted);
     }
+    //_search_menu_index_submitted == 3 일 경우 -> 빈 화면
     else {
       return Container();
     }
@@ -188,6 +201,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
                                   onChanged: (value) {
                                     //아래 evaluate_word_search_screen에서 controller.text를 참고하기에,
                                     //우리가 사용할 screen의 index인 _search_menu_index_submitted=4로 설정해주면 된다.
+                                    //참고로 4는 단어 추천 화면이다.
                                     setState(() {
                                       _search_menu_index_submitted = 4;
                                     });
