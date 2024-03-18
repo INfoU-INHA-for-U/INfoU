@@ -37,8 +37,6 @@ class _evalute_screenState extends State<evaluate_screen> {
   // 강의평 홈 = 0 / 강의평 검색 = 1 / 강의평 추가 화면 = 2
   int search_screen_state_number = 0;
 
-  late List<Lecture> _lecture_list;
-
   Map _recent_evaluate_data = {
     '0': {
       'class': '파이썬 프로그래밍',

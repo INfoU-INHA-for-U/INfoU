@@ -215,21 +215,13 @@ class _NoticeScreenDetailState extends State<NoticeScreenDetail> {
             width: 400,
             child: Padding(
               padding: EdgeInsets.fromLTRB(23, 8, 0, 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //index에 따라 api에서 가져온 값 넣어주면 됨.
-                  Expanded(
-                    child: ListView.builder(
+              child: //index에 따라 api에서 가져온 값 넣어주면 됨.
+                    ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: 5,
+                      itemCount: 6,
                       itemBuilder: (context, index) {
                         return announce_tag_widget(index);
                       },
-                    ),
-                  )
-                ],
               ),
             ),
           ),
