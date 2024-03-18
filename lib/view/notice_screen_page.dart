@@ -134,6 +134,7 @@ class notice_screen_page extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(Icons.keyboard_arrow_left),
