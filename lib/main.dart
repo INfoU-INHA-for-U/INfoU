@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/utils.dart';
+import 'package:myapp/view/register_screen.dart';
 import '../splash_screen/splash_screen.dart';
 
-<<<<<<< HEAD
-//--
-//import 'package:myapp/view/noticescreen.dart';
-//import 'package:myapp/view/homescreen.dart';
-//import 'package:myapp/view/ratingscreen.dart';
+import 'package:myapp/view/homescreen.dart';
 import 'package:myapp/view/mypagescreen.dart';
 
 void main() => runApp(MyApp());
@@ -20,18 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        body: SingleChildScrollView(
-          child: mypageScreen(),
-        ),
-      ),
+      home: register_screen_nickname(),
     );
   }
-=======
-void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: splash_screen(),
-  ));
->>>>>>> oha
 }

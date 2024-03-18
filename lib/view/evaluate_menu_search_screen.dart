@@ -52,7 +52,8 @@ class _evaluate_menu_search_screenState
     for(int i=0;i<lecture_list.length;i++) {
       for(int j=0;j<lecture_list[i].professors.length;j++)
       {
-        if(lecture_list[i].professors[j].name.contains(input_name)) {
+        if(lecture_list[i].professors[j].name.contains(input_name
+        )) {
           _return_lecture_list.add(lecture_list[i]);
         }
       }
