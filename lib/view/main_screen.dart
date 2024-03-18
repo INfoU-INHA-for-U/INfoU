@@ -14,14 +14,13 @@ class main_screen extends StatefulWidget {
 }
 
 class _main_screenState extends State<main_screen> {
-
   late List<GlobalKey<NavigatorState>> _navigatorKeyList;
 
   final _pages = [
     home_screen(),
     notice_screen(),
     evaluate_screen(),
-    point_screen(),
+    //point_screen(), // 현재 포인트 생략 상태
     mypage_screen(),
   ];
 
@@ -29,24 +28,27 @@ class _main_screenState extends State<main_screen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _navigatorKeyList = List.generate(_pages.length, (index) => GlobalKey<NavigatorState>());
+    _navigatorKeyList =
+        List.generate(_pages.length, (index) => GlobalKey<NavigatorState>());
   }
 
   int _current_index = 0;
 
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
       onWillPop: () async {
-        return !(await _navigatorKeyList[_current_index].currentState!.maybePop());
+        return !(await _navigatorKeyList[_current_index]
+            .currentState!
+            .maybePop());
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Navigator(
           key: _navigatorKeyList[_current_index],
           onGenerateRoute: (_) {
-            return MaterialPageRoute(builder: (context) => _pages[_current_index]);
+            return MaterialPageRoute(
+                builder: (context) => _pages[_current_index]);
           },
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -69,10 +71,10 @@ class _main_screenState extends State<main_screen> {
               icon: Icon(Icons.library_books),
               label: '강의평가',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.attach_money),
-              label: '포인트',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.attach_money),
+            //   label: '포인트',
+            // ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: '마이',
