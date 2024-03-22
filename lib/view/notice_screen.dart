@@ -4,6 +4,7 @@ import 'package:myapp/view/alarm_screen.dart';
 import 'package:myapp/view/notice_screen_detail.dart';
 import 'package:myapp/view/notice_screen_similar.dart';
 import '../component/announce_tag.dart';
+import 'notice_screen_page.dart';
 
 class notice_screen extends StatefulWidget {
   const notice_screen({super.key});
@@ -12,6 +13,7 @@ class notice_screen extends StatefulWidget {
   State<notice_screen> createState() => _notice_screenState();
 }
 
+//이것도 지우셔도 돼요. 디자인 바뀌면서 필요없는 위젯이 됐네요 ㅜ
 Widget sss() {
   return Container(
     height: 280,
@@ -114,6 +116,7 @@ class _notice_screenState extends State<notice_screen> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
             scaffoldBackgroundColor: Color(0xFFF3F3F3), // 전체 배경 색상 설정
             appBarTheme: AppBarTheme(
@@ -188,6 +191,7 @@ class _notice_screenState extends State<notice_screen> {
                         page: 'similar'), // 공지사항
 
                     //토픽
+                    //지우셔도 됩니다.
                     // Stack(children: [
                     //   Container(
                     //     height: 30,
@@ -486,6 +490,7 @@ class noticeView extends StatelessWidget {
                     subtitle: Text(notice['category'] ?? ''),
                     onTap: () {
                       print('Clicked on ${notice['title']}');
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => notice_screen_page()));
                       // Navigator.push(
                       //   context,
                       //   MaterialPageRoute(
