@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: register_screen_nickname(),
+      home: mypage_screen(),
     );
   }
 }
