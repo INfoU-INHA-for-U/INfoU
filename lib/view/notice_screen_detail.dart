@@ -216,12 +216,12 @@ class _NoticeScreenDetailState extends State<NoticeScreenDetail> {
             child: Padding(
               padding: EdgeInsets.fromLTRB(23, 8, 0, 4),
               child: //index에 따라 api에서 가져온 값 넣어주면 됨.
-                    ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 6,
-                      itemBuilder: (context, index) {
-                        return announce_tag_widget(index);
-                      },
+                  ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 6,
+                itemBuilder: (context, index) {
+                  return announce_tag_widget(index);
+                },
               ),
             ),
           ),
@@ -247,135 +247,145 @@ class DatenoticeView extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      width: MediaQuery.of(context).size.width * 0.9,
-      padding: const EdgeInsets.only(top: 15, right: 0.99),
-      decoration: ShapeDecoration(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+    return SafeArea(
+      child: Container(
+        margin: EdgeInsets.only(bottom: 10),
+        width: MediaQuery.of(context).size.width * 0.9,
+        padding: const EdgeInsets.only(top: 15, right: 0.99),
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
-      ),
-      child: Column(
-        children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     Row(
-          //       children: [
-          //         Text(
-          //           title,
-          //           style: TextStyle(
-          //             color: Colors.black,
-          //             fontSize: 14,
-          //             fontFamily: 'Inter',
-          //             fontWeight: FontWeight.w700,
-          //             height: 0,
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //     Row(
-          //       children: [
-          //         Text(
-          //           '더 보기',
-          //           style: TextStyle(
-          //             color: Colors.black,
-          //             fontSize: 12,
-          //             fontFamily: 'Inter',
-          //             fontWeight: FontWeight.w400,
-          //             height: 0,
-          //           ),
-          //         ),
-          //         IconButton(
-          //             onPressed: () {
-          //               Navigator.push(
-          //                 context,
-          //                 MaterialPageRoute(
-          //                     builder: (context) => NoticeScreenDetail()),
-          //               );
-          //             },
-          //             icon: Icon(Icons.arrow_right)),
-          //       ],
-          //     ),
-          //   ],
-          // ),
-          Container(
-            height: 600,
-            color: Colors.white,
-            child: ListView.builder(
-              itemCount: dateNoticeData.length,
-              itemBuilder: (context, index) {
-                final dateKey = dateNoticeData.keys.elementAt(index);
-                final noticeList = dateNoticeData[dateKey] ?? {}; // null 체크 추가
-                return Card(
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            dateKey,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+        child: Column(
+          children: [
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Row(
+            //       children: [
+            //         Text(
+            //           title,
+            //           style: TextStyle(
+            //             color: Colors.black,
+            //             fontSize: 14,
+            //             fontFamily: 'Inter',
+            //             fontWeight: FontWeight.w700,
+            //             height: 0,
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //     Row(
+            //       children: [
+            //         Text(
+            //           '더 보기',
+            //           style: TextStyle(
+            //             color: Colors.black,
+            //             fontSize: 12,
+            //             fontFamily: 'Inter',
+            //             fontWeight: FontWeight.w400,
+            //             height: 0,
+            //           ),
+            //         ),
+            //         IconButton(
+            //             onPressed: () {
+            //               Navigator.push(
+            //                 context,
+            //                 MaterialPageRoute(
+            //                     builder: (context) => NoticeScreenDetail()),
+            //               );
+            //             },
+            //             icon: Icon(Icons.arrow_right)),
+            //       ],
+            //     ),
+            //   ],
+            // ),
+            Container(
+              height: 600,
+              color: Colors.white,
+              child: ListView.builder(
+                itemCount: dateNoticeData.length,
+                itemBuilder: (context, index) {
+                  final dateKey = dateNoticeData.keys.elementAt(index);
+                  final noticeList =
+                      dateNoticeData[dateKey] ?? {}; // null 체크 추가
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                          color: Color(0xFFBBBBBB),
+                          width: 1), // 여기서 테두리 색상 및 두께를 변경하세요
+                    ),
+                    child: Container(
+                      color: Colors.white,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              dateKey,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: noticeList?.length ?? 0, // null 체크 추가
-                          itemBuilder: (context, index) {
-                            final noticeKey = noticeList.keys.elementAt(index);
-                            final noticeData = noticeList[noticeKey];
-                            return ListTile(
-                              tileColor: Colors.white,
-                              title: Text(noticeData?['title'] ?? ''),
-                              subtitle: Text(noticeData?['category'] ?? ''),
-                              onTap: () {
-                                // Handle tap event
-                              },
-                            );
-                          },
-                        ),
-                      ],
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: noticeList?.length ?? 0, // null 체크 추가
+                            itemBuilder: (context, index) {
+                              final noticeKey =
+                                  noticeList.keys.elementAt(index);
+                              final noticeData = noticeList[noticeKey];
+                              return ListTile(
+                                tileColor: Colors.white,
+                                title: Text(noticeData?['title'] ?? ''),
+                                subtitle: Text(noticeData?['category'] ?? ''),
+                                onTap: () {
+                                  // Handle tap event
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-          )
-          // Container(
-          //   height: 300,
-          //   child: ListView.builder(
-          //     itemCount: noticeData.length,
-          //     itemBuilder: (context, index) {
-          //       final notice = noticeData[index.toString()];
-          //       if (notice != null) {
-          //         return ListTile(
-          //           title: Text(notice['title'] ?? ''),
-          //           subtitle: Text(notice['category'] ?? ''),
-          //           onTap: () {
-          //             print('Clicked on ${notice['title']}');
-          //             // Navigator.push(
-          //             //   context,
-          //             //   MaterialPageRoute(
-          //             //     builder: (context) => WebViewScreen(url: notice['link'] ?? ''),
-          //             //   ),
-          //             // );
-          //           },
-          //         );
-          //       } else {
-          //         return SizedBox(); // 에러를 피하기 위해 빈 위젯을 반환합니다.
-          //       }
-          //     },
-          //   ),
-          // ),
-        ],
+                  );
+                },
+              ),
+            )
+            // Container(
+            //   height: 300,
+            //   child: ListView.builder(
+            //     itemCount: noticeData.length,
+            //     itemBuilder: (context, index) {
+            //       final notice = noticeData[index.toString()];
+            //       if (notice != null) {
+            //         return ListTile(
+            //           title: Text(notice['title'] ?? ''),
+            //           subtitle: Text(notice['category'] ?? ''),
+            //           onTap: () {
+            //             print('Clicked on ${notice['title']}');
+            //             // Navigator.push(
+            //             //   context,
+            //             //   MaterialPageRoute(
+            //             //     builder: (context) => WebViewScreen(url: notice['link'] ?? ''),
+            //             //   ),
+            //             // );
+            //           },
+            //         );
+            //       } else {
+            //         return SizedBox(); // 에러를 피하기 위해 빈 위젯을 반환합니다.
+            //       }
+            //     },
+            //   ),
+            // ),
+          ],
+        ),
       ),
     );
   }
