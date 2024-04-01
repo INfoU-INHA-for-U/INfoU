@@ -3,14 +3,14 @@ import 'package:myapp/view/notice_screen_detail.dart';
 
 import '../component/announce_tag.dart';
 
-class NoticeScreenSimilar extends StatefulWidget {
-  const NoticeScreenSimilar({super.key});
+class NoticeScreenFavorite extends StatefulWidget {
+  const NoticeScreenFavorite({super.key});
 
   @override
-  State<NoticeScreenSimilar> createState() => _NoticeScreenSimilarState();
+  State<NoticeScreenFavorite> createState() => _NoticeScreenFavoriteState();
 }
 
-class _NoticeScreenSimilarState extends State<NoticeScreenSimilar> {
+class _NoticeScreenFavoriteState extends State<NoticeScreenFavorite> {
   List<String> announce_topic_name = ['인하대학교', 'SW중심대학', '컴퓨터공학'];
   int min_list_num = 1;
   int current_list_num = 0;
@@ -46,7 +46,7 @@ class _NoticeScreenSimilarState extends State<NoticeScreenSimilar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("비슷한 사용자가 본 공지사항"),
+        title: Text("즐겨찾기"),
       ),
       body: SafeArea(
         child: Column(
@@ -79,7 +79,7 @@ class _NoticeScreenSimilarState extends State<NoticeScreenSimilar> {
               padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Divider(thickness: 1, color: Colors.grey),
             ),
-            noticeView(
+            favoriteNoticeView(
               noticeData: _SimilarNoticeData,
             )
           ],
@@ -145,7 +145,7 @@ class DatenoticeView extends StatelessWidget {
           //               Navigator.push(
           //                 context,
           //                 MaterialPageRoute(
-          //                     builder: (context) => NoticeScreenSimilar()),
+          //                     builder: (context) => NoticeScreenFavorite()),
           //               );
           //             },
           //             icon: Icon(Icons.arrow_right)),
@@ -233,10 +233,10 @@ class DatenoticeView extends StatelessWidget {
   }
 }
 
-class noticeView extends StatelessWidget {
+class favoriteNoticeView extends StatelessWidget {
   final Map<String, Map<String, String>> noticeData;
 
-  const noticeView({
+  const favoriteNoticeView({
     Key? key,
     required this.noticeData,
   }) : super(key: key);
