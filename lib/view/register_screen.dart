@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:myapp/view/beginning_login_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../class/current_token.dart';
 import 'main_screen.dart';
 
 //음.. 그냥 아래 하나하나 넣자.. 자주 사용하는것도 아닌데..
@@ -17,22 +19,12 @@ List<String> page_name = [
 int page_index = 1;
 */
 
-class register_screen extends StatefulWidget {
-  const register_screen({super.key});
-
-  @override
-  State<register_screen> createState() => _register_screenState();
-}
-
-class _register_screenState extends State<register_screen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-    );
-  }
-}
+//맨 처음 닉네임을 결정하는 창에서 userAuthId를 받아오고 저장함.
+//이 값은 현재 .dart파일 두개 이상의 widget에서 공용적으로 사용하는부분이기에 현재 위치에서 선언함.
+CurrentToken _currentToken = CurrentToken();
 
 class register_screen_nickname extends StatefulWidget {
+
   const register_screen_nickname({super.key});
 
   @override
@@ -60,7 +52,7 @@ class _register_screen_nicknameState extends State<register_screen_nickname> {
           leading: IconButton(
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => register_screen()), (route) => false);
+                  MaterialPageRoute(builder: (context) => beginning_login_screen()), (route) => false);
             },
             icon: Icon(Icons.keyboard_arrow_left),
           ),
@@ -193,7 +185,7 @@ class _register_screen_gradeState extends State<register_screen_grade> {
           //여길 row로 바꿔야하나?
           leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => register_screen()), (route) => false);
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => beginning_login_screen()), (route) => false);
             },
             icon: Icon(Icons.keyboard_arrow_left),
           ),
@@ -323,7 +315,7 @@ class _register_screen_majorState extends State<register_screen_major> {
           leading: IconButton(
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => register_screen()),
+                  MaterialPageRoute(builder: (context) => beginning_login_screen()),
                   (route) => false);
             },
             icon: Icon(Icons.keyboard_arrow_left),
@@ -438,7 +430,7 @@ class _register_screen_terms_and_conditionState extends State<register_screen_te
           leading: IconButton(
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => register_screen()),
+                  MaterialPageRoute(builder: (context) => beginning_login_screen()),
                       (route) => false);
             },
             icon: Icon(Icons.keyboard_arrow_left),

@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/utils.dart';
-import 'package:myapp/view/register_screen.dart';
 import '../splash_screen/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-import 'package:myapp/view/homescreen.dart';
-import 'package:myapp/view/mypagescreen.dart';
+void main() async{
 
-void main() => runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: register_screen_nickname(),
+      home: splash_screen(),
     );
   }
 }

@@ -2,11 +2,15 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../class/current_token.dart';
 import '../class/lecture.dart';
+import '../class/api_url.dart';
 
-String _fetch_url = 'http://ec2-3-135-196-121.us-east-2.compute.amazonaws.com/v1/api/portals/total';
+String _fetch_url = ApiUrl.apiUrl + 'api/portals/total';
 
 Future<List<Lecture>?> fetchData(String department, String lecture_name) async {
+
+  CurrentToken _currentToken = CurrentToken();
   var url = Uri.parse(_fetch_url);
   var queryParams = {
     'department' : department,
@@ -16,7 +20,9 @@ Future<List<Lecture>?> fetchData(String department, String lecture_name) async {
       url.authority, url.path, queryParams);
   var headers = {
     'accept':'application/json',
+    'AuAuthorization' : 'Bearer ' + _currentToken.getAccessToken()
   };
+  //아직 api가 뭐가 안되어 있는게 있는거 같아서 확실하게 작성을 못하겠습니다.
   try {
     var response = await http.get(
         uri,headers: headers);

@@ -490,7 +490,7 @@ class noticeView extends StatelessWidget {
                     subtitle: Text(notice['category'] ?? ''),
                     onTap: () {
                       print('Clicked on ${notice['title']}');
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => notice_screen_page()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => notice_screen_page()));
                       // Navigator.push(
                       //   context,
                       //   MaterialPageRoute(

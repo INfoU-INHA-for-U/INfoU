@@ -57,7 +57,11 @@ dependencies:
   blur: ^3.1.0
   persistent_bottom_nav_bar: ^5.0.2
   page_transition: ^2.1.0
-  flutter_widget_from_html: ^0.14.11
+  google_sign_in: ^6.2.1
+  firebase_core: ^2.27.2
+  webview_flutter: ^4.7.0
+  webview_flutter_android: ^3.16.0
+  webview_flutter_wkwebview: ^3.13.0
 
 dev_dependencies:
   flutter_test:
