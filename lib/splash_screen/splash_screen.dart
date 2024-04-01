@@ -32,13 +32,16 @@ class _splash_screenState extends State<splash_screen> {
   //3 : 구글에 로그인 자체가 안되어 있는 상태.
   Future<int> _checkGoogleSignIn() async {
     CurrentToken _currentToken = CurrentToken();
+    GoogleSignInAccount? _login = await _googleSignIn.signIn();
     // Check if the user is already signed in
     //먼저 구글에 로그인이 되어있는지 확인하고,
     _checkGoogleSign = await _googleSignIn.isSignedIn();
     if(_checkGoogleSign == false) {
       return 3;
     }
+    _currentToken.changeAuthId(_login!.id);
     //이미 회원가입 (= authId로 api에서 token이 불러올수 있는 상태)된 상태인지 확인하기 위해 체크한다.
+    print("@#@#@#");
     print("current Sign In state is " + _checkGoogleSign.toString());
     return await _sendTokenToBackend(_currentToken.getAuthId());
   }
@@ -49,7 +52,9 @@ class _splash_screenState extends State<splash_screen> {
   Future<int> _sendTokenToBackend(String authId) async {
     CurrentToken _currentToken = CurrentToken();
     // Mock API endpoint for demonstration
-    String apiUrl = ApiUrl.apiUrl + 'v1/auth/login';
+    String apiUrl = ApiUrl.apiUrl + '/api/v1/auth/login';
+    print(apiUrl);
+    print(authId);
     var url = Uri.parse(apiUrl);
 
     try {

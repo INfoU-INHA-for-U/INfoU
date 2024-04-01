@@ -26,7 +26,7 @@ class _beginning_login_screenState extends State<beginning_login_screen> {
   Future<int> _sendTokenToBackend(String authId) async {
     CurrentToken _currentToken = CurrentToken();
     // Mock API endpoint for demonstration
-    String apiUrl = ApiUrl.apiUrl + 'auth/login';
+    String apiUrl = ApiUrl.apiUrl + '/api/v1/auth/login';
     var url = Uri.parse(apiUrl);
 
     try {
@@ -53,11 +53,6 @@ class _beginning_login_screenState extends State<beginning_login_screen> {
               _currentToken.changeRefreshToken(jsonData['result']['refreshToken']);
               return 1;
             }
-            /*
-            jwt_token token = jwt_token.fromJson(jsonData);
-            print('accessToken is : ' + token.result.accessToken);
-            print('refreshToken is : ' + token.result.refreshToken);
-            */
           } else {
             // Handle error response from backend
             print('Error sending token to backend: ${response.body}');
