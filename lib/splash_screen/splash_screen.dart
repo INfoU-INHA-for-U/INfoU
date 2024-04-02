@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:myapp/view/main_screen.dart';
 import 'package:myapp/view/register_screen.dart';
 import 'dart:async';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../class/api_url.dart';
 import '../class/current_token.dart';
-import '../class/jwt_token.dart';
 import 'package:http/http.dart' as http;
 import '../view/beginning_login_screen.dart';
 
@@ -40,6 +38,7 @@ class _splash_screenState extends State<splash_screen> {
       return 3;
     }
     _currentToken.changeAuthId(_login!.id);
+    _currentToken.changeAuthEmail(_login!.email);
     //이미 회원가입 (= authId로 api에서 token이 불러올수 있는 상태)된 상태인지 확인하기 위해 체크한다.
     print("@#@#@#");
     print("current Sign In state is " + _checkGoogleSign.toString());

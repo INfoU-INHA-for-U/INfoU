@@ -1,9 +1,13 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:myapp/view/beginning_login_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../class/all_major_data.dart';
+import '../class/api_url.dart';
 import '../class/current_token.dart';
 import 'main_screen.dart';
 
@@ -22,6 +26,9 @@ int page_index = 1;
 //맨 처음 닉네임을 결정하는 창에서 userAuthId를 받아오고 저장함.
 //이 값은 현재 .dart파일 두개 이상의 widget에서 공용적으로 사용하는부분이기에 현재 위치에서 선언함.
 CurrentToken _currentToken = CurrentToken();
+String _apiName = '';
+String _apiGrade = '';
+String _apiMajor = '';
 
 class register_screen_nickname extends StatefulWidget {
 
@@ -126,7 +133,12 @@ class _register_screen_nicknameState extends State<register_screen_nickname> {
                         backgroundColor: MaterialStatePropertyAll(
                             Colors.blueAccent),
                       ),
-                      onPressed: () => Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: register_screen_grade())),
+                      onPressed: () {
+                        _apiName = _controller.text;
+                        Navigator.push(context, PageTransition(
+                            type: PageTransitionType.fade,
+                            child: register_screen_grade()));
+                      },
                       child: Text('다음', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))
                   ),
                 ),
@@ -249,6 +261,7 @@ class _register_screen_gradeState extends State<register_screen_grade> {
                           ),
                           onPressed: () {
                             if(_selected_grade != 0) {
+                              _apiGrade = _selected_grade.toString();
                               Navigator.push(context, PageTransition(
                                   type: PageTransitionType.fade,
                                   child: register_screen_major()));
@@ -277,31 +290,7 @@ class register_screen_major extends StatefulWidget {
 
 class _register_screen_majorState extends State<register_screen_major> {
 
-  List<String> major_name_list = [
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-    '컴퓨터공학과',
-  ];
+
 
   int major_select_index = -1;
 
@@ -393,6 +382,7 @@ class _register_screen_majorState extends State<register_screen_major> {
                         ),
                         onPressed: () {
                           if(major_select_index != -1) {
+                            _apiMajor = major_name_list[major_select_index];
                             Navigator.push(
                                 context,
                                 PageTransition(
@@ -421,6 +411,55 @@ class register_screen_terms_and_condition extends StatefulWidget {
 }
 
 class _register_screen_terms_and_conditionState extends State<register_screen_terms_and_condition> {
+
+  Future<bool> registerApi() async {
+    CurrentToken _currentToken = CurrentToken();
+    // Mock API endpoint for demonstration
+    String apiUrl = ApiUrl.apiUrl + '/api/v1/auth/join';
+    print(apiUrl);
+    var url = Uri.parse(apiUrl);
+    Map body = {
+      "authId": _currentToken.getAuthId(),
+      "email": _currentToken.getAuthEmail(),
+      "name": _apiName,
+      "grade": _apiGrade,
+      "major": _apiMajor
+    };
+    print(body);
+    try {
+      //login에 authId를 보내서 token이 정상적으로 오는지 확인함.
+      var response = await http.post(
+        url,
+        headers: {
+          'Authorization' : 'Bearer ' + _currentToken.getAccessToken()
+        },
+        body: body
+      );
+
+      print('Token sent to join-backend successfully');
+      print(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        // Handle successful response from backend
+        print('Response data: ${utf8.decode(response.bodyBytes)}');
+        Map<String, dynamic> jsonData =
+            (jsonDecode(utf8.decode(response.bodyBytes)));
+        //해당 authId가 서버에 없음 = 회원가입이 안된 상태
+        if (jsonData['isSuccess'] == true) {
+          print('true');
+          return true;
+        } else {
+          print('false');
+          return false;
+        }
+      }
+    } catch (e) {
+      print('error caught : $e');
+    }
+    print("network error");
+    //api연결 자체가 안되면 이쪽까지 옴
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -479,15 +518,17 @@ class _register_screen_terms_and_conditionState extends State<register_screen_te
                           backgroundColor:
                           MaterialStatePropertyAll(Colors.blueAccent),
                         ),
-                        onPressed: () {
-                            Navigator.pushAndRemoveUntil(
+                        onPressed: () async {
+                            if(await registerApi()==true) {
+                              Navigator.pushAndRemoveUntil(
                                 context,
                                 PageTransition(
                                     type:
                                     PageTransitionType.fade,
                                     //완료.
                                     child: main_screen()),
-                            (route) => false,);
+                                    (route) => false,);
+                            }
                         },
                         child:
                         Text('가입 완료', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))),

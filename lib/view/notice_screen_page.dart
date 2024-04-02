@@ -7,7 +7,7 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 
-const html_article_view_url = 'https://pub.dev';
+const html_article_view_url = 'https://fccollege.inha.ac.kr/bbs/fccollege/2039/105069/artclView.do';
 class notice_screen_page extends StatefulWidget {
   const notice_screen_page({super.key});
 
@@ -82,7 +82,7 @@ Page resource error:
           );
         },
       )
-      ..loadRequest(Uri.parse('$html_article_view_url'));
+      ..loadRequest(Uri.parse(html_article_view_url));
 
     // #docregion platform_features
     if (controller.platform is AndroidWebViewController) {
@@ -127,8 +127,7 @@ Page resource error:
                   ),
                   child: Text('대학원'),
                 ),
-                SizedBox(
-                  //화면에 완전 꽉차게 하면, 마우스 커서가 web이 아닌 화면으로 focus되어서 다시 설정해줘야합니다.
+                Container(
                   height: 638,
                   child: Center(
                     child: WebViewWidget(
