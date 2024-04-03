@@ -10,7 +10,7 @@ import '../class/api_url.dart';
 //return 값
 //1 : refresh-token으로부터 새로운 token을 정상적으로 받음 -> 이후 다시 api요청
 //2 : refresh-token으로부터 새로운 token을 정상적으로 받지 "못함" -> 초기 로그인 화면
-Future<int> refreshToken() async {
+Future<bool> refreshToken() async {
   GoogleSignIn _googleSignIn = GoogleSignIn();
   CurrentToken _currentToken = CurrentToken();
   // Mock API endpoint for demonstration
@@ -36,14 +36,14 @@ Future<int> refreshToken() async {
           if (jsonData['isSuccess'] == false) {
             //원래 연결되어 있던 구글 계정을 로그아웃시킴
             _googleSignIn.signOut();
-            return 2;
+            return false;
           }
           //refresh-token이 유효할때
           else {
             //각각의 Token을 저장함.
             _currentToken.changeAccessToken(jsonData['result']['accessToken']);
             _currentToken.changeRefreshToken(jsonData['result']['refreshToken']);
-            return 1;
+            return true;
           }
         } else {
           // Handle error response from backend
@@ -57,5 +57,5 @@ Future<int> refreshToken() async {
     print('Error sending token to refresh-backend: $error2');
     // Handle network or server errors
   }
-  return 2;
+  return false;
 }

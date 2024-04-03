@@ -33,9 +33,9 @@ Future<List<Lecture>?> fetchData(String department, String lecture_name) async {
       Map jsonData = (jsonDecode(utf8.decode(response.bodyBytes)));
       //accessToken이 유효하지 않음.
       if(jsonData['isSuccess'] == false) {
-        int refreshTokenResult = await refreshToken();
+        bool refreshTokenResult = await refreshToken();
         //token을 새롭게 받아옴
-        if(refreshTokenResult==1) {
+        if(refreshTokenResult==true) {
           headers = {
             'accept' : 'application/json',
             'Authorization' : 'Bearer ' + _currentToken.getAccessToken(),

@@ -418,22 +418,25 @@ class _register_screen_terms_and_conditionState extends State<register_screen_te
     String apiUrl = ApiUrl.apiUrl + '/api/v1/auth/join';
     print(apiUrl);
     var url = Uri.parse(apiUrl);
-    Map body = {
+    String requestBody = jsonEncode({
       "authId": _currentToken.getAuthId(),
       "email": _currentToken.getAuthEmail(),
       "name": _apiName,
       "grade": _apiGrade,
       "major": _apiMajor
-    };
-    print(body);
+    });
+    print(requestBody);
+    //null이 맞는 상황, Token이 아직 발급 안된 상태
+    print(_currentToken.getAccessToken());
     try {
       //login에 authId를 보내서 token이 정상적으로 오는지 확인함.
       var response = await http.post(
         url,
         headers: {
-          'Authorization' : 'Bearer ' + _currentToken.getAccessToken()
+          'accept' : 'application/json',
+          'Content-Type' : 'application/json',
         },
-        body: body
+        body: requestBody,
       );
 
       print('Token sent to join-backend successfully');
@@ -445,8 +448,11 @@ class _register_screen_terms_and_conditionState extends State<register_screen_te
             (jsonDecode(utf8.decode(response.bodyBytes)));
         //해당 authId가 서버에 없음 = 회원가입이 안된 상태
         if (jsonData['isSuccess'] == true) {
+          _currentToken.changeAccessToken(jsonData['result']['accessToken']);
+          _currentToken.changeRefreshToken(jsonData['result']['refreshToken']);
           print('true');
           return true;
+          //이건 음.. 형식이 잘못되거나 어떠한 오류로 문제가 생김 -> 가입완료 창으로 안넘어감
         } else {
           print('false');
           return false;
@@ -519,7 +525,8 @@ class _register_screen_terms_and_conditionState extends State<register_screen_te
                           MaterialStatePropertyAll(Colors.blueAccent),
                         ),
                         onPressed: () async {
-                            if(await registerApi()==true) {
+                          bool registerResult = await registerApi();
+                            if(registerResult==true) {
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 PageTransition(
