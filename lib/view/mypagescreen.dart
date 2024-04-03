@@ -7,6 +7,10 @@ import 'package:myapp/view/mypagescreen_point.dart';
 import 'package:myapp/view/mypagescreen_setting.dart';
 
 class mypage_screen extends StatefulWidget {
+  final String jwt;
+
+  const mypage_screen({required this.jwt});
+
   @override
   State<mypage_screen> createState() => _mypage_screenState();
 }

@@ -10,7 +10,9 @@ import '../component/fetch_data.dart';
 import 'evaluate_search_screen.dart';
 
 class evaluate_screen extends StatefulWidget {
-  const evaluate_screen({super.key});
+  final String jwt;
+
+  const evaluate_screen({required this.jwt});
 
   @override
   State<evaluate_screen> createState() => _evalute_screenState();
@@ -421,9 +423,8 @@ class _evalute_screenState extends State<evaluate_screen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) =>
-                                  evaluate_search_screen(
-                                      lecture_list: _lecture_list)));
+                              builder: (_) => evaluate_search_screen(
+                                  lecture_list: _lecture_list)));
                     });
                   },
                   icon: Icon(
@@ -447,8 +448,7 @@ class _evalute_screenState extends State<evaluate_screen> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                          )
-                      ),
+                          )),
                     ],
                   ),
                 ),
@@ -469,7 +469,8 @@ class _evalute_screenState extends State<evaluate_screen> {
                     },
                     itemCount: _recent_evaluate_data.length - 1,
                   ),
-                ), /*
+                ),
+                /*
                 TextButton(
                   onPressed: () {
                     Navigator.push(
@@ -523,7 +524,6 @@ class _evalute_screenState extends State<evaluate_screen> {
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 }
