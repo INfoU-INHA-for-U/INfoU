@@ -169,6 +169,7 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
     return Row(
       children: [
         Card(
+          color: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -176,10 +177,16 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Text(classLevel + ' '),
-                Text(detail + '  '),
                 Container(
-                  width: 200, // 가로 바의 일정한 길이
+                  width: MediaQuery.of(context).size.width/7,
+                  child: Text(classLevel + ' '),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width/7,
+                  child: Text(detail + ' '),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width/1000*464-10, // 가로 바의 일정한 길이
                   height: 20,
                   decoration: BoxDecoration(
                     color: Colors.grey.shade300, // 내부 바의 색상
@@ -288,153 +295,156 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
             )),
       ]),
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    MediaQuery.of(context).size.width * 0.1, 0, 10, 5),
-                child: Row(
-                  children: [
-                    const Text('과목      ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                        )),
-                    Text(_data[0],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        )),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    MediaQuery.of(context).size.width * 0.1, 0, 10, 5),
-                child: Row(
-                  children: [
-                    const Text('교수     ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                        )),
-                    Text(_data[1],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        )),
-                  ],
-                ),
-              ),
-              HeaderNoDetail(header_name: '나와 비슷한 사용자가 많이 조회한 강의평'),
-              Container(
-                height: 200,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                        padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(15)),
-                          height: 140,
-                          child: _recent_evaluate_widget(index),
-                        ));
-                  },
-                  itemCount: _recent_evaluate_data.length,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    MediaQuery.of(context).size.width * 0.05, 10, 20, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(5, (index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              // 별을 누를 때마다 현재 탭한 별까지의 별점을 업데이트
-                              _rating = index + 1;
-                            });
-                          },
-                          child: Image.asset(
-                            index < _rating
-                                ? 'assets/images/gold_star.png'
-                                : 'assets/images/grey_star.png',
-                            width: 35,
-                            height: 20,
-                          ),
-                        );
-                      }),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      '$_rating', // 현재 선택된 별점을 텍스트로 표시
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      ' / 5.0', // 현재 선택된 별점을 텍스트로 표시
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.normal),
-                    ),
-                  ],
-                ),
-              ),
-              percent_bar('강의력', '만족해요', 60),
-              percent_bar('수강학년', '1학년', 90),
-              percent_bar('난이도', '쉬워요 😊', 90),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(children: [
-                    Text('강의력'),
-                    Text('만족도'),
-                    Text('난이도'),
-                  ]),
-                  Row(
+        child: Container(
+          color: Colors.white,
+          child: Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width * 0.1, 0, 10, 5),
+                  child: Row(
                     children: [
-                      IconButton(onPressed: () => {}, icon: Icon(Icons.list)),
-                      Text('오름차순'),
+                      const Text('과목      ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                          )),
+                      Text(_data[0],
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                          )),
                     ],
                   ),
-                ],
-              ),
-              Container(
-                height: 200,
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return Padding(
-                        padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white10,
-                              borderRadius: BorderRadius.circular(15)),
-                          height: 140,
-                          child: class_detail(index),
-                        ));
-                  },
-                  itemCount: _class_info_detail.length,
                 ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const EvaluateScreenWrite()));
-                },
-                child: Text('평가 작성하기',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width * 0.1, 0, 10, 5),
+                  child: Row(
+                    children: [
+                      const Text('교수     ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                          )),
+                      Text(_data[1],
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                          )),
+                    ],
+                  ),
+                ),
+                HeaderNoDetail(header_name: '나와 비슷한 사용자가 많이 조회한 강의평'),
+                Container(
+                  height: 200,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                          padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(15)),
+                            height: 140,
+                            child: _recent_evaluate_widget(index),
+                          ));
+                    },
+                    itemCount: _recent_evaluate_data.length,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width * 0.05, 10, 20, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(5, (index) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                // 별을 누를 때마다 현재 탭한 별까지의 별점을 업데이트
+                                _rating = index + 1;
+                              });
+                            },
+                            child: Image.asset(
+                              index < _rating
+                                  ? 'assets/images/gold_star.png'
+                                  : 'assets/images/grey_star.png',
+                              width: 35,
+                              height: 20,
+                            ),
+                          );
+                        }),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        '$_rating', // 현재 선택된 별점을 텍스트로 표시
+                        style:
+                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        ' / 5.0', // 현재 선택된 별점을 텍스트로 표시
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.normal),
+                      ),
+                    ],
+                  ),
+                ),
+                percent_bar('강의력', '만족해요', 60),
+                percent_bar('수강학년', '1학년', 90),
+                percent_bar('난이도', '쉬워요 😊', 90),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(children: [
+                      Text('강의력'),
+                      Text('만족도'),
+                      Text('난이도'),
+                    ]),
+                    Row(
+                      children: [
+                        IconButton(onPressed: () => {}, icon: Icon(Icons.list)),
+                        Text('오름차순'),
+                      ],
+                    ),
+                  ],
+                ),
+                Container(
+                  height: 200,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return Padding(
+                          padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white10,
+                                borderRadius: BorderRadius.circular(15)),
+                            height: 140,
+                            child: class_detail(index),
+                          ));
+                    },
+                    itemCount: _class_info_detail.length,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EvaluateScreenWrite(lectureName: '', professorName: '', department: '', academicNumber: '',)));
+                  },
+                  child: Text('평가 작성하기',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+              ],
+            ),
           ),
         ),
       ),

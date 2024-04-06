@@ -101,8 +101,7 @@ Future<List<InfouSearch>> getDataInfouRecommend(Map<dynamic,dynamic> pageable) a
   }
 }
 
-Future<List<InfouSearch>> getDataInfouRecent(String keyword,
-    String condition,
+Future<List<InfouSearch>> getDataInfouRecent(
     Map<dynamic,dynamic> pageable) async {
 
   CurrentToken _currentToken = CurrentToken();
@@ -149,14 +148,12 @@ Future<List<InfouSearch>> getDataInfouRecent(String keyword,
 }
 
 Future<List<InfouSearch>> getDataInfouPopular(
-    String keyword,
-    String condition,
     Map<dynamic,dynamic> pageable) async {
 
   CurrentToken _currentToken = CurrentToken();
   String decodeUrl = ApiUrl.apiUrl
-      + '/api/v1/infou/popular?keyword=$keyword&condition=$condition'
-      + '&page=' + pageable['page']
+      + '/api/v1/infou/popular?'
+      + 'page=' + pageable['page']
       + '&size=' + pageable['size']
       + '&sort=' + pageable['sort'][0];
   String _fetch_url = Uri.encodeFull(decodeUrl);
@@ -196,10 +193,7 @@ Future<List<InfouSearch>> getDataInfouPopular(
   }
 }
 
-Future<List<InfouSearch>> getDataInfouDetail(
-    String keyword,
-    String condition,
-    Map<dynamic,dynamic> pageable) async {
+Future<List<InfouSearch>> getDataInfouDetail() async {
 
   CurrentToken _currentToken = CurrentToken();
   String decodeUrl = ApiUrl.apiUrl
@@ -332,11 +326,12 @@ Future<bool> postDataInfou(
         Map jsonData = (jsonDecode(utf8.decode(response.bodyBytes)));
         if (jsonData['isSuccess'] == true) {
           print("강의평 등록 되었습니다.");
+          return true;
         } else {
           print("강의평 등록이 오류로 처리 되지 않았습니다");
         }
       }
-      //token 유효하지 않습니다.
+      //access token 유효하지 않습니다.
       else if (response.statusCode == 403) {
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.

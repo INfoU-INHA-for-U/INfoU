@@ -2,13 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_android/webview_flutter_android.dart';
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
-
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:http/http.dart' as http;
+import 'package:html/parser.dart' as htmlParser;
 
 const html_article_view_url = 'https://fccollege.inha.ac.kr/bbs/fccollege/2039/105069/artclView.do';
 class notice_screen_page extends StatefulWidget {
+
   const notice_screen_page({super.key});
 
   @override
@@ -17,86 +17,45 @@ class notice_screen_page extends StatefulWidget {
 
 class _notice_screen_pageState extends State<notice_screen_page> {
 
-  late final WebViewController _controller;
+  String _divContent='';
+  String _apiDivContent='';
+
+  String? url;
 
   @override
   void initState() {
     super.initState();
+    //여기서 api로부터 div불러와야함.
+    //_apiDivContent = api함수
+    _fetchHtmlContent().then((value) => _divContent = '<div class="artclView">' + _divContent + '</div>');
+  }
 
-    // #docregion platform_features
-    late final PlatformWebViewControllerCreationParams params;
-    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
-      params = WebKitWebViewControllerCreationParams(
-        allowsInlineMediaPlayback: true,
-        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
-      );
-    } else {
-      params = const PlatformWebViewControllerCreationParams();
+  //홈페이지 자체에서 불러오는 과정
+  Future<void> _fetchHtmlContent() async {
+    try {
+      final response = await http.get(Uri.parse(url!));
+      if (response.statusCode == 200) {
+        final document = htmlParser.parse(response.body);
+        final elements = document.querySelectorAll('.artclView');
+        if (elements.isNotEmpty) {
+          setState(() {
+            _divContent = elements.first.innerHtml;
+          });
+          print(_divContent.length.toString());
+          print(_divContent.trim());
+        }
+      } else {
+        throw Exception('Failed to load HTML content');
+      }
+    } catch (e) {
+      print('Error fetching HTML content: $e');
     }
-
-    final WebViewController controller =
-    WebViewController.fromPlatformCreationParams(params);
-    // #enddocregion platform_features
-
-    controller
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (int progress) {
-            debugPrint('WebView is loading (progress : $progress%)');
-          },
-          onPageStarted: (String url) {
-            debugPrint('Page started loading: $url');
-          },
-          onPageFinished: (String url) {
-            debugPrint('Page finished loading: $url');
-          },
-          onWebResourceError: (WebResourceError error) {
-            debugPrint('''
-Page resource error:
-  code: ${error.errorCode}
-  description: ${error.description}
-  errorType: ${error.errorType}
-  isForMainFrame: ${error.isForMainFrame}
-          ''');
-          },
-          onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith(html_article_view_url)) {
-              debugPrint('blocking navigation to ${request.url}');
-              return NavigationDecision.prevent;
-            }
-            debugPrint('allowing navigation to ${request.url}');
-            return NavigationDecision.navigate;
-          },
-          onUrlChange: (UrlChange change) {
-            debugPrint('url change to ${change.url}');
-          },
-        ),
-      )
-      ..addJavaScriptChannel(
-        'Toaster',
-        onMessageReceived: (JavaScriptMessage message) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(message.message)),
-          );
-        },
-      )
-      ..loadRequest(Uri.parse(html_article_view_url));
-
-    // #docregion platform_features
-    if (controller.platform is AndroidWebViewController) {
-      AndroidWebViewController.enableDebugging(true);
-      (controller.platform as AndroidWebViewController)
-          .setMediaPlaybackRequiresUserGesture(false);
-    }
-    // #enddocregion platform_features
-
-    _controller = controller;
   }
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       appBar: AppBar(
           scrolledUnderElevation: 0,
@@ -127,13 +86,18 @@ Page resource error:
                   ),
                   child: Text('대학원'),
                 ),
+                _divContent.trim() == _apiDivContent.trim() ?
                 Container(
                   height: 638,
+                  child: HtmlWidget(
+                    _divContent,
+                  )
+                ) :
+                Container(
+                    height: 638,
                   child: Center(
-                    child: WebViewWidget(
-                      controller: _controller,
-                    ),
-                  ),
+                    child: Text('Fail to load html content.', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),)
+                  )
                 )
               ],
             )

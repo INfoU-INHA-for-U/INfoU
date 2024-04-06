@@ -55,40 +55,39 @@ class _splash_screenState extends State<splash_screen> {
     print(apiUrl);
     print(authId);
     var url = Uri.parse(apiUrl);
-
+    String requestBody = jsonEncode({
+      "authId": authId
+    });
     try {
       //login에 authId를 보내서 token이 정상적으로 오는지 확인함.
       var response = await http.post(
         url,
-        body: {'authId': authId},
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json'
+        },
+        body: requestBody,
       );
-      print('Token sent to backend successfully');
+      print('Token sent to backend successfully in backend');
       if (response.statusCode == 200) {
-        // Handle successful response from backend
-        print('Response data: ${utf8.decode(response.bodyBytes)}');
-        try {
-          if (response.statusCode == 200) {
-            Map<String, dynamic> jsonData = (jsonDecode(utf8.decode(response.bodyBytes)));
-            //해당 authId가 서버에 없음 = 회원가입이 안된 상태
-            if(jsonData['isSuccess'] == false) {
-              //회원가입 페이지로 이동
-              return 2;
-            }
-            //authId가 존재함 = Token이 정상적으로 reponse됨.
-            else {
-              //각각의 Token을 저장함.
-              _currentToken.changeAccessToken(jsonData['result']['accessToken']);
-              _currentToken.changeRefreshToken(jsonData['result']['refreshToken']);
-              return 1;
-            }
-          } else {
-            // Handle error response from backend
-            print('Error sending token to backend: ${response.body}');
-          }
+        Map<String, dynamic> jsonData =
+            (jsonDecode(utf8.decode(response.bodyBytes)));
+        //해당 authId가 서버에 없음 = 회원가입이 안된 상태
+        if (jsonData['isSuccess'] == false) {
+          //회원가입 페이지로 이동
+          return 2;
         }
-        catch (error) {
-          print(error);
+        //authId가 존재함 = Token이 정상적으로 reponse됨.
+        else {
+          print("succeess");
+          //각각의 Token을 저장함.
+          _currentToken.changeAccessToken(jsonData['result']['accessToken']);
+          _currentToken.changeRefreshToken(jsonData['result']['refreshToken']);
+          return 1;
         }
+      } else {
+        // Handle error response from backend
+        print('Error sending token to backend: ${response.body}');
       }
     } catch (error2) {
       print('Error sending token to backend: $error2');
