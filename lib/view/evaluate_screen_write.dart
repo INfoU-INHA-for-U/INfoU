@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/component/fetch_data_infou.dart';
+import 'package:myapp/view/beginning_login_screen.dart';
 import 'package:myapp/widget/header_no_detail.dart';
 import 'package:myapp/widget/horizontal_select.dart';
+import 'package:page_transition/page_transition.dart';
+
+import '../main.dart';
+import '../splash_screen/splash_screen.dart';
 
 class EvaluateScreenWrite extends StatefulWidget {
   final String lectureName;
@@ -45,11 +50,16 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
     _professorName = widget.professorName;
     _department = widget.department;
     _lectureType = widget.lectureType;
+    _grade = '1학년';
+    _level = '쉬워요 😀';
+    _skill = '만족해요 😀';
+    _semester = '202302';
+    _score = 0;
   }
 
   @override
   Widget build(BuildContext context) {
-    _purposeIndex = 1;
+    _purposeIndex = 0;
     _purposeValue = '1';
 
     return GestureDetector(
@@ -261,9 +271,40 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    postDataInfou(_lectureName!, _lectureType!, _department!, _semester!, _professorName!, _academicNumber!, _grade!, _skill!, _level!, _score!, _review!);
-                    _showReviewSubmittedDialog(context);
+                  onPressed: () async {
+                    if(_review!.length >= 30 && _review!.length <=1000) {
+                      print(_lectureName);
+                      print(_lectureType);
+                      print(_department);
+                      print(_semester); //
+                      print(_professorName);
+                      print(_academicNumber);
+                      print(_grade); //
+                      print(_skill); //
+                      print(_level); //
+                      print(_score.toString());
+                      print(_review);
+                      bool post_data_infou_result = await postDataInfou(
+                          _lectureName!,
+                          _lectureType!,
+                          _department!,
+                          _semester!,
+                          _professorName!,
+                          _academicNumber!,
+                          _grade!,
+                          _skill!,
+                          _level!,
+                          _score!.toDouble(),
+                          _review!);
+                      //refresh-token이 유효하지 않을떄
+                      if (post_data_infou_result == false) {
+                        Navigator.popUntil(context, ModalRoute.withName("/"));
+                      }
+                    }
+                    else {
+                      _showReviewSubmittedDialog(context, '리뷰는 30자 이상 1000자 이하여야 등록됩니다');
+                    }
+                    _showReviewSubmittedDialog(context, '강의평이 등록되었습니다');
                     Navigator.pop(context);
                   },
                   child:
@@ -278,13 +319,13 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
   }
 }
 
-void _showReviewSubmittedDialog(BuildContext context) {
+void _showReviewSubmittedDialog(BuildContext context, String _text) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('알림'),
-        content: Text('강의평이 등록되었습니다.'),
+        content: Text(_text),
         actions: [
           TextButton(
             onPressed: () {

@@ -433,200 +433,218 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
               color: Colors.black54,
             )),
       ]),
-      body: SingleChildScrollView(
-        child: FutureBuilder(
-          future: Future(() async {
-            _lecture_list = await getDataInfouDetails(
-               _academicNumber,
-               _professorName,
-              {
-                'page' : 0,
-                'size' : 50,
-                'sort' : [
-                  'score,desc'
-                ]
-              }
-            );
-            //강의력 계산
-            calcSkill();
-            //수강학년 계산
-            calcGrade();
-            //난이도 계산
-            calcLevel();
-          },),
-          builder: (context, snapshot) {
-            if(_lecture_list != []) {
-              return Container(
-              color: Colors.white,
-              child: Center(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.1, 0, 10, 5),
-                      child: Row(
-                        children: [
-                          const Text('과목      ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                              )),
-                          Text(_lectureName,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                              )),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.1, 0, 10, 5),
-                      child: Row(
-                        children: [
-                          const Text('교수     ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                              )),
-                          Text(_professorName,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                              )),
-                        ],
-                      ),
-                    ),
-                    HeaderNoDetail(header_name: '나와 비슷한 사용자가 많이 조회한 강의평'),
-                    Container(
-                      height: 200,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                              padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.grey.shade200,
-                                    borderRadius: BorderRadius.circular(15)),
-                                height: 140,
-                                child: _recent_evaluate_widget(index),
-                              ));
-                        },
-                        itemCount: _recent_evaluate_data.length,
-                      ),
-                    ),
-                    //..? 이상하게 짜놓은거 같은데..ㅎㅎㅎ..
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.05, 10, 20, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(5, (index) {
-                              return
-                                Image.asset(
-                                  index < calcScore().floor()
-                                      ? 'assets/images/gold_star.png'
-                                      : 'assets/images/grey_star.png',
-                                  width: 35,
-                                  height: 20,
-                                );
-                            }),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            calcScore().toString(), // 현재 선택된 별점을 텍스트로 표시
-                            style:
-                            TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            ' / 5.0', // 현재 선택된 별점을 텍스트로 표시
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.normal),
-                          ),
-                        ],
-                      ),
-                    ),
-                    percent_bar('강의력', _skill_data, _skill_data_rate),
-                    percent_bar('수강학년', _grade_data, _grade_data_rate),
-                    percent_bar('난이도', _level_data, _level_data_rate),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(children: [
-                          Text('강의력'),
-                          Text('만족도'),
-                          Text('난이도'),
-                        ]),
-                        Row(
-                          //로직도 구현이 안되어 있네요..ㅎㅎ..
+      body: Container(
+        child: SingleChildScrollView(
+          child: FutureBuilder(
+            future: Future(() async {
+              _lecture_list = await getDataInfouDetails(
+                 _academicNumber,
+                 _professorName,
+                {
+                  'page' : 0,
+                  'size' : 50,
+                  'sort' : [
+                    'score,desc'
+                  ]
+                }
+              );
+              //await Future.delayed(Duration(seconds: 10));
+              return 0;
+            },),
+            builder: (context, snapshot) {
+              if(snapshot.hasData && _lecture_list!=null && _lecture_list != []) {
+                //강의력 계산
+                calcSkill();
+                //수강학년 계산
+                calcGrade();
+                //난이도 계산
+                calcLevel();
+                return Container(
+                color: Colors.white,
+                child: Center(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.1, 0, 10, 5),
+                        child: Row(
                           children: [
-                            IconButton(
-                                onPressed: () => {}, icon: Icon(Icons.list)),
-                            Text('오름차순'),
+                            const Text('과목      ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                )),
+                            Text(_lectureName,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                )),
                           ],
                         ),
-                      ],
-                    ),
-                    Container(
-                      height: 200,
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return Padding(
-                              padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white10,
-                                    borderRadius: BorderRadius.circular(15)),
-                                height: 140,
-                                child: class_detail(index),
-                              ));
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.1, 0, 10, 5),
+                        child: Row(
+                          children: [
+                            const Text('교수     ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                )),
+                            Text(_professorName,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                )),
+                          ],
+                        ),
+                      ),
+                      HeaderNoDetail(header_name: '나와 비슷한 사용자가 많이 조회한 강의평'),
+                      Container(
+                        height: 200,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                                padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  height: 140,
+                                  child: _recent_evaluate_widget(index),
+                                ));
+                          },
+                          itemCount: _recent_evaluate_data.length,
+                        ),
+                      ),
+                      //..? 이상하게 짜놓은거 같은데..ㅎㅎㅎ..
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.05, 10, 20, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(5, (index) {
+                                return
+                                  Image.asset(
+                                    index < calcScore().floor()
+                                        ? 'assets/images/gold_star.png'
+                                        : 'assets/images/grey_star.png',
+                                    width: 35,
+                                    height: 20,
+                                  );
+                              }),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              calcScore().toString(), // 현재 선택된 별점을 텍스트로 표시
+                              style:
+                              TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              ' / 5.0', // 현재 선택된 별점을 텍스트로 표시
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.normal),
+                            ),
+                          ],
+                        ),
+                      ),
+                      percent_bar('강의력', _skill_data, _skill_data_rate),
+                      percent_bar('수강학년', _grade_data, _grade_data_rate),
+                      percent_bar('난이도', _level_data, _level_data_rate),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(children: [
+                            Text('강의력'),
+                            Text('만족도'),
+                            Text('난이도'),
+                          ]),
+                          Row(
+                            //로직도 구현이 안되어 있네요..ㅎㅎ..
+                            children: [
+                              IconButton(
+                                  onPressed: () => {}, icon: Icon(Icons.list)),
+                              Text('오름차순'),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 200,
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return Padding(
+                                padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white10,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  height: 140,
+                                  child: class_detail(index),
+                                ));
+                          },
+                          itemCount: _lecture_list.length,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  child: EvaluateScreenWrite(
+                                    professorName: _professorName,
+                                    lectureName: _lectureName,
+                                    academicNumber: _academicNumber,
+                                    lectureType: _lectureType,
+                                    department: _department,
+                                  ),
+                                  type: PageTransitionType.fade));
                         },
-                        itemCount: _lecture_list.length,
+                        child: Text('평가 작성하기',
+                            style: TextStyle(fontWeight: FontWeight.bold)
+                        ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                child: EvaluateScreenWrite(
-                                  professorName: _professorName,
-                                  lectureName: _lectureName,
-                                  academicNumber: _academicNumber,
-                                  lectureType: _lectureType,
-                                  department: _department,
-                                ),
-                                type: PageTransitionType.fade));
-                      },
-                      child: Text('평가 작성하기',
-                          style: TextStyle(fontWeight: FontWeight.bold)
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            );
+              );
+              }
+              else if(snapshot.connectionState == ConnectionState.waiting){
+                return Container(
+                  color: Colors.white,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                    ],
+                  )
+                );
+              }
+              else {
+                return Center(child: Text('No data available'));
+              }
             }
-            else {
-              return CircularProgressIndicator();
-            }
-          }
+          ),
         ),
       ),
     );

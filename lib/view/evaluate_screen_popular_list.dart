@@ -4,8 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../class/infou_search.dart';
+import '../class/trash_data.dart';
 import '../component/announce_tag.dart';
 import '../component/fetch_data_infou.dart';
+import 'beginning_login_screen.dart';
 import 'evaluate_screen_detail.dart';
 
 class evaluate_screen_popular_list extends StatefulWidget {
@@ -196,13 +198,17 @@ class evaluate_screen_popular_listState
                       _lecture_list = await getDataInfouPopular(
                       {'page': 0, 'size': 20, 'sort': []});
                     } else {
+                      //오름차순은 sort에 뭘 집어 넣어야하나요..
                       _lecture_list = await getDataInfouPopular(
                           {'page': 0, 'size': 20, 'sort': []});
                     }
+                    if(_lecture_list == [AA.aa])
+                      return 1;
+                    else
+                      return 2;
                     },
                 ), builder: (context, snapshot) {
-                  if(_lecture_list!=null) {
-
+                  if(snapshot.hasData && snapshot.data == 2) {
                     return Container(
                         padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: ListView.separated(
@@ -233,11 +239,32 @@ class evaluate_screen_popular_listState
                             itemCount: _lecture_list.length
                         )
                     );
+                  }else if(snapshot.hasData && snapshot.data == 1) {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                            child: beginning_login_screen(),
+                            type: PageTransitionType.fade),
+                            (route) => false);
+                    return Container();
                   }
-                  else
-                    {
-                      return CircularProgressIndicator();
-                    }
+                  else if(snapshot.connectionState == ConnectionState.waiting){
+                    return Container(
+                        color: Colors.white,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                          ],
+                        )
+                    );
+                  }
+                  else {
+                    return Center(child: Text('No data available'));
+                  }
               }),
             ),
           ],

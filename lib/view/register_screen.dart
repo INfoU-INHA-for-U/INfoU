@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/view/beginning_login_screen.dart';
 import 'package:page_transition/page_transition.dart';
@@ -22,6 +23,8 @@ List<String> page_name = [
 
 int page_index = 1;
 */
+
+
 
 //맨 처음 닉네임을 결정하는 창에서 userAuthId를 받아오고 저장함.
 //이 값은 현재 .dart파일 두개 이상의 widget에서 공용적으로 사용하는부분이기에 현재 위치에서 선언함.

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/component/refresh_token.dart';
 
@@ -8,6 +9,8 @@ import '../class/infou_search.dart';
 import '../class/trash_data.dart';
 
 
+
+GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email','openid']);
 
 Future<List<InfouSearch>> getDataInfouSearch(
     String keyword,
@@ -38,13 +41,14 @@ Future<List<InfouSearch>> getDataInfouSearch(
         List<InfouSearch> _infouSearch =
             _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
         return _infouSearch;
-      } else if (response.statusCode == 403) {
+      } else if (_currentToken.getAccessToken()!=null) {
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
           print('refresh-token이 유효하지 않습니다.');
           //똥값 보내고 이거 판단해서 초기 로그인 화면으로 이동하면 됨.
-          return [];
+          _googleSignIn.disconnect();
+          return [AA.aa];
         } else {
           print('새로운 token을 발급받았습니다');
         }
@@ -84,13 +88,14 @@ Future<List<InfouSearch>> getDataInfouRecommend(Map<dynamic,dynamic> pageable) a
         List<InfouSearch> _infouSearch =
             _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
         return _infouSearch;
-      } else if (response.statusCode == 403) {
+      } else if (_currentToken.getAccessToken()!=null){
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
           print('refresh-token이 유효하지 않습니다.');
           //똥값 보내고 이거 판단해서 초기 로그인 화면으로 이동하면 됨.
-          return [];
+          _googleSignIn.disconnect();
+          return [AA.aa];
         } else {
           print('새로운 token을 발급받았습니다');
         }
@@ -132,12 +137,13 @@ Future<List<InfouSearch>> getDataInfouRecent(
         List<InfouSearch> _infouSearch =
             _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
         return _infouSearch;
-      } else if (_currentToken.getAccessToken()!=null) {
+      } else if (_currentToken.getAccessToken()!=null){
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
           print('refresh-token이 유효하지 않습니다.');
           //똥값 보내고 이거 판단해서 초기 로그인 화면으로 이동하면 됨.
+          _googleSignIn.disconnect();
           return [AA.aa];
         } else {
           print('새로운 token을 발급받았습니다');
@@ -199,7 +205,8 @@ Future<List<InfouSearch>> getDataInfouPopular(
         if (_refresh_token_result == false) {
           print('refresh-token이 유효하지 않습니다.');
           //똥값 보내고 이거 판단해서 초기 로그인 화면으로 이동하면 됨.
-          return [];
+          _googleSignIn.disconnect();
+          return [AA.aa];
         } else {
           print('새로운 token을 발급받았습니다');
         }
@@ -242,7 +249,8 @@ Future<List<InfouSearch>> getDataInfouDetail() async {
         if (_refresh_token_result == false) {
           print('refresh-token이 유효하지 않습니다.');
           //똥값 보내고 이거 판단해서 초기 로그인 화면으로 이동하면 됨.
-          return [];
+          _googleSignIn.disconnect();
+          return [AA.aa];
         } else {
           print('새로운 token을 발급받았습니다');
         }
@@ -284,13 +292,14 @@ Future<List<InfouSearch>> getDataInfouDetails(
             _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
         print(_infouSearch);
         return _infouSearch;
-      } else if (response.statusCode == 403) {
+      } else if (_currentToken.getAccessToken()!=null) {
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
           print('refresh-token이 유효하지 않습니다.');
           //똥값 보내고 이거 판단해서 초기 로그인 화면으로 이동하면 됨.
-          return [];
+          _googleSignIn.disconnect();
+          return [AA.aa];
         } else {
           print('새로운 token을 발급받았습니다');
         }
@@ -312,7 +321,7 @@ Future<bool> postDataInfou(
     String grade,
     String skill,
     String level,
-    int score,
+    double score,
     String review) async {
 
   CurrentToken _currentToken = CurrentToken();
@@ -336,13 +345,15 @@ Future<bool> postDataInfou(
     try {
       var headers = {
         'accept': 'application/json',
-        'Authorization': 'Bearer ' + _currentToken.getAccessToken()
+        'Authorization': 'Bearer ' + _currentToken.getAccessToken(),
+        'Content-Type': 'application/json',
       };
       var response = await http.post(url, headers: headers, body: requestBody);
       print('Response data: ${utf8.decode(response.bodyBytes)}');
       //서버통신 성공
-      if (response.statusCode == 200) {
-        Map jsonData = (jsonDecode(utf8.decode(response.bodyBytes)));
+      Map jsonData = (jsonDecode(utf8.decode(response.bodyBytes)));
+      if (jsonData['isSuccess'] == true) {
+        print("됐나?");
         if (jsonData['isSuccess'] == true) {
           print("강의평 등록 되었습니다.");
           return true;
@@ -351,11 +362,12 @@ Future<bool> postDataInfou(
         }
       }
       //access token 유효하지 않습니다.
-      else if (response.statusCode == 403) {
+      else if (_currentToken.getAccessToken()!=null){
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
           print('refresh-token이 유효하지 않습니다.');
+          _googleSignIn.disconnect();
           return false;
         } else {
           print('새로운 token을 발급받았습니다');
