@@ -8,8 +8,9 @@ class EvaluateScreenWrite extends StatefulWidget {
   final String professorName;
   final String department;
   final String academicNumber;
+  final String lectureType;
 
-  const EvaluateScreenWrite({super.key, required this.lectureName, required this.professorName, required this.department, required this.academicNumber});
+  const EvaluateScreenWrite({super.key, required this.lectureName, required this.professorName, required this.department, required this.academicNumber, required this.lectureType});
 
   @override
   State<EvaluateScreenWrite> createState() => _EvaluateScreenWriteState();
@@ -43,6 +44,7 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
     _academicNumber = widget.academicNumber;
     _professorName = widget.professorName;
     _department = widget.department;
+    _lectureType = widget.lectureType;
   }
 
   @override
@@ -85,7 +87,7 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
                           )),
-                      Text(_data[0],
+                      Text(_lectureName!,
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
@@ -103,7 +105,7 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
                           )),
-                      Text(_data[1],
+                      Text(_professorName!,
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
@@ -140,8 +142,9 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
                     onChanged: (idx, value) {
                       _purposeIndex = idx;
                       _purposeValue = value;
-                      _semester = value;
-                      debugPrint('Change to $value');
+                      //value를 api형식에 맞춰 변경해줌
+                      _semester = value.substring(0,4) + '0' + value.substring(6,7);
+                      debugPrint('Change to $_semester');
                     },
                   ),
                 ),
@@ -172,13 +175,7 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
                     onChanged: (idx, value) {
                       _purposeIndex = idx;
                       _purposeValue = value;
-                      if(idx == 0) {
-                        _level = '만족해요';
-                      } else if(idx == 1) {
-                        _level = '그저 그래요';
-                      } else if(idx == 2) {
-                        _level = '별로에요';
-                      }
+                      _skill = value;
                       debugPrint('Change to $value');
                     },
                   ),
@@ -194,13 +191,7 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
                     onChanged: (idx, value) {
                       _purposeIndex = idx;
                       _purposeValue = value;
-                      if(idx == 0) {
-                        _level = '쉬워요';
-                      } else if(idx == 1) {
-                        _level = '어렵진 않아요';
-                      } else if(idx == 2) {
-                        _level = '어려워요';
-                      }
+                      _level = value;
                       debugPrint('Change to $value');
                     },
                   ),

@@ -7,7 +7,7 @@ class InfouSearch {
   String academicNumber;
   String skill;
   String level;
-  int score;
+  double score;
   String review;
   int agree;
   int disagree;

@@ -6,6 +6,7 @@ import 'package:myapp/view/evaluate_screen_detail.dart';
 import 'package:myapp/view/evaluate_screen_write.dart';
 import 'package:myapp/class/lecture.dart';
 import 'package:myapp/widget/header.dart';
+import 'package:page_transition/page_transition.dart';
 import '../class/infou_search.dart';
 import '../component/fetch_data.dart';
 import '../component/fetch_data_infou.dart';
@@ -26,34 +27,7 @@ class _evalute_screenState extends State<evaluate_screen> {
     super.initState();
     //새로운 api 형식에 따라 넣어뒀음. class lecture에 하나하나씩 차곡차곡 쌓이게 작업해뒀고,
     //그중 가장 첫번째 데이터를 정리해서 print로 출력하였으니 참고바람.
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _popular_evaluate_data =
-          await getDataInfouPopular({'page': 0, 'size': 3, 'sort': []});
-      _popular_evaluate_data =
-          await getDataInfouRecent({'page': 0, 'size': 2, 'sort': ["timestamp,asc"]});
-      _lecture_list = (await fetchData('데이터베이스', '컴퓨터공학과'))!;
-      setState(() {});
-    });
   }
-
-  InfouSearch aba = InfouSearch(
-    professorName: 'aa',
-    department: 'aa',
-    lectureName: 'aa',
-    semester: 'aa',
-    academicNumber: 'aa',
-    agree: 0,
-    disagree: 0,
-    grade: 'aa',
-    id: 'aa',
-    lectureType: 'aa',
-    level: 'aa',
-    review: 'aa',
-    score: 0,
-    skill: 'aa',
-    timestamp: DateTime(2),
-    userId: 'aa',
-  );
 
   // component/fetch_data에서 가져온 데이터를 return해서 lits를 evaluate_screen에서 받아줌.
   late List<Lecture> _lecture_list;
@@ -66,6 +40,14 @@ class _evalute_screenState extends State<evaluate_screen> {
   List<InfouSearch> _popular_evaluate_data = [];
   List<InfouSearch> _recent_evaluate_data = [];
 
+  String summarize_name(String aa) {
+    if(aa.length > 13)
+      {
+        return aa.substring(0,13) + '...';
+      }
+    else
+      return aa;
+  }
   //최근 강의평 위젯
   Widget _recent_evaluate_widget(int index, List<InfouSearch> _recent_evaluate_data) {
 
@@ -83,7 +65,7 @@ class _evalute_screenState extends State<evaluate_screen> {
                 child: Text(
                     _current_evaluate_data.lectureName +
                         ' [' +
-                        _current_evaluate_data.professorName +
+                        summarize_name(_current_evaluate_data.professorName)+
                         ']',
                     style: TextStyle(fontSize: 15)),
               ),
@@ -119,8 +101,6 @@ class _evalute_screenState extends State<evaluate_screen> {
                           children: [
                             Text(_current_evaluate_data.skill + ' ',
                                 style: TextStyle(fontSize: 14)),
-                            //해당 이미지가 없어서 일단 아이콘으로 대체했습니다.
-                            Icon(Icons.thumb_up_alt_outlined, size: 13)
                           ],
                         ),
                       ),
@@ -138,8 +118,6 @@ class _evalute_screenState extends State<evaluate_screen> {
                             children: [
                               Text(_current_evaluate_data.level + ' ',
                                   style: TextStyle(fontSize: 14)),
-                              //해당 이미지가 없어서 일단 아이콘으로 대체했습니다.
-                              Icon(Icons.thumb_down_alt_outlined, size: 13)
                             ],
                           ),
                         )),
@@ -162,9 +140,6 @@ class _evalute_screenState extends State<evaluate_screen> {
   @override
   Widget build(BuildContext context) {
 
-    _popular_evaluate_data = [aba,aba,aba];
-    _recent_evaluate_data = [aba,aba];
-
     return Scaffold(
         appBar: AppBar(
             scrolledUnderElevation: 0,
@@ -182,10 +157,12 @@ class _evalute_screenState extends State<evaluate_screen> {
                       //업데이트 된 수강 정보를 _lecture_list를 넘겨줌.
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (_) =>
-                                  evaluate_search_screen(
-                                      lecture_list: _lecture_list)));
+                          PageTransition(
+                          type: PageTransitionType.fade,
+                          //많은 수정이 필요할것 같습니다..
+                          child: evaluate_search_screen(lecture_list: _lecture_list)
+                          )
+                      );
                     });
                   },
                   icon: Icon(
@@ -214,34 +191,38 @@ class _evalute_screenState extends State<evaluate_screen> {
                     ],
                   ),
                 ),
-                Container(
-                  height: 260,
-                  child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(15)),
-                            height: 110,
-                            child: _recent_evaluate_widget(index, _recent_evaluate_data),
-                          ));
-                    },
-                    itemCount: _recent_evaluate_data.length,
-                  ),
-                ), /*
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RatingScreenWrite()));
-                  },
-                  child: Text('평가 작성하기',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                ),*/
+                FutureBuilder(
+                  future: Future(() async {
+                    _recent_evaluate_data =
+                        await getDataInfouRecent({'page': 0, 'size': 2, 'sort': ["timestamp,asc"]});
+                  },),
+                    builder: (context, snapshot) {
+                      if (_recent_evaluate_data != null) {
+                        return Container(
+                          height: 260,
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey.shade200,
+                                        borderRadius: BorderRadius.circular(
+                                            15)),
+                                    height: 110,
+                                    child: _recent_evaluate_widget(
+                                        index, _recent_evaluate_data),
+                                  ));
+                            },
+                            itemCount: _recent_evaluate_data.length,
+                          ),
+                        );
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }
+                ),
                 SizedBox(
                   height: 30,
                 ),
@@ -254,7 +235,9 @@ class _evalute_screenState extends State<evaluate_screen> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18)),
                       TextButton(
-                          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => evaluate_screen_popular_list())),
+                          onPressed: () => Navigator.push(context, PageTransition(
+                            type: PageTransitionType.fade,
+                          child: evaluate_screen_popular_list())),
                           child: Text(
                             '더 보기 > ',
                             style: TextStyle(fontWeight: FontWeight.bold),
@@ -263,25 +246,56 @@ class _evalute_screenState extends State<evaluate_screen> {
                     ],
                   ),
                 ),
-                Container(
-                  //여기에 블러 처리 되어있음. 블러 처리 방식도 따로 component형식으로 widget으로 빼놓으면 됨.
-                  //현재는 블러 처리된 widget으로 넣어둠.
-                  height: 400,
-                  child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(15)),
-                            height: 110,
-                            child: _recent_evaluate_widget(index, _popular_evaluate_data),
-                          ));
-                    },
-                    itemCount: _popular_evaluate_data.length,
-                  ),
+                FutureBuilder(
+                  future: Future(() async {
+                    _popular_evaluate_data =
+                        await getDataInfouPopular({'page': 0, 'size': 3, 'sort': []});
+                  },),
+                  builder: (context, snapshot) {
+                    if(_popular_evaluate_data!=null) {
+                      return Container(
+                        //여기에 블러 처리 되어있음. 블러 처리 방식도 따로 component형식으로 widget으로 빼놓으면 됨.
+                        //현재는 블러 처리된 widget으로 넣어둠.
+                        height: 400,
+                        child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    PageTransition(child: EvaluateScreenDetail(
+                                      academicNumber: _popular_evaluate_data[index].academicNumber,
+                                      lectureName: _popular_evaluate_data[index].lectureName,
+                                      professorName: _popular_evaluate_data[index].professorName,
+                                      lectureType: _popular_evaluate_data[index].lectureType,
+                                      department: _popular_evaluate_data[index].department,
+                                    ),
+                                        type: PageTransitionType.fade
+                                    )
+                                );
+                              },
+                              child: Padding(
+                                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey.shade200,
+                                        borderRadius: BorderRadius.circular(15)),
+                                    height: 110,
+                                    child: _recent_evaluate_widget(
+                                        index, _popular_evaluate_data),
+                                  )),
+                            );
+                          },
+                          itemCount: _popular_evaluate_data.length,
+                        ),
+                      );
+                    }
+                    else
+                      {
+                        return CircularProgressIndicator(backgroundColor: Colors.white,);
+                      }
+                  }
                 ),
               ],
             ),

@@ -42,7 +42,9 @@ class _splash_screenState extends State<splash_screen> {
     //이미 회원가입 (= authId로 api에서 token이 불러올수 있는 상태)된 상태인지 확인하기 위해 체크한다.
     print("@#@#@#");
     print("current Sign In state is " + _checkGoogleSign.toString());
-    return await _sendTokenToBackend(_currentToken.getAuthId());
+    //return await _sendTokenToBackend(_currentToken.getAuthId());
+    //임시 authId.
+    return await _sendTokenToBackend('123');
   }
 
   //1 : 구글에 로그인은 되어있고 회원가입도 되어있는 상태

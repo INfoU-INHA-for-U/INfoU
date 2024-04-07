@@ -5,6 +5,7 @@ import 'package:myapp/component/refresh_token.dart';
 import '../class/api_url.dart';
 import '../class/current_token.dart';
 import '../class/infou_search.dart';
+import '../class/trash_data.dart';
 
 
 
@@ -101,15 +102,17 @@ Future<List<InfouSearch>> getDataInfouRecommend(Map<dynamic,dynamic> pageable) a
   }
 }
 
+//-완- refresh 제외
 Future<List<InfouSearch>> getDataInfouRecent(
     Map<dynamic,dynamic> pageable) async {
 
   CurrentToken _currentToken = CurrentToken();
   String decodeUrl = ApiUrl.apiUrl
       + '/api/v1/infou/recent?'
-      + '&page=' + pageable['page']
-      + '&size=' + pageable['size']
+      + '&page=' + pageable['page'].toString()
+      + '&size=' + pageable['size'].toString()
       + '&sort=' + pageable['sort'][0];
+  print(decodeUrl);
   String _fetch_url = Uri.encodeFull(decodeUrl);
   var url = Uri.parse(_fetch_url);
 
@@ -121,21 +124,21 @@ Future<List<InfouSearch>> getDataInfouRecent(
     try {
       var response = await http.get(url, headers: headers);
       print('Response data: ${utf8.decode(response.bodyBytes)}');
+      Map jsonData = (jsonDecode(utf8.decode(response.bodyBytes)));
       //서버통신 성공
       if (response.statusCode == 200) {
-        Map jsonData = (jsonDecode(utf8.decode(response.bodyBytes)));
         List<dynamic> _priorInfouSearch = jsonData['result']['content'];
         //accessToken이 유효하지 않음.
         List<InfouSearch> _infouSearch =
             _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
         return _infouSearch;
-      } else if (response.statusCode == 403) {
+      } else if (_currentToken.getAccessToken()!=null) {
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
           print('refresh-token이 유효하지 않습니다.');
           //똥값 보내고 이거 판단해서 초기 로그인 화면으로 이동하면 됨.
-          return [];
+          return [AA.aa];
         } else {
           print('새로운 token을 발급받았습니다');
         }
@@ -147,15 +150,25 @@ Future<List<InfouSearch>> getDataInfouRecent(
   }
 }
 
+//-완- refresh 제외
 Future<List<InfouSearch>> getDataInfouPopular(
-    Map<dynamic,dynamic> pageable) async {
+    Map<String,dynamic> pageable) async {
 
   CurrentToken _currentToken = CurrentToken();
+  print("11");
+  print(pageable['page'].toString());
+  print(pageable['size'].toString());
+  print(pageable['sort']);
   String decodeUrl = ApiUrl.apiUrl
       + '/api/v1/infou/popular?'
-      + 'page=' + pageable['page']
-      + '&size=' + pageable['size']
-      + '&sort=' + pageable['sort'][0];
+      + 'page=' + pageable['page'].toString()
+      + '&size=' + pageable['size'].toString();
+  if(pageable['sort'].length!=0) {
+    decodeUrl = decodeUrl + '&sort=' + pageable['sort'][0];
+  }
+  print("@@");
+  print(decodeUrl);
+  print('decodeUrl = $decodeUrl');
   String _fetch_url = Uri.encodeFull(decodeUrl);
   var url = Uri.parse(_fetch_url);
   while (true) {
@@ -171,11 +184,16 @@ Future<List<InfouSearch>> getDataInfouPopular(
         Map jsonData = (jsonDecode(utf8.decode(response.bodyBytes)));
         //어떻게 데이터가 생겼나요..?
         List<dynamic> _priorInfouSearch = jsonData['result']['content'];
+        print('_prior = ');
+        print(_priorInfouSearch[0]);
         //accessToken이 유효하지 않음.
-        List<InfouSearch> _infouSearch =
+        print(InfouSearch.fromJson(_priorInfouSearch[0]));
+        List<InfouSearch> infouSearch =
             _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
-        return _infouSearch;
-      } else if (response.statusCode == 403) {
+        print('infouSearch = ');
+        print(infouSearch);
+        return infouSearch;
+      } else if (_currentToken.getAccessToken()!=null) {
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
@@ -190,6 +208,7 @@ Future<List<InfouSearch>> getDataInfouPopular(
       // 네트워크 에러 처리
       print('Exception caught: $e');
     }
+    return [];
   }
 }
 
@@ -197,7 +216,7 @@ Future<List<InfouSearch>> getDataInfouDetail() async {
 
   CurrentToken _currentToken = CurrentToken();
   String decodeUrl = ApiUrl.apiUrl
-      + '/api/v1/infou/detail';
+      + '/api/v1/infou/details';
   String _fetch_url = Uri.encodeFull(decodeUrl);
   var url = Uri.parse(_fetch_url);
 
@@ -217,7 +236,7 @@ Future<List<InfouSearch>> getDataInfouDetail() async {
         List<InfouSearch> _infouSearch =
             _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
         return _infouSearch;
-      } else if (response.statusCode == 403) {
+      } else if (_currentToken.getAccessToken()!=null) {
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
@@ -242,9 +261,9 @@ Future<List<InfouSearch>> getDataInfouDetails(
 
   CurrentToken _currentToken = CurrentToken();
   String decodeUrl = ApiUrl.apiUrl
-      + '/api/v1/infou/search?academicNumber=$academicNumber&professorName=$professorName'
-      + '&page=' + pageable['page']
-      + '&size=' + pageable['size']
+      + '/api/v1/infou/details?academicNumber=$academicNumber&professorName=$professorName'
+      + '&page=' + pageable['page'].toString()
+      + '&size=' + pageable['size'].toString()
       + '&sort=' + pageable['sort'][0];
   String _fetch_url = Uri.encodeFull(decodeUrl);
   var url = Uri.parse(_fetch_url);
@@ -260,10 +279,10 @@ Future<List<InfouSearch>> getDataInfouDetails(
       if (response.statusCode == 200) {
         Map jsonData = (jsonDecode(utf8.decode(response.bodyBytes)));
         //데이터가 어떻게 생겼나요?
-        List<dynamic> _priorInfouSearch = jsonData['result']['content'];
-        //accessToken이 유효하지 않음.
+        List<dynamic> _priorInfouSearch = jsonData['result']['infouDocuments']['content'];
         List<InfouSearch> _infouSearch =
             _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
+        print(_infouSearch);
         return _infouSearch;
       } else if (response.statusCode == 403) {
         bool _refresh_token_result = await refreshToken();
