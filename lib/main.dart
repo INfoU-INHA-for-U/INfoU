@@ -21,6 +21,8 @@ void main() async{
   runApp(MyApp());
 }
 
+// 웹 내에서 작동하는 경우 flutter run -d chrome --web-hostname=127.0.0.1 --web-port=8080
+
 class MyApp extends StatelessWidget {
 
   @override
