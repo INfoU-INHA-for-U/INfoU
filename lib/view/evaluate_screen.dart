@@ -16,9 +16,7 @@ import 'evaluate_screen_popular_list.dart';
 import 'evaluate_search_screen.dart';
 
 class evaluate_screen extends StatefulWidget {
-  final String jwt;
-
-  const evaluate_screen({required this.jwt});
+  const evaluate_screen({super.key});
 
   @override
   State<evaluate_screen> createState() => _evalute_screenState();
@@ -161,7 +159,6 @@ class _evalute_screenState extends State<evaluate_screen> {
                       //업데이트 된 수강 정보를 _lecture_list를 넘겨줌.
                       Navigator.push(
                           context,
-
                           PageTransition(
                           type: PageTransitionType.fade,
                           //많은 수정이 필요할것 같습니다..
@@ -191,7 +188,8 @@ class _evalute_screenState extends State<evaluate_screen> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                          )),
+                          )
+                      ),
                     ],
                   ),
                 ),
@@ -205,7 +203,6 @@ class _evalute_screenState extends State<evaluate_screen> {
                       return 2;
                   },
                   ),
-
                     builder: (context, snapshot) {
                     if (snapshot.hasData && snapshot.data == 2) {
                         return Container(
@@ -374,6 +371,7 @@ class _evalute_screenState extends State<evaluate_screen> {
               ],
             ),
           ),
-        ));
+        )
+    );
   }
 }

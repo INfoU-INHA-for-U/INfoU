@@ -7,9 +7,7 @@ import 'evaluate_search_screen.dart';
 import 'point_screen.dart';
 
 class main_screen extends StatefulWidget {
-  final String jwt;
-
-  const main_screen({required this.jwt});
+  const main_screen({super.key});
 
   @override
   State<main_screen> createState() => _main_screenState();
@@ -18,33 +16,26 @@ class main_screen extends StatefulWidget {
 class _main_screenState extends State<main_screen> {
   late List<GlobalKey<NavigatorState>> _navigatorKeyList;
 
-  late List<Widget> _pages = []; // 페이지 목록을 저장할 변수
+  final _pages = [
+    home_screen(),
+    notice_screen(),
+    evaluate_screen(),
+    //point_screen(), // 현재 포인트 생략 상태
+    mypage_screen(),
+  ];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _updatePages();
-
     _navigatorKeyList =
         List.generate(_pages.length, (index) => GlobalKey<NavigatorState>());
-  }
-
-  void _updatePages() {
-    _pages = [
-      home_screen(jwt: widget.jwt),
-      notice_screen(jwt: widget.jwt),
-      evaluate_screen(jwt: widget.jwt),
-      //point_screen(), // 현재 포인트 생략 상태
-      mypage_screen(jwt: widget.jwt),
-    ];
   }
 
   int _current_index = 0;
 
   @override
   Widget build(BuildContext context) {
-    //sendGetRequest('${widget.jwt}');
     return WillPopScope(
       onWillPop: () async {
         return !(await _navigatorKeyList[_current_index]
