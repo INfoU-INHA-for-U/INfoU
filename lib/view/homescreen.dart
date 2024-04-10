@@ -1,71 +1,41 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/view/notice_screen.dart';
-import 'package:myapp/view/notice_screen_detail.dart';
 import 'package:myapp/widget/home_notice_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-import '../model/notice_response.dart';
 
 class home_screen extends StatefulWidget {
-  final String jwt;
-
-  const home_screen({required this.jwt});
+  const home_screen({super.key});
 
   @override
   State<home_screen> createState() => _home_screenState();
 }
 
 class _home_screenState extends State<home_screen> {
-  Future<NoticeResponse?> sendGetRequest(String jwtToken) async {
-    // 요청할 URL 설정
-    String url = 'http://165.246.44.237:8080/api/v1/notices';
-
-    // JWT 토큰 변수 설정
-
-    // 요청 헤더 설정 (JWT를 헤더에 포함)
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $jwtToken',
-    };
-
-    // 쿼리 데이터 설정
-    String queryType = 'type';
-    String queryData = '국어교육과';
-
-    String page = '0';
-    String size = '5';
-
-    // URL에 쿼리 파라미터 추가
-    Uri uri = Uri.parse('$url?$queryType=$queryData&page=$page&size=$size');
-
-    // HTTP GET 요청 보내기
-    try {
-      var response = await http.get(
-        uri,
-        headers: headers,
-      );
-
-      print(utf8.decode(response.bodyBytes));
-
-      // 응답 출력
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${utf8.decode(response.bodyBytes)}');
-
-      NoticeResponse noticeResponse =
-          NoticeResponse.fromJson(json.decode(utf8.decode(response.bodyBytes)));
-
-      // 생성된 NoticeResponse 객체 반환
-      return noticeResponse;
-    } catch (error) {
-      print('Error sending GET request: $error');
-    }
-  }
-
-  //홈 페이지에서 모든 공지사항을 보는 요청입니다.
-  late Future<NoticeResponse?> notioceResponse = sendGetRequest(widget.jwt);
+  //공지사항 위젯
+  final Map<String, Map<String, String>> announce_list = {
+    '0': {
+      'date': '2024.02.28',
+      'major': '컴퓨터공학과',
+      'title': '[프런티어학부대학] 연구원 채용 공고',
+      'category': '채용 👔',
+      'link': "http://www.naver.com",
+    },
+    '1': {
+      'date': '2024.02.28',
+      'major': '컴퓨터공학과',
+      'title': '[프런티어학부대학] 연구원 채용 공고',
+      'category': '채용 👔',
+      'link': "http://www.naver.com",
+    },
+    '2': {
+      'date': '2024.02.28',
+      'major': '컴퓨터공학과',
+      'title': '[프런티어학부대학] 연구원 채용 공고',
+      'category': '채용 👔',
+      'link': "http://www.naver.com",
+    },
+  };
 
   Map _recent_evaluate_data = {
     '0': {
@@ -284,20 +254,11 @@ class _home_screenState extends State<home_screen> {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            NoticeScreenDetail()),
-                                  );
-                                },
-                                child: Text('더 보기 > '))
+                            TextButton(onPressed: () {}, child: Text('더 보기 > '))
                           ],
                         ),
                       ),
-                      homeNoticeView(noticeData: notioceResponse),
+                      homeNoticeView(noticeData: announce_list),
                     ],
                   ),
                 ),
