@@ -17,7 +17,8 @@ class _splash_screenState extends State<splash_screen> {
     super.initState();
     Timer(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => register_screen_nickname(),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            register_screen_nickname(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,

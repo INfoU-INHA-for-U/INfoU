@@ -7,19 +7,20 @@ import '../class/lecture.dart';
 String _fetch_url = 'http://ec2-3-135-196-121.us-east-2.compute.amazonaws.com/v1/api/portals/total';
 
 Future<List<Lecture>?> fetchData(String department, String lecture_name) async {
+  CurrentToken _currentToken = CurrentToken();
   var url = Uri.parse(_fetch_url);
   var queryParams = {
-    'department' : department,
-    'lecture_name' : lecture_name,
+    'department': department,
+    'lecture_name': lecture_name,
   };
-  var uri = Uri.http(
-      url.authority, url.path, queryParams);
+  var uri = Uri.http(url.authority, url.path, queryParams);
   var headers = {
+    'accept': 'application/json',
+    'Authorization': 'Bearer ' + _currentToken.getAccessToken()
     'accept':'application/json',
   };
   try {
-    var response = await http.get(
-        uri,headers: headers);
+    var response = await http.get(uri, headers: headers);
     print('Response data: ${utf8.decode(response.bodyBytes)}');
     if (response.statusCode == 200) {
       Map jsonData = (jsonDecode(utf8.decode(response.bodyBytes)));
@@ -42,7 +43,6 @@ Future<List<Lecture>?> fetchData(String department, String lecture_name) async {
         lecture=_lectures;
         recommand_score=average;
       });*/
-
     } else {
       // 서버 에러 처리
       print('Request failed with status: ${response.statusCode}.');
