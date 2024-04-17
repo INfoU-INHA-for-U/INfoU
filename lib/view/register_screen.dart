@@ -30,6 +30,20 @@ class _register_screenState extends State<register_screen> {
     return Scaffold();
   }
 }
+class register_screen extends StatefulWidget {
+  const register_screen({super.key});
+
+  @override
+  State<register_screen> createState() => _register_screenState();
+}
+
+class _register_screenState extends State<register_screen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+    );
+  }
+}
 
 class register_screen_nickname extends StatefulWidget {
   const register_screen_nickname({super.key});
@@ -135,6 +149,94 @@ class _register_screen_nicknameState extends State<register_screen_nickname> {
                   )
                 ],
               ))),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => register_screen()), (route) => false);
+            },
+            icon: Icon(Icons.keyboard_arrow_left),
+          ),
+          titleSpacing: 5,
+          title: Text(
+            '회원가입',
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+            ),
+          ),
+        ),
+        body: Container(
+          color: Colors.white,
+          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('닉네임 입력',
+                  style: TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold
+                    )
+                  ),
+                  SizedBox(height: 15),
+                  TextField(
+                    controller: _controller,
+                    decoration: InputDecoration(
+                        hintText: '사용하실 닉네임을 입력해주세요.',
+                      hintStyle: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey
+                      ),
+                      border: InputBorder.none,
+                      filled: true,
+                      fillColor: Colors.grey[100],
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(20)
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(20)
+                      ),
+                      contentPadding: EdgeInsets.fromLTRB(20, 5, 10, 5)
+                    ),
+                  ),
+                  SizedBox(height: 3),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: FilledButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                              Colors.blue[100]),
+
+                        ),
+                        onPressed: () => duplicate_check_nickname(),
+                        child: Text('중복확인', style: TextStyle(color: Colors.black54, fontSize: 15))
+                    ),
+                  ),
+                ],
+              ),
+
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width - 70,
+                  child: FilledButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(
+                            Colors.blueAccent),
+                      ),
+                      onPressed: () => Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: register_screen_grade())),
+                      child: Text('다음', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))
+                  ),
+                ),
+              )
+            ],
+          )
+        )
+      ),
     );
   }
 }
@@ -273,6 +375,90 @@ class _register_screen_gradeState extends State<register_screen_grade> {
               ],
             ),
           )),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          //여길 row로 바꿔야하나?
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => register_screen()), (route) => false);
+            },
+            icon: Icon(Icons.keyboard_arrow_left),
+          ),
+          titleSpacing: 5,
+          title: Text(
+            '회원가입',
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+            ),
+          ),
+        ),
+        body: Container(
+          color: Colors.white,
+          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('학년 선택',
+                      style: TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold
+                      )
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 27,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                        itemCount: 5,
+                        itemBuilder: (context, index) => listview_grade_widget(index+1)
+                    ),
+                  )
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width/2 - 40,
+                      child: FilledButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(
+                                Colors.blueAccent),
+                          ),
+                          onPressed: () => Navigator.pop(context, PageTransition(type: PageTransitionType.fade, child: register_screen_nickname())),
+                          child: Text('이전', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width/2 - 40,
+                      child: FilledButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(
+                                _selected_grade == 0 ? Colors.black12 : Colors.blueAccent),
+                          ),
+                          onPressed: () {
+                            if(_selected_grade != 0) {
+                              Navigator.push(context, PageTransition(
+                                  type: PageTransitionType.fade,
+                                  child: register_screen_major()));
+                            }
+                          },
+                          child: Text('다음', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold))
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
+      ),
     );
   }
 }
@@ -311,6 +497,32 @@ class _register_screen_majorState extends State<register_screen_major> {
     '컴퓨터공학과',
   ];
 
+  List<String> major_name_list = [
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+    '컴퓨터공학과',
+  ];
+
   int major_select_index = -1;
 
   @override
@@ -323,6 +535,7 @@ class _register_screen_majorState extends State<register_screen_major> {
           leading: IconButton(
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => register_screen()),
                   MaterialPageRoute(builder: (context) => register_screen()),
                   (route) => false);
             },
@@ -407,6 +620,7 @@ class _register_screen_majorState extends State<register_screen_major> {
                         ),
                         onPressed: () {
                           if (major_select_index != -1) {
+                          if(major_select_index != -1) {
                             Navigator.push(
                                 context,
                                 PageTransition(
@@ -439,6 +653,7 @@ class register_screen_terms_and_condition extends StatefulWidget {
 
 class _register_screen_terms_and_conditionState
     extends State<register_screen_terms_and_condition> {
+class _register_screen_terms_and_conditionState extends State<register_screen_terms_and_condition> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -450,6 +665,8 @@ class _register_screen_terms_and_conditionState
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => register_screen()),
                   (route) => false);
+                  MaterialPageRoute(builder: (context) => register_screen()),
+                      (route) => false);
             },
             icon: Icon(Icons.keyboard_arrow_left),
           ),
@@ -509,6 +726,15 @@ class _register_screen_terms_and_conditionState
                                 child: main_screen(jwt: '')),
                             (route) => false,
                           );
+                        onPressed: () {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                PageTransition(
+                                    type:
+                                    PageTransitionType.fade,
+                                    //완료.
+                                    child: main_screen()),
+                            (route) => false,);
                         },
                         child: Text('가입 완료',
                             style: TextStyle(
