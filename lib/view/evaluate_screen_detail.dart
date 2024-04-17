@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/view/evaluate_screen_write.dart';
-import 'package:myapp/view/evaluate_search_screen.dart';
-import 'package:myapp/widget/header_no_detail.dart';
-import 'package:myapp/widget/horizontal_select.dart';
+import 'package:infou/view/evaluate_screen_write.dart';
+import 'package:infou/view/evaluate_search_screen.dart';
+import 'package:infou/widget/header_no_detail.dart';
+import 'package:infou/widget/horizontal_select.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../class/infou_search.dart';
@@ -15,7 +15,13 @@ class EvaluateScreenDetail extends StatefulWidget {
   final String lectureName;
   final String lectureType;
   final String department;
-  const EvaluateScreenDetail({super.key, required this.department, required this.lectureType, required this.lectureName, required this.academicNumber, required this.professorName});
+  const EvaluateScreenDetail(
+      {super.key,
+      required this.department,
+      required this.lectureType,
+      required this.lectureName,
+      required this.academicNumber,
+      required this.professorName});
 
   @override
   State<EvaluateScreenDetail> createState() => _EvaluateScreenDetailState();
@@ -40,6 +46,7 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
     _lectureType = widget.lectureType;
     _department = widget.department;
   }
+
   final double satisfactionPercentage = 90; // API로 받아와야 하는 데이터
 
   //값에 따라 강의평 홈 / 강의평 검색 / 강의평 추가 화면 을 setState로 구별.
@@ -50,8 +57,6 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
   int? _purposeIndex;
   String? _purposeValue;
   int _rating = 4; // 초기 별점
-
-
 
   //최근 강의평 위젯
   Widget _recent_evaluate_widget(int index) {
@@ -141,7 +146,6 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
   }
 
   Widget class_detail(int index) {
-
     return Padding(
       padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
       child: Row(
@@ -169,7 +173,11 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
               Row(
                 children: [
                   Text('수강학기 : '),
-                  Text(_lecture_list[index].semester.substring(0,4) + '년도 ' + _lecture_list[index].semester.substring(5,6) + '학기',
+                  Text(
+                      _lecture_list[index].semester.substring(0, 4) +
+                          '년도 ' +
+                          _lecture_list[index].semester.substring(5, 6) +
+                          '학기',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
                 ],
@@ -205,15 +213,16 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
             child: Row(
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width/7 + 20,
+                  width: MediaQuery.of(context).size.width / 7 + 20,
                   child: Text(classLevel + ' '),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width/7 + 20,
+                  width: MediaQuery.of(context).size.width / 7 + 20,
                   child: Text(detail + ' '),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width/100*46.4-60, // 가로 바의 일정한 길이
+                  width: MediaQuery.of(context).size.width / 100 * 46.4 -
+                      60, // 가로 바의 일정한 길이
                   height: 20,
                   decoration: BoxDecoration(
                     color: Colors.grey.shade300, // 내부 바의 색상
@@ -307,108 +316,99 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
     double _level_data_rate = 0;
 
     double calcScore() {
-      double score_sum=0.0;
-      for(int i=0;i<_lecture_list.length;i++) {
+      double score_sum = 0.0;
+      for (int i = 0; i < _lecture_list.length; i++) {
         score_sum += _lecture_list[i].score;
       }
       print(score_sum);
-      return double.parse((score_sum/_lecture_list.length.toDouble()).toStringAsFixed(2));
+      return double.parse(
+          (score_sum / _lecture_list.length.toDouble()).toStringAsFixed(2));
     }
 
     void calcSkill() {
-      int s1=0;
-      int s2=0;
-      int s3=0;
-      for(int i=0;i<_lecture_list.length;i++) {
+      int s1 = 0;
+      int s2 = 0;
+      int s3 = 0;
+      for (int i = 0; i < _lecture_list.length; i++) {
         String skill = _lecture_list[i].skill[0];
-        if(skill == '만')
+        if (skill == '만')
           s1++;
-        else if(skill == '그')
+        else if (skill == '그')
           s2++;
-        else if(skill == '별')
-          s3++;
+        else if (skill == '별') s3++;
       }
-      if(s1>=s2 && s1>=s3) {
+      if (s1 >= s2 && s1 >= s3) {
         _skill_data = '만족해요 😊';
-        _skill_data_rate = s1/(s1+s2+s3) * 100;
-      }
-      else if(s2>=s1 && s2>=s3) {
+        _skill_data_rate = s1 / (s1 + s2 + s3) * 100;
+      } else if (s2 >= s1 && s2 >= s3) {
         _skill_data = '그저 그래요 😑';
-        _skill_data_rate = s2/(s1+s2+s3) * 100;
-      }
-      else if(s3>=s1 && s3>=s2) {
+        _skill_data_rate = s2 / (s1 + s2 + s3) * 100;
+      } else if (s3 >= s1 && s3 >= s2) {
         _skill_data = '별로에요 😞';
-        _skill_data_rate = s3/(s1+s2+s3) * 100;
+        _skill_data_rate = s3 / (s1 + s2 + s3) * 100;
       }
     }
 
     void calcLevel() {
-      int s1=0;
-      int s2=0;
-      int s3=0;
-      for(int i=0;i<_lecture_list.length;i++) {
+      int s1 = 0;
+      int s2 = 0;
+      int s3 = 0;
+      for (int i = 0; i < _lecture_list.length; i++) {
         String skill = _lecture_list[i].level[0];
-        if(skill == '쉬')
+        if (skill == '쉬')
           s1++;
-        else if(skill == '별')
+        else if (skill == '별')
           s2++;
-        else if(skill == '어')
-          s3++;
+        else if (skill == '어') s3++;
         print(skill);
       }
-      if(s1>=s2 && s1>=s3) {
+      if (s1 >= s2 && s1 >= s3) {
         _level_data = '쉬워요 😊';
-        _level_data_rate = s1/(s1+s2+s3) * 100;
-      }
-      else if(s2>=s1 && s2>=s3) {
+        _level_data_rate = s1 / (s1 + s2 + s3) * 100;
+      } else if (s2 >= s1 && s2 >= s3) {
         _level_data = '별로에요 😑';
-        _level_data_rate = s2/(s1+s2+s3) * 100;
-      }
-      else if(s3>=s1 && s3>=s2) {
+        _level_data_rate = s2 / (s1 + s2 + s3) * 100;
+      } else if (s3 >= s1 && s3 >= s2) {
         _level_data = '어려워요 😞';
-        _level_data_rate = s3/(s1+s2+s3) * 100;
+        _level_data_rate = s3 / (s1 + s2 + s3) * 100;
       }
     }
 
     void calcGrade() {
-      int s1=0;
-      int s2=0;
-      int s3=0;
-      int s4=0;
-      int s5=0;
-      for(int i=0;i<_lecture_list.length;i++) {
+      int s1 = 0;
+      int s2 = 0;
+      int s3 = 0;
+      int s4 = 0;
+      int s5 = 0;
+      for (int i = 0; i < _lecture_list.length; i++) {
         String skill = _lecture_list[i].grade[0];
-        if(skill == '1')
+        if (skill == '1')
           s1++;
-        else if(skill == '2')
+        else if (skill == '2')
           s2++;
-        else if(skill == '3')
+        else if (skill == '3')
           s3++;
-        else if(skill == '4')
+        else if (skill == '4')
           s4++;
         else
           s5++;
       }
-      int ss = s1+s2+s3+s4+s5;
-      if(s1>=s2 && s1>=s3 && s1>=s4 && s1>=s5) {
+      int ss = s1 + s2 + s3 + s4 + s5;
+      if (s1 >= s2 && s1 >= s3 && s1 >= s4 && s1 >= s5) {
         _grade_data = '1학년';
-        _grade_data_rate = s1/ss * 100;
-      }
-      else if(s2>=s1 && s2>=s3 && s2>=s4 && s2>=s5) {
+        _grade_data_rate = s1 / ss * 100;
+      } else if (s2 >= s1 && s2 >= s3 && s2 >= s4 && s2 >= s5) {
         _grade_data = '2학년';
-        _grade_data_rate = s2/ss * 100;
-      }
-      else if(s3>=s1 && s3>=s2 && s3>=s4 && s3>=s5) {
+        _grade_data_rate = s2 / ss * 100;
+      } else if (s3 >= s1 && s3 >= s2 && s3 >= s4 && s3 >= s5) {
         _grade_data = '3학년';
-        _grade_data_rate = s3/ss * 100;
-      }
-      else if(s4>=s1 && s4>=s2 && s4>=s3 && s4>=s5) {
+        _grade_data_rate = s3 / ss * 100;
+      } else if (s4 >= s1 && s4 >= s2 && s4 >= s3 && s4 >= s5) {
         _grade_data = '4학년';
-        _grade_data_rate = s4/ss * 100;
-      }
-      else {
+        _grade_data_rate = s4 / ss * 100;
+      } else {
         _grade_data = '5학년';
-        _grade_data_rate = s5/ss * 100;
+        _grade_data_rate = s5 / ss * 100;
       }
     }
 
@@ -435,41 +435,35 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
       ]),
       body: Container(
         child: SingleChildScrollView(
-          child: FutureBuilder(
-            future: Future(() async {
-              _lecture_list = await getDataInfouDetails(
-                 _academicNumber,
-                 _professorName,
-                {
-                  'page' : 0,
-                  'size' : 50,
-                  'sort' : [
-                    'score,desc'
-                  ]
-                }
-              );
+          child: FutureBuilder(future: Future(
+            () async {
+              _lecture_list =
+                  await getDataInfouDetails(_academicNumber, _professorName, {
+                'page': 0,
+                'size': 50,
+                'sort': ['score,desc']
+              });
               //await Future.delayed(Duration(seconds: 10));
               return 0;
-            },),
-            builder: (context, snapshot) {
-              if(snapshot.hasData && _lecture_list!=null && _lecture_list != []) {
-                //강의력 계산
-                calcSkill();
-                //수강학년 계산
-                calcGrade();
-                //난이도 계산
-                calcLevel();
-                return Container(
+            },
+          ), builder: (context, snapshot) {
+            if (snapshot.hasData &&
+                _lecture_list != null &&
+                _lecture_list != []) {
+              //강의력 계산
+              calcSkill();
+              //수강학년 계산
+              calcGrade();
+              //난이도 계산
+              calcLevel();
+              return Container(
                 color: Colors.white,
                 child: Center(
                   child: Column(
                     children: [
                       Padding(
                         padding: EdgeInsets.fromLTRB(
-                            MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.1, 0, 10, 5),
+                            MediaQuery.of(context).size.width * 0.1, 0, 10, 5),
                         child: Row(
                           children: [
                             const Text('과목      ',
@@ -487,10 +481,7 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(
-                            MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.1, 0, 10, 5),
+                            MediaQuery.of(context).size.width * 0.1, 0, 10, 5),
                         child: Row(
                           children: [
                             const Text('교수     ',
@@ -528,24 +519,23 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
                       //..? 이상하게 짜놓은거 같은데..ㅎㅎㅎ..
                       Padding(
                         padding: EdgeInsets.fromLTRB(
-                            MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.05, 10, 20, 0),
+                            MediaQuery.of(context).size.width * 0.05,
+                            10,
+                            20,
+                            0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: List.generate(5, (index) {
-                                return
-                                  Image.asset(
-                                    index < calcScore().floor()
-                                        ? 'assets/images/gold_star.png'
-                                        : 'assets/images/grey_star.png',
-                                    width: 35,
-                                    height: 20,
-                                  );
+                                return Image.asset(
+                                  index < calcScore().floor()
+                                      ? 'assets/images/gold_star.png'
+                                      : 'assets/images/grey_star.png',
+                                  width: 35,
+                                  height: 20,
+                                );
                               }),
                             ),
                             SizedBox(
@@ -553,8 +543,7 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
                             ),
                             Text(
                               calcScore().toString(), // 현재 선택된 별점을 텍스트로 표시
-                              style:
-                              TextStyle(
+                              style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             Text(
@@ -618,16 +607,14 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
                                   type: PageTransitionType.fade));
                         },
                         child: Text('평가 작성하기',
-                            style: TextStyle(fontWeight: FontWeight.bold)
-                        ),
+                            style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                     ],
                   ),
                 ),
               );
-              }
-              else if(snapshot.connectionState == ConnectionState.waiting){
-                return Container(
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Container(
                   color: Colors.white,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -637,14 +624,11 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
                     children: [
                       CircularProgressIndicator(),
                     ],
-                  )
-                );
-              }
-              else {
-                return Center(child: Text('No data available'));
-              }
+                  ));
+            } else {
+              return Center(child: Text('No data available'));
             }
-          ),
+          }),
         ),
       ),
     );

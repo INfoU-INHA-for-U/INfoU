@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/view/main_screen.dart';
-import 'package:myapp/view/register_screen.dart';
+import 'package:infou/view/main_screen.dart';
+import 'package:infou/view/register_screen.dart';
 import 'dart:async';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -20,8 +20,7 @@ class splash_screen extends StatefulWidget {
 }
 
 class _splash_screenState extends State<splash_screen> {
-
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email','openid']);
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'openid']);
 
   bool _checkGoogleSign = false;
 
@@ -34,7 +33,8 @@ class _splash_screenState extends State<splash_screen> {
     // Check if the user is already signed in
     //먼저 구글에 로그인이 되어있는지 확인하고,
     _checkGoogleSign = await _googleSignIn.isSignedIn();
-    if(_checkGoogleSign == false) {
+
+    if (_checkGoogleSign == false) {
       return 3;
     }
     _currentToken.changeAuthId(_login!.id);
@@ -57,9 +57,7 @@ class _splash_screenState extends State<splash_screen> {
     print(apiUrl);
     print(authId);
     var url = Uri.parse(apiUrl);
-    String requestBody = jsonEncode({
-      "authId": authId
-    });
+    String requestBody = jsonEncode({"authId": authId});
     try {
       //login에 authId를 보내서 token이 정상적으로 오는지 확인함.
       var response = await http.post(
@@ -104,12 +102,16 @@ class _splash_screenState extends State<splash_screen> {
     super.initState();
     _checkGoogleSignIn().then((isRegistered) {
       return Timer(Duration(seconds: 3), () {
-
         Navigator.of(context).pushReplacement(PageRouteBuilder(
           //1 : 구글에 로그인은 되어있고 회원가입도 되어있는 상태
           //2 : 구글에 로그인은 되어있지만 회원가입은 "안"되어 상태
           //3 : 구글에 로그인 자체가 안되어 있는 상태.
-          pageBuilder: (context, animation, secondaryAnimation) => isRegistered==1 ? main_screen() : (isRegistered==2 ? register_screen_nickname() : beginning_login_screen()),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              isRegistered == 1
+                  ? main_screen(jwt: '')
+                  : (isRegistered == 2
+                      ? register_screen_nickname()
+                      : beginning_login_screen()),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -120,7 +122,6 @@ class _splash_screenState extends State<splash_screen> {
       });
     });
     print("^^");
-
   }
 
   @override

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:myapp/class/current_token.dart';
+import 'package:infou/class/current_token.dart';
 import 'package:http/http.dart' as http;
 import '../class/api_url.dart';
 
@@ -42,7 +42,8 @@ Future<bool> refreshToken() async {
           else {
             //각각의 Token을 저장함.
             _currentToken.changeAccessToken(jsonData['result']['accessToken']);
-            _currentToken.changeRefreshToken(jsonData['result']['refreshToken']);
+            _currentToken
+                .changeRefreshToken(jsonData['result']['refreshToken']);
             return true;
           }
         } else {
