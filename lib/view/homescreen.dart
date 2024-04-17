@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:infou/model/notice_response.dart';
-import 'package:infou/view/notice_screen.dart';
-import 'package:infou/view/notice_screen_detail.dart';
-import 'package:infou/widget/home_notice_view.dart';
+import 'package:myapp/model/notice_response.dart';
+import 'package:myapp/view/notice_screen.dart';
+import 'package:myapp/view/notice_screen_detail.dart';
+import 'package:myapp/widget/home_notice_view.dart';
+import 'package:myapp/model/notice_response.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;

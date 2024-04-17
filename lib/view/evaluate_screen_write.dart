@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
+
+import 'package:myapp/component/fetch_data_infou.dart';
+import 'package:myapp/view/beginning_login_screen.dart';
 import 'package:myapp/widget/header_no_detail.dart';
 import 'package:myapp/widget/horizontal_select.dart';
-
-class EvaluateScreenWrite extends StatefulWidget {
-  const EvaluateScreenWrite({super.key});
-=======
-import 'package:infou/component/fetch_data_infou.dart';
-import 'package:infou/view/beginning_login_screen.dart';
-import 'package:infou/widget/header_no_detail.dart';
-import 'package:infou/widget/horizontal_select.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../main.dart';
@@ -29,8 +23,6 @@ class EvaluateScreenWrite extends StatefulWidget {
       required this.department,
       required this.academicNumber,
       required this.lectureType});
->>>>>>> d2bb6eff8549c0fad212a67e3e24a71cc1d83868
-
   @override
   State<EvaluateScreenWrite> createState() => _EvaluateScreenWriteState();
 }
@@ -47,25 +39,6 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
     _purposeIndex = 1;
     _purposeValue = '1';
 
-<<<<<<< HEAD
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.1, // 화면 높이의 10%
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back_sharp),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              ),
-=======
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -318,7 +291,6 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
               ],
->>>>>>> d2bb6eff8549c0fad212a67e3e24a71cc1d83868
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(

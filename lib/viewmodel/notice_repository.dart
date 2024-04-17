@@ -1,7 +1,7 @@
-import 'package:infou/model/bookmark_response.dart';
-import 'package:infou/model/normal_response.dart';
-import 'package:infou/model/notice_detail_response.dart';
-import 'package:infou/model/notice_response.dart';
+import 'package:myapp/model/bookmark_response.dart';
+import 'package:myapp/model/normal_response.dart';
+import 'package:myapp/model/notice_detail_response.dart';
+import 'package:myapp/model/notice_response.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

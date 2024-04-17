@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:infou/view/notice_screen_detail.dart';
+import 'package:myapp/view/notice_screen_detail.dart';
 
 import '../component/announce_tag.dart';
 

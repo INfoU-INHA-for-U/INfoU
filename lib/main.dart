@@ -17,26 +17,22 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(infou());
+  runApp(MyApp());
 }
+
 void main() => runApp(MyApp());
 
-class infou extends StatelessWidget {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter',
-        debugShowCheckedModeBanner: false,
-        scrollBehavior: MyCustomScrollBehavior(),
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: splash_screen() //main_screen(
-        // 여기다가 jwt 넣고 시작하면 됩니다.
-        //jwt:
-        // 'eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJpYXQiOjE3MTMzNTAyMzMsImV4cCI6MTcxMzM1MzgzM30.gVs0VnQMSQS-Q5pXmYjYRCMFco85Eo_5CqeVKkgMsB0') //evaluate_screen() // EvaluateScreenDetail()//EvaluateScreenWrite(academicNumber: '',lectureName: '',department: '',professorName: '',),
-        );
+      title: 'Flutter',
+      debugShowCheckedModeBanner: false,
+      scrollBehavior: MyCustomScrollBehavior(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: splash_screen(),
       title: 'Flutter',
       debugShowCheckedModeBanner: false,
       scrollBehavior: MyCustomScrollBehavior(),
