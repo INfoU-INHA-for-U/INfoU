@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/component/fetch_data_infou.dart';
-import 'package:myapp/view/beginning_login_screen.dart';
-import 'package:myapp/widget/header_no_detail.dart';
-import 'package:myapp/widget/horizontal_select.dart';
+import 'package:infou/component/fetch_data_infou.dart';
+import 'package:infou/view/beginning_login_screen.dart';
+import 'package:infou/widget/header_no_detail.dart';
+import 'package:infou/widget/horizontal_select.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../main.dart';
@@ -15,7 +15,13 @@ class EvaluateScreenWrite extends StatefulWidget {
   final String academicNumber;
   final String lectureType;
 
-  const EvaluateScreenWrite({super.key, required this.lectureName, required this.professorName, required this.department, required this.academicNumber, required this.lectureType});
+  const EvaluateScreenWrite(
+      {super.key,
+      required this.lectureName,
+      required this.professorName,
+      required this.department,
+      required this.academicNumber,
+      required this.lectureType});
 
   @override
   State<EvaluateScreenWrite> createState() => _EvaluateScreenWriteState();
@@ -74,7 +80,8 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
             child: Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.1, // 화면 높이의 10%
+                  height:
+                      MediaQuery.of(context).size.height * 0.1, // 화면 높이의 10%
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -153,7 +160,8 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
                       _purposeIndex = idx;
                       _purposeValue = value;
                       //value를 api형식에 맞춰 변경해줌
-                      _semester = value.substring(0,4) + '0' + value.substring(6,7);
+                      _semester =
+                          value.substring(0, 4) + '0' + value.substring(6, 7);
                       debugPrint('Change to $_semester');
                     },
                   ),
@@ -169,7 +177,7 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
                     onChanged: (idx, value) {
                       _purposeIndex = idx;
                       _purposeValue = value;
-                      _grade = (idx+1).toString() + '학년';
+                      _grade = (idx + 1).toString() + '학년';
                       debugPrint('Change to $value');
                     },
                   ),
@@ -242,12 +250,13 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
                       ),
                       Text(
                         '$_rating', // 현재 선택된 별점을 텍스트로 표시
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         ' / 5.0', // 현재 선택된 별점을 텍스트로 표시
-                        style:
-                            TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.normal),
                       ),
                     ],
                   ),
@@ -272,7 +281,7 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    if(_review!.length >= 30 && _review!.length <=1000) {
+                    if (_review!.length >= 30 && _review!.length <= 1000) {
                       print(_lectureName);
                       print(_lectureType);
                       print(_department);
@@ -300,15 +309,15 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
                       if (post_data_infou_result == false) {
                         Navigator.popUntil(context, ModalRoute.withName("/"));
                       }
-                    }
-                    else {
-                      _showReviewSubmittedDialog(context, '리뷰는 30자 이상 1000자 이하여야 등록됩니다');
+                    } else {
+                      _showReviewSubmittedDialog(
+                          context, '리뷰는 30자 이상 1000자 이하여야 등록됩니다');
                     }
                     _showReviewSubmittedDialog(context, '강의평이 등록되었습니다');
                     Navigator.pop(context);
                   },
-                  child:
-                      Text('등록하기', style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: Text('등록하기',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
               ],
             ),

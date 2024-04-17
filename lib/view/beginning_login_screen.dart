@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:myapp/view/register_screen.dart';
+import 'package:infou/view/register_screen.dart';
 import '../class/current_token.dart';
 import '../class/jwt_token.dart';
 import '../class/api_url.dart';
@@ -18,7 +18,6 @@ class beginning_login_screen extends StatefulWidget {
 }
 
 class _beginning_login_screenState extends State<beginning_login_screen> {
-
   //token정보를 저장하는 class선언
   CurrentToken _currentToken = CurrentToken();
   GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'openid']);
@@ -41,24 +40,26 @@ class _beginning_login_screenState extends State<beginning_login_screen> {
         print('Response data: ${utf8.decode(response.bodyBytes)}');
         try {
           if (response.statusCode == 200) {
-            Map<String, dynamic> jsonData = (jsonDecode(utf8.decode(response.bodyBytes)));
+            Map<String, dynamic> jsonData =
+                (jsonDecode(utf8.decode(response.bodyBytes)));
             //해당 authId가 서버에 없음 = 회원가입이 안된 상태
-            if(jsonData['isSuccess'] == false) {
+            if (jsonData['isSuccess'] == false) {
               return 2;
             }
             //authId가 존재함 = Token이 정상적으로 reponse됨.
             else {
               //각각의 Token을 저장함.
-              _currentToken.changeAccessToken(jsonData['result']['accessToken']);
-              _currentToken.changeRefreshToken(jsonData['result']['refreshToken']);
+              _currentToken
+                  .changeAccessToken(jsonData['result']['accessToken']);
+              _currentToken
+                  .changeRefreshToken(jsonData['result']['refreshToken']);
               return 1;
             }
           } else {
             // Handle error response from backend
             print('Error sending token to backend: ${response.body}');
           }
-        }
-        catch (error) {
+        } catch (error) {
           print(error);
         }
       }
@@ -68,11 +69,11 @@ class _beginning_login_screenState extends State<beginning_login_screen> {
     }
     return 3;
   }
+
   GoogleSignInAccount? _currentUser;
 
   //구글 로그인 하는 곳, 이후 앱 자체의 회원가입 창으로 넘어감
-  Future<void> _googleSignInLoginScreen() async{
-
+  Future<void> _googleSignInLoginScreen() async {
     late int registerResult;
 
     //구글에 로그인
@@ -83,19 +84,23 @@ class _beginning_login_screenState extends State<beginning_login_screen> {
     registerResult = await _sendTokenToBackend(_login!.id);
     //앱 자체 회원가입 창으로 넘어감
     //여기선 이미 로그인이 된 상태가 보장되므로, 1 (= main_screen or) or (2,3) (= 앱 자체 회원가입) 으로 화면 이동을 정할 수 있다.
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => registerResult == 1 ? main_screen() : register_screen_nickname()));
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => registerResult == 1
+                ? main_screen(jwt: "")
+                : register_screen_nickname()));
   }
 
   @override
   Widget build(BuildContext context) {
-
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
 
     return Scaffold(
         body: Container(
-          color:Colors.white,
-          child: Column(
+      color: Colors.white,
+      child: Column(
         children: [
           SizedBox(height: _height / 4),
           Container(
@@ -119,7 +124,7 @@ class _beginning_login_screenState extends State<beginning_login_screen> {
                 child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
-                      border: Border.all(color: Colors.black54,width: 1.5),
+                      border: Border.all(color: Colors.black54, width: 1.5),
                       color: Colors.white,
                     ),
                     child: Row(

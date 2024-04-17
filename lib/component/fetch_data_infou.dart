@@ -1,28 +1,26 @@
 import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:myapp/component/refresh_token.dart';
+import 'package:infou/component/refresh_token.dart';
 
 import '../class/api_url.dart';
 import '../class/current_token.dart';
 import '../class/infou_search.dart';
 import '../class/trash_data.dart';
 
-
-
-GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email','openid']);
+GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'openid']);
 
 Future<List<InfouSearch>> getDataInfouSearch(
-    String keyword,
-    String condition,
-    Map<dynamic,dynamic> pageable) async {
-
+    String keyword, String condition, Map<dynamic, dynamic> pageable) async {
   CurrentToken _currentToken = CurrentToken();
-  String decodeUrl = ApiUrl.apiUrl
-      + '/api/v1/infou/search?keyword=$keyword&condition=$condition'
-      + '&page=' + pageable['page']
-      + '&size=' + pageable['size']
-      + '&sort=' + pageable['sort'][0];
+  String decodeUrl = ApiUrl.apiUrl +
+      '/api/v1/infou/search?keyword=$keyword&condition=$condition' +
+      '&page=' +
+      pageable['page'] +
+      '&size=' +
+      pageable['size'] +
+      '&sort=' +
+      pageable['sort'][0];
   String _fetch_url = Uri.encodeFull(decodeUrl);
   var url = Uri.parse(_fetch_url);
   while (true) {
@@ -41,7 +39,7 @@ Future<List<InfouSearch>> getDataInfouSearch(
         List<InfouSearch> _infouSearch =
             _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
         return _infouSearch;
-      } else if (_currentToken.getAccessToken()!=null) {
+      } else if (_currentToken.getAccessToken() != null) {
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
@@ -60,14 +58,17 @@ Future<List<InfouSearch>> getDataInfouSearch(
   }
 }
 
-Future<List<InfouSearch>> getDataInfouRecommend(Map<dynamic,dynamic> pageable) async {
-
+Future<List<InfouSearch>> getDataInfouRecommend(
+    Map<dynamic, dynamic> pageable) async {
   CurrentToken _currentToken = CurrentToken();
-  String decodeUrl = ApiUrl.apiUrl
-      + '/api/v1/infou/recommend?'
-      + '&page=' + pageable['page']
-      + '&size=' + pageable['size']
-      + '&sort=' + pageable['sort'][0];
+  String decodeUrl = ApiUrl.apiUrl +
+      '/api/v1/infou/recommend?' +
+      '&page=' +
+      pageable['page'] +
+      '&size=' +
+      pageable['size'] +
+      '&sort=' +
+      pageable['sort'][0];
   String _fetch_url = Uri.encodeFull(decodeUrl);
   var url = Uri.parse(_fetch_url);
 
@@ -88,7 +89,7 @@ Future<List<InfouSearch>> getDataInfouRecommend(Map<dynamic,dynamic> pageable) a
         List<InfouSearch> _infouSearch =
             _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
         return _infouSearch;
-      } else if (_currentToken.getAccessToken()!=null){
+      } else if (_currentToken.getAccessToken() != null) {
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
@@ -109,22 +110,24 @@ Future<List<InfouSearch>> getDataInfouRecommend(Map<dynamic,dynamic> pageable) a
 
 //-완- refresh 제외
 Future<List<InfouSearch>> getDataInfouRecent(
-    Map<dynamic,dynamic> pageable) async {
-
+    Map<dynamic, dynamic> pageable) async {
   CurrentToken _currentToken = CurrentToken();
-  String decodeUrl = ApiUrl.apiUrl
-      + '/api/v1/infou/recent?'
-      + '&page=' + pageable['page'].toString()
-      + '&size=' + pageable['size'].toString()
-      + '&sort=' + pageable['sort'][0];
+  String decodeUrl = ApiUrl.apiUrl +
+      '/api/v1/infou/recent?' +
+      '&page=' +
+      pageable['page'].toString() +
+      '&size=' +
+      pageable['size'].toString() +
+      '&sort=' +
+      pageable['sort'][0];
   print(decodeUrl);
   String _fetch_url = Uri.encodeFull(decodeUrl);
   var url = Uri.parse(_fetch_url);
 
   while (true) {
     var headers = {
-      'accept':'application/json',
-      'Authorization' : 'Bearer ' + _currentToken.getAccessToken()
+      'accept': 'application/json',
+      'Authorization': 'Bearer ' + _currentToken.getAccessToken()
     };
     try {
       var response = await http.get(url, headers: headers);
@@ -137,7 +140,7 @@ Future<List<InfouSearch>> getDataInfouRecent(
         List<InfouSearch> _infouSearch =
             _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
         return _infouSearch;
-      } else if (_currentToken.getAccessToken()!=null){
+      } else if (_currentToken.getAccessToken() != null) {
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
@@ -158,18 +161,19 @@ Future<List<InfouSearch>> getDataInfouRecent(
 
 //-완- refresh 제외
 Future<List<InfouSearch>> getDataInfouPopular(
-    Map<String,dynamic> pageable) async {
-
+    Map<String, dynamic> pageable) async {
   CurrentToken _currentToken = CurrentToken();
   print("11");
   print(pageable['page'].toString());
   print(pageable['size'].toString());
   print(pageable['sort']);
-  String decodeUrl = ApiUrl.apiUrl
-      + '/api/v1/infou/popular?'
-      + 'page=' + pageable['page'].toString()
-      + '&size=' + pageable['size'].toString();
-  if(pageable['sort'].length!=0) {
+  String decodeUrl = ApiUrl.apiUrl +
+      '/api/v1/infou/popular?' +
+      'page=' +
+      pageable['page'].toString() +
+      '&size=' +
+      pageable['size'].toString();
+  if (pageable['sort'].length != 0) {
     decodeUrl = decodeUrl + '&sort=' + pageable['sort'][0];
   }
   print("@@");
@@ -199,7 +203,7 @@ Future<List<InfouSearch>> getDataInfouPopular(
         print('infouSearch = ');
         print(infouSearch);
         return infouSearch;
-      } else if (_currentToken.getAccessToken()!=null) {
+      } else if (_currentToken.getAccessToken() != null) {
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
@@ -220,10 +224,8 @@ Future<List<InfouSearch>> getDataInfouPopular(
 }
 
 Future<List<InfouSearch>> getDataInfouDetail() async {
-
   CurrentToken _currentToken = CurrentToken();
-  String decodeUrl = ApiUrl.apiUrl
-      + '/api/v1/infou/details';
+  String decodeUrl = ApiUrl.apiUrl + '/api/v1/infou/details';
   String _fetch_url = Uri.encodeFull(decodeUrl);
   var url = Uri.parse(_fetch_url);
 
@@ -243,7 +245,7 @@ Future<List<InfouSearch>> getDataInfouDetail() async {
         List<InfouSearch> _infouSearch =
             _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
         return _infouSearch;
-      } else if (_currentToken.getAccessToken()!=null) {
+      } else if (_currentToken.getAccessToken() != null) {
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
@@ -262,17 +264,17 @@ Future<List<InfouSearch>> getDataInfouDetail() async {
   }
 }
 
-Future<List<InfouSearch>> getDataInfouDetails(
-    String academicNumber,
-    String professorName,
-    Map<dynamic,dynamic> pageable) async {
-
+Future<List<InfouSearch>> getDataInfouDetails(String academicNumber,
+    String professorName, Map<dynamic, dynamic> pageable) async {
   CurrentToken _currentToken = CurrentToken();
-  String decodeUrl = ApiUrl.apiUrl
-      + '/api/v1/infou/details?academicNumber=$academicNumber&professorName=$professorName'
-      + '&page=' + pageable['page'].toString()
-      + '&size=' + pageable['size'].toString()
-      + '&sort=' + pageable['sort'][0];
+  String decodeUrl = ApiUrl.apiUrl +
+      '/api/v1/infou/details?academicNumber=$academicNumber&professorName=$professorName' +
+      '&page=' +
+      pageable['page'].toString() +
+      '&size=' +
+      pageable['size'].toString() +
+      '&sort=' +
+      pageable['sort'][0];
   String _fetch_url = Uri.encodeFull(decodeUrl);
   var url = Uri.parse(_fetch_url);
   while (true) {
@@ -287,12 +289,13 @@ Future<List<InfouSearch>> getDataInfouDetails(
       if (response.statusCode == 200) {
         Map jsonData = (jsonDecode(utf8.decode(response.bodyBytes)));
         //데이터가 어떻게 생겼나요?
-        List<dynamic> _priorInfouSearch = jsonData['result']['infouDocuments']['content'];
+        List<dynamic> _priorInfouSearch =
+            jsonData['result']['infouDocuments']['content'];
         List<InfouSearch> _infouSearch =
             _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
         print(_infouSearch);
         return _infouSearch;
-      } else if (_currentToken.getAccessToken()!=null) {
+      } else if (_currentToken.getAccessToken() != null) {
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
@@ -323,10 +326,8 @@ Future<bool> postDataInfou(
     String level,
     double score,
     String review) async {
-
   CurrentToken _currentToken = CurrentToken();
-  String _post_url = ApiUrl.apiUrl
-      + '/api/v1/infou';
+  String _post_url = ApiUrl.apiUrl + '/api/v1/infou';
   var url = Uri.parse(_post_url);
   String requestBody = jsonEncode({
     "lectureName": lectureName,
@@ -334,12 +335,12 @@ Future<bool> postDataInfou(
     "department": department,
     "semester": semester,
     "professorName": professorName,
-    "academicNumber" : academicNumber,
-    "grade" : grade,
-    "skill" : skill,
-    "level" : level,
-    "score" : score,
-    "review" : review
+    "academicNumber": academicNumber,
+    "grade": grade,
+    "skill": skill,
+    "level": level,
+    "score": score,
+    "review": review
   });
   while (true) {
     try {
@@ -362,7 +363,7 @@ Future<bool> postDataInfou(
         }
       }
       //access token 유효하지 않습니다.
-      else if (_currentToken.getAccessToken()!=null){
+      else if (_currentToken.getAccessToken() != null) {
         bool _refresh_token_result = await refreshToken();
         //refresh-token도 유효하지 않습니다. -> 초기 로그인 화면으로 이동해야함.
         if (_refresh_token_result == false) {
