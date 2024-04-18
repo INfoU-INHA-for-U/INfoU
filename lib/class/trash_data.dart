@@ -20,3 +20,17 @@ class AA{
     userId: 'aa',
   );
 }
+
+class BB{
+  static InfouPopular aa = InfouPopular(
+    professorName: 'aa',
+    department: 'aa',
+    lectureName: 'aa',
+    academicNumber: 'aa',
+    id: 'aa',
+    lectureType: 'aa',
+    count: 0,
+    averageValue: 0,
+    sumValue: 0,
+  );
+}

@@ -24,6 +24,7 @@ class EvaluateScreenDetail extends StatefulWidget {
 class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
   List<Lecture> _lecture_list2 = [];
   List<InfouSearch> _lecture_list = [];
+  List<InfouPopular> _lecture_recommend_list = [];
   String _academicNumber = '';
   String _professorName = '';
   String _lectureName = '';
@@ -55,7 +56,7 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
 
   //최근 강의평 위젯
   Widget _recent_evaluate_widget(int index) {
-    Map _current_evaluate_data = _recent_evaluate_data[index.toString()];
+    InfouPopular _current_evaluate_data = _lecture_recommend_list[index];
     return Padding(
       padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
       child: Row(
@@ -67,7 +68,7 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
               Row(
                 children: [
                   Text('과목 : '),
-                  Text(_current_evaluate_data['class'],
+                  Text(_current_evaluate_data.lectureName == '' ? '                               ' : _current_evaluate_data.lectureName,
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
                 ],
@@ -75,7 +76,7 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
               Row(
                 children: [
                   Text('교수 : '),
-                  Text(_current_evaluate_data['professor'],
+                  Text(_current_evaluate_data.professorName,
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
                 ],
@@ -83,11 +84,11 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
               Row(
                 children: [
                   Text('추천도 : '),
-                  Text(_current_evaluate_data['recommend_rate'].toString(),
+                  Text(_current_evaluate_data.averageValue.toStringAsFixed(1),
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
                 ],
-              ),
+              ),/*
               Row(
                 children: [
                   Padding(
@@ -127,7 +128,7 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
                     ),
                   )
                 ],
-              ),
+              ),*/
             ],
           ),
           // Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -252,7 +253,7 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
       ],
     );
   }
-
+/*
   Map _recent_evaluate_data = {
     '0': {
       'class': '파이썬 프로그래밍',
@@ -271,7 +272,7 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
       'recommend_rate': 4.9
     },
   };
-/*
+
   Map _class_info_detail = {
     '0': {
       'class': '파이썬 프로그래밍',
@@ -448,6 +449,17 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
                   ]
                 }
               );
+              _lecture_recommend_list = await getDataInfouRecommend(
+                  {
+                    'page' : 0,
+                    'size' : 5,
+                    'sort' : [
+                      'count,asc'
+                    ]
+                  }
+              );
+              print("_lecture_recommend_list : ");
+              print(_lecture_recommend_list);
               //await Future.delayed(Duration(seconds: 10));
               return 0;
             },),
@@ -522,7 +534,7 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
                                   child: _recent_evaluate_widget(index),
                                 ));
                           },
-                          itemCount: _recent_evaluate_data.length,
+                          itemCount: _lecture_recommend_list.length,
                         ),
                       ),
                       //..? 이상하게 짜놓은거 같은데..ㅎㅎㅎ..

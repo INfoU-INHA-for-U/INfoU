@@ -12,6 +12,7 @@ import '../class/infou_search.dart';
 import '../class/trash_data.dart';
 import '../component/fetch_data.dart';
 import '../component/fetch_data_infou.dart';
+import '../main.dart';
 import 'evaluate_screen_popular_list.dart';
 import 'evaluate_search_screen.dart';
 
@@ -39,7 +40,7 @@ class _evalute_screenState extends State<evaluate_screen> {
   // 강의평 홈 = 0 / 강의평 검색 = 1 / 강의평 추가 화면 = 2
   int search_screen_state_number = 0;
 
-  List<InfouSearch> _popular_evaluate_data = [];
+  List<InfouPopular> _popular_evaluate_data = [];
   List<InfouSearch> _recent_evaluate_data = [];
 
   String summarize_name(String aa) {
@@ -51,7 +52,7 @@ class _evalute_screenState extends State<evaluate_screen> {
       return aa;
   }
   //최근 강의평 위젯
-  Widget _recent_evaluate_widget(int index, List<InfouSearch> _recent_evaluate_data) {
+  Widget _recent_evaluate_widget(int index, List<dynamic> _recent_evaluate_data) {
 
     InfouSearch _current_evaluate_data = _recent_evaluate_data[index];
     return Padding(
@@ -132,6 +133,57 @@ class _evalute_screenState extends State<evaluate_screen> {
             Text('추천도'),
             //여기 수정해야함 평점 평균내서
             Text(_current_evaluate_data.score.toString(),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25))
+          ])
+        ],
+      ),
+    );
+  }
+
+  Widget _popular_evaluate_widget(int index, List<dynamic> _recent_evaluate_data) {
+
+    InfouPopular _current_evaluate_data = _recent_evaluate_data[index];
+    return Padding(
+      padding: EdgeInsets.fromLTRB(13, 10, 20, 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(3, 0, 0, 0),
+                child: Text(
+                    _current_evaluate_data.lectureName +
+                        ' [' +
+                        summarize_name(_current_evaluate_data.professorName)+
+                        ']',
+                    style: TextStyle(fontSize: 15)),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                child: Container(
+                  width: 200,
+                  height: 30,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      //별 표시해주는겁니다. api식으로 바로 사용할수있게 코딩해놨습니다.
+                      if (index < _current_evaluate_data.averageValue.toInt())
+                        return const Icon(Icons.star, color: Colors.amber);
+                      else
+                        return const Icon(Icons.star, color: Colors.grey);
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text('추천도'),
+            //여기 수정해야함 평점 평균내서
+            Text(_current_evaluate_data.averageValue.toStringAsFixed(1),
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25))
           ])
         ],
@@ -281,9 +333,10 @@ class _evalute_screenState extends State<evaluate_screen> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18)),
                       TextButton(
-                          onPressed: () => Navigator.push(context, PageTransition(
-                            type: PageTransitionType.fade,
-                          child: evaluate_screen_popular_list())),
+                          onPressed: () =>
+                              Navigator.push(context, PageTransition(
+                                  type: PageTransitionType.fade,
+                                  child: evaluate_screen_popular_list())),
                           child: Text(
                             '더 보기 > ',
                             style: TextStyle(fontWeight: FontWeight.bold),
@@ -296,13 +349,14 @@ class _evalute_screenState extends State<evaluate_screen> {
                   future: Future(() async {
                     _popular_evaluate_data =
                         await getDataInfouPopular({'page': 0, 'size': 3, 'sort': []});
-                    if(_popular_evaluate_data == [AA.aa])
+                    if(_popular_evaluate_data == [BB.aa])
                       return 1;
                     else
                       return 2;
                   },),
                   builder: (context, snapshot) {
                     if(snapshot.hasData && snapshot.data == 2) {
+                      print(snapshot.data);
                       return Container(
                         //여기에 블러 처리 되어있음. 블러 처리 방식도 따로 component형식으로 widget으로 빼놓으면 됨.
                         //현재는 블러 처리된 widget으로 넣어둠.
@@ -332,7 +386,7 @@ class _evalute_screenState extends State<evaluate_screen> {
                                         color: Colors.grey.shade200,
                                         borderRadius: BorderRadius.circular(15)),
                                     height: 110,
-                                    child: _recent_evaluate_widget(
+                                    child: _popular_evaluate_widget(
                                         index, _popular_evaluate_data),
                                   )),
                             );

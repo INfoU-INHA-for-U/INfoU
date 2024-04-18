@@ -24,7 +24,7 @@ class evaluate_screen_popular_list extends StatefulWidget {
 class evaluate_screen_popular_listState
     extends State<evaluate_screen_popular_list> {
 
-  List<InfouSearch> _lecture_list = [];
+  List<InfouPopular> _lecture_list = [];
 
   //참고 커뮤니티 목록
   List<String> _information_type = ['INHA', 'INfoU'];
@@ -50,7 +50,7 @@ class evaluate_screen_popular_listState
       return SizedBox(width: 22,height: 12);
   }
 
-  Widget _evaluate_menu_search_screen_infou_list_widget(int index, InfouSearch _one_lecture_list) {
+  Widget _evaluate_menu_search_screen_infou_list_widget(int index, InfouPopular _one_lecture_list) {
     //_one_lecture_list엔 listview에서 index에 따른 각각의 lecture 정보가 포함되어 있다.
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -96,7 +96,7 @@ class evaluate_screen_popular_listState
           ),
           //평균값을 내야 하는데, 임시로 넣어놨습니다 score로.
           Center(
-            child: Text(double.parse(_one_lecture_list.score.toString()).toStringAsFixed(1),
+            child: Text(double.parse(_one_lecture_list.averageValue.toString()).toStringAsFixed(1),
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           )
         ],

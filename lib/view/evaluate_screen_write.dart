@@ -37,8 +37,6 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
   int? _score;
   String? _review;
 
-  //아 너무..너무하네요 정말.. 나중에 받아오는 작업 하나도 안하고 이렇게 초기 형태로 넘겨버리면 할게 너무 많아집니다..
-  //누구는 시간 있어서 api연결까지 생각해서 구조 짜는게 아닌데..ㅎㅎ..
   List _data = ['자료구조', '김영호'];
 
   @override
@@ -298,7 +296,7 @@ class _EvaluateScreenWriteState extends State<EvaluateScreenWrite> {
                           _review!);
                       //refresh-token이 유효하지 않을떄
                       if (post_data_infou_result == false) {
-                        Navigator.popUntil(context, ModalRoute.withName("/"));
+                        Navigator.popUntil(context, ModalRoute.withName("/splash_screen"));
                       }
                     }
                     else {

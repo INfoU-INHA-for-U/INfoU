@@ -36,22 +36,22 @@ class InfouSearch {
   });
 
   factory InfouSearch.fromJson(Map<String, dynamic> json) => InfouSearch(
-    id: json["id"],
+    id: json["id"] ?? '',
     timestamp: DateTime.parse(json["timestamp"]),
-    lectureName: json["lectureName"],
-    lectureType: json["lectureType"],
-    professorName: json["professorName"],
-    academicNumber: json["academicNumber"],
-    skill: json["skill"],
-    level: json["level"],
-    score: json["score"],
-    review: json["review"],
-    agree: json["agree"],
-    disagree: json["disagree"],
-    userId: json["userId"],
-    department: json["department"],
-    semester: json["semester"],
-    grade: json["grade"],
+    lectureName: json["lectureName"] ?? '',
+    lectureType: json["lectureType"] ?? '',
+    professorName: json["professorName"] ?? '',
+    academicNumber: json["academicNumber" ?? ''],
+    skill: json["skill"] ?? '',
+    level: json["level"] ?? '',
+    score: json["score"] ?? 0,
+    review: json["review"] ?? '',
+    agree: json["agree"] ?? 0,
+    disagree: json["disagree"] ?? 0,
+    userId: json["userId"] ?? '',
+    department: json["department"] ?? '',
+    semester: json["semester"] ?? '',
+    grade: json["grade"] ?? '',
   );
 
   Map<String, dynamic> toJson() => {
@@ -71,5 +71,53 @@ class InfouSearch {
     "department": department,
     "semester": semester,
     "grade": grade,
+  };
+}
+
+class InfouPopular {
+  String id;
+  String academicNumber;
+  String lectureName;
+  String lectureType;
+  String professorName;
+  String department;
+  double averageValue;
+  double sumValue;
+  int count;
+
+  InfouPopular({
+    required this.id,
+    required this.academicNumber,
+    required this.lectureName,
+    required this.lectureType,
+    required this.professorName,
+    required this.department,
+    required this.averageValue,
+    required this.sumValue,
+    required this.count,
+  });
+
+  factory InfouPopular.fromJson(Map<String, dynamic> json) => InfouPopular(
+    id: json["id"] ?? '',
+    academicNumber: json["academicNumber"] ?? '',
+    lectureName: json["lectureName"] ?? '',
+    lectureType: json["lectureType"] ?? '',
+    professorName: json["professorName"] ?? '',
+    department: json["department"] ?? '',
+    averageValue: json["averageValue"]?.toDouble() ?? 0,
+    sumValue: json["sumValue"]?.toDouble() ?? 0,
+    count: json["count"] ?? 0,
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "academicNumber": academicNumber,
+    "lectureName": lectureName,
+    "lectureType": lectureType,
+    "professorName": professorName,
+    "department": department,
+    "averageValue": averageValue,
+    "sumValue": sumValue,
+    "count": count,
   };
 }
