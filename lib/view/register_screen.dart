@@ -27,19 +27,6 @@ class register_screen extends StatefulWidget {
 class _register_screenState extends State<register_screen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
-  }
-}
-class register_screen extends StatefulWidget {
-  const register_screen({super.key});
-
-  @override
-  State<register_screen> createState() => _register_screenState();
-}
-
-class _register_screenState extends State<register_screen> {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
     );
   }
