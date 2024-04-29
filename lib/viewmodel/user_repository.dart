@@ -1,12 +1,12 @@
-import 'package:myapp/model/bookmark_response.dart';
-import 'package:myapp/model/normal_response.dart';
-import 'package:myapp/model/notice_detail_response.dart';
-import 'package:myapp/model/notice_response.dart';
+import 'package:infou/model/bookmark_response.dart';
+import 'package:infou/model/normal_response.dart';
+import 'package:infou/model/notice_detail_response.dart';
+import 'package:infou/model/notice_response.dart';
 import 'package:http/http.dart' as http;
-import 'package:myapp/model/user_detail.dart';
+import 'package:infou/model/user_detail.dart';
 import 'dart:convert';
 
-import 'package:myapp/model/user_reward_response.dart';
+import 'package:infou/model/user_reward_response.dart';
 
 class userRepository {
   final String jwtToken;

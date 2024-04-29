@@ -1,0 +1,189 @@
+# Query: myapp
+# ContextLines: 1
+
+63개 결과 - 24 파일
+
+lib/main.dart:
+  19  
+  20:   runApp(MyApp());
+  21  }
+  22  
+  23: class MyApp extends StatelessWidget {
+  24    @override
+
+lib/component/fetch_data_infou.dart:
+  3  import 'package:http/http.dart' as http;
+  4: import 'package:infou/component/refresh_token.dart';
+  5  
+
+lib/component/fetch_data.dart:
+  3  import 'package:http/http.dart' as http;
+  4: import 'package:infou/component/refresh_token.dart';
+  5  
+
+lib/component/refresh_token.dart:
+  5  import 'package:google_sign_in/google_sign_in.dart';
+  6: import 'package:infou/class/current_token.dart';
+  7  import 'package:http/http.dart' as http;
+
+lib/splash_screen/splash_screen.dart:
+  4  import 'package:flutter/material.dart';
+  5: import 'package:infou/view/main_screen.dart';
+  6: import 'package:infou/view/register_screen.dart';
+  7  import 'dart:async';
+
+lib/view/beginning_login_screen.dart:
+  5  import 'package:google_sign_in/google_sign_in.dart';
+  6: import 'package:infou/view/register_screen.dart';
+  7  import '../class/current_token.dart';
+
+lib/view/evaluate_menu_search_screen.dart:
+  2  import 'package:flutter/material.dart';
+  3: import 'package:infou/class/lecture.dart';
+  4  
+
+lib/view/evaluate_screen_detail.dart:
+  1  import 'package:flutter/material.dart';
+  2: import 'package:infou/view/evaluate_screen_write.dart';
+  3: import 'package:infou/view/evaluate_search_screen.dart';
+  4: import 'package:infou/widget/header_no_detail.dart';
+  5: import 'package:infou/widget/horizontal_select.dart';
+  6  import 'package:page_transition/page_transition.dart';
+
+lib/view/evaluate_screen_write.dart:
+  1  import 'package:flutter/material.dart';
+  2: import 'package:infou/component/fetch_data_infou.dart';
+  3: import 'package:infou/view/beginning_login_screen.dart';
+  4: import 'package:infou/widget/header_no_detail.dart';
+  5: import 'package:infou/widget/horizontal_select.dart';
+  6  import 'package:page_transition/page_transition.dart';
+
+lib/view/evaluate_screen.dart:
+  4  import 'package:blur/blur.dart';
+  5: import 'package:infou/view/beginning_login_screen.dart';
+  6: import 'package:infou/view/evaluate_screen_detail.dart';
+  7: import 'package:infou/view/evaluate_screen_write.dart';
+  8: import 'package:infou/class/lecture.dart';
+  9: import 'package:infou/widget/header.dart';
+  10  import 'package:page_transition/page_transition.dart';
+
+lib/view/evaluate_search_screen.dart:
+  1  import 'package:flutter/material.dart';
+  2: import 'package:infou/class/lecture.dart';
+  3  import 'evaluate_menu_search_screen.dart';
+
+lib/view/homescreen.dart:
+  2  import 'package:flutter/material.dart';
+  3: import 'package:infou/view/notice_screen.dart';
+  4: import 'package:infou/widget/home_notice_view.dart';
+  5  import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+lib/view/mypagescreen_point.dart:
+  4  import 'package:google_fonts/google_fonts.dart';
+  5: import 'package:infou/splash_screen/splash_screen.dart';
+  6: import 'package:infou/utils.dart';
+  7: import 'package:infou/view/register_screen.dart';
+  8  
+
+lib/view/mypagescreen_setting.dart:
+  4  import 'package:google_fonts/google_fonts.dart';
+  5: import 'package:infou/splash_screen/splash_screen.dart';
+  6: import 'package:infou/utils.dart';
+  7: import 'package:infou/view/register_screen.dart';
+  8  
+
+lib/view/mypagescreen.dart:
+  4  import 'package:google_fonts/google_fonts.dart';
+  5: import 'package:infou/utils.dart';
+  6: import 'package:infou/view/mypagescreen_point.dart';
+  7: import 'package:infou/view/mypagescreen_setting.dart';
+  8  
+
+lib/view/notice_screen_favorite.dart:
+  1  import 'package:flutter/material.dart';
+  2: import 'package:infou/view/notice_screen_detail.dart';
+  3  
+
+lib/view/notice_screen_similar.dart:
+  1  import 'package:flutter/material.dart';
+  2: import 'package:infou/view/notice_screen_detail.dart';
+  3  
+
+lib/view/notice_screen.dart:
+  2  import 'package:flutter/material.dart';
+  3: import 'package:infou/view/alarm_screen.dart';
+  4: import 'package:infou/view/notice_screen_detail.dart';
+  5: import 'package:infou/view/notice_screen_favorite.dart';
+  6: import 'package:infou/view/notice_screen_similar.dart';
+  7  import '../component/announce_tag.dart';
+
+lib/view/register_screen.dart:
+  6  import 'package:http/http.dart' as http;
+  7: import 'package:infou/view/beginning_login_screen.dart';
+  8  import 'package:page_transition/page_transition.dart';
+
+lib/viewmodel/notice_repository.dart:
+  1: import 'package:infou/model/bookmark_response.dart';
+  2: import 'package:infou/model/normal_response.dart';
+  3: import 'package:infou/model/notice_detail_response.dart';
+  4: import 'package:infou/model/notice_response.dart';
+  5  import 'package:http/http.dart' as http;
+
+lib/viewmodel/user_repository.dart:
+  1: import 'package:infou/model/bookmark_response.dart';
+  2: import 'package:infou/model/normal_response.dart';
+  3: import 'package:infou/model/notice_detail_response.dart';
+  4: import 'package:infou/model/notice_response.dart';
+  5  import 'package:http/http.dart' as http;
+  6: import 'package:infou/model/user_detail.dart';
+  7  import 'dart:convert';
+  8  
+  9: import 'package:infou/model/user_reward_response.dart';
+  10  
+
+linux/main.cc:
+  3  int main(int argc, char** argv) {
+  4:   g_autoptr(MyApplication) app = my_application_new();
+  5    return g_application_run(G_APPLICATION(app), argc, argv);
+
+linux/my_application.cc:
+   9  
+  10: struct _MyApplication {
+  11    GtkApplication parent_instance;
+
+  14  
+  15: G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
+  16  
+
+  18  static void my_application_activate(GApplication* application) {
+  19:   MyApplication* self = MY_APPLICATION(application);
+  20    GtkWindow* window =
+
+  66  static gboolean my_application_local_command_line(GApplication* application, gchar*** arguments, int* exit_status) {
+  67:   MyApplication* self = MY_APPLICATION(application);
+  68    // Strip out the first argument as it is the binary name.
+
+  85  static void my_application_dispose(GObject* object) {
+  86:   MyApplication* self = MY_APPLICATION(object);
+  87    g_clear_pointer(&self->dart_entrypoint_arguments, g_strfreev);
+
+  90  
+  91: static void my_application_class_init(MyApplicationClass* klass) {
+  92    G_APPLICATION_CLASS(klass)->activate = my_application_activate;
+
+  96  
+  97: static void my_application_init(MyApplication* self) {}
+  98  
+  99: MyApplication* my_application_new() {
+  100    return MY_APPLICATION(g_object_new(my_application_get_type(),
+
+linux/my_application.h:
+   5  
+   6: G_DECLARE_FINAL_TYPE(MyApplication, my_application, MY, APPLICATION,
+   7                       GtkApplication)
+
+  13   *
+  14:  * Returns: a new #MyApplication.
+  15   */
+  16: MyApplication* my_application_new();
+  17  

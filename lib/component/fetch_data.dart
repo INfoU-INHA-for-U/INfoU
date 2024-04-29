@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:myapp/component/refresh_token.dart';
+import 'package:infou/component/refresh_token.dart';
 
 import '../class/current_token.dart';
 import '../class/lecture.dart';

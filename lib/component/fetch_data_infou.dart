@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:myapp/component/refresh_token.dart';
+import 'package:infou/component/refresh_token.dart';
 
 import '../class/api_url.dart';
 import '../class/current_token.dart';

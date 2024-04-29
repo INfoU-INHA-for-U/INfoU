@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:myapp/view/beginning_login_screen.dart';
+import 'package:infou/view/beginning_login_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../class/all_major_data.dart';

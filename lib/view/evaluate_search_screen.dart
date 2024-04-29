@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/class/lecture.dart';
+import 'package:infou/class/lecture.dart';
 import 'evaluate_menu_search_screen.dart';
 
 class evaluate_search_screen extends StatefulWidget {

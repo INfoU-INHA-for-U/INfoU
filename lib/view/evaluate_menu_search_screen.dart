@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/class/lecture.dart';
+import 'package:infou/class/lecture.dart';
 
 import '../component/announce_tag.dart';
 

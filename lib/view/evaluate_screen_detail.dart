@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/view/evaluate_screen_write.dart';
-import 'package:myapp/view/evaluate_search_screen.dart';
-import 'package:myapp/widget/header_no_detail.dart';
-import 'package:myapp/widget/horizontal_select.dart';
+import 'package:infou/view/evaluate_screen_write.dart';
+import 'package:infou/view/evaluate_search_screen.dart';
+import 'package:infou/widget/header_no_detail.dart';
+import 'package:infou/widget/horizontal_select.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../class/infou_search.dart';

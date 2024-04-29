@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:myapp/view/register_screen.dart';
+import 'package:infou/view/register_screen.dart';
 import '../class/current_token.dart';
 import '../class/jwt_token.dart';
 import '../class/api_url.dart';

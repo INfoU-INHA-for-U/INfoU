@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/view/alarm_screen.dart';
-import 'package:myapp/view/notice_screen_detail.dart';
-import 'package:myapp/view/notice_screen_favorite.dart';
-import 'package:myapp/view/notice_screen_similar.dart';
+import 'package:infou/view/alarm_screen.dart';
+import 'package:infou/view/notice_screen_detail.dart';
+import 'package:infou/view/notice_screen_favorite.dart';
+import 'package:infou/view/notice_screen_similar.dart';
 import '../component/announce_tag.dart';
 import 'notice_screen_page.dart';
 

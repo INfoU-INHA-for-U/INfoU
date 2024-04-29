@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/component/fetch_data_infou.dart';
-import 'package:myapp/view/beginning_login_screen.dart';
-import 'package:myapp/widget/header_no_detail.dart';
-import 'package:myapp/widget/horizontal_select.dart';
+import 'package:infou/component/fetch_data_infou.dart';
+import 'package:infou/view/beginning_login_screen.dart';
+import 'package:infou/widget/header_no_detail.dart';
+import 'package:infou/widget/horizontal_select.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../main.dart';

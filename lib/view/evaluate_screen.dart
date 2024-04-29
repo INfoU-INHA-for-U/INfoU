@@ -2,11 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:blur/blur.dart';
-import 'package:myapp/view/beginning_login_screen.dart';
-import 'package:myapp/view/evaluate_screen_detail.dart';
-import 'package:myapp/view/evaluate_screen_write.dart';
-import 'package:myapp/class/lecture.dart';
-import 'package:myapp/widget/header.dart';
+import 'package:infou/view/beginning_login_screen.dart';
+import 'package:infou/view/evaluate_screen_detail.dart';
+import 'package:infou/view/evaluate_screen_write.dart';
+import 'package:infou/class/lecture.dart';
+import 'package:infou/widget/header.dart';
 import 'package:page_transition/page_transition.dart';
 import '../class/infou_search.dart';
 import '../class/trash_data.dart';

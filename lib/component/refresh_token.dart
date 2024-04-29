@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:myapp/class/current_token.dart';
+import 'package:infou/class/current_token.dart';
 import 'package:http/http.dart' as http;
 import '../class/api_url.dart';
 

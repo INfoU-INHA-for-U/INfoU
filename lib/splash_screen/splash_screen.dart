@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/view/main_screen.dart';
-import 'package:myapp/view/register_screen.dart';
+import 'package:infou/view/main_screen.dart';
+import 'package:infou/view/register_screen.dart';
 import 'dart:async';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../class/api_url.dart';
