@@ -92,11 +92,11 @@ class _evaluate_menu_search_screenState
   //순위 별 아이콘 선별
   Widget _rate_check(int index) {
     if (index == 0) {
-      return Icon(Icons.add);
+      return Text('🥇 ');
     } else if (index == 1) {
-      return Icon(Icons.abc);
+      return Text('🥈 ');
     } else if (index == 2) {
-      return Icon(Icons.ac_unit);
+      return Text('🥉 ');
     } else
       return SizedBox(width: 22, height: 12);
   }
@@ -151,10 +151,10 @@ class _evaluate_menu_search_screenState
                   padding: EdgeInsets.fromLTRB(10, 2.5, 0, 0),
                   child: Text(_one_lecture_list.department,
                       style: TextStyle(fontSize: 11)),
-                ),
+                ), /*
                 Container(
-                    padding: EdgeInsets.fromLTRB(10, 6, 0, 0),
-                    width: 200,
+                  padding: EdgeInsets.fromLTRB(10, 6, 0, 0),
+                  width: 200,
                     height: 28,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
@@ -163,9 +163,10 @@ class _evaluate_menu_search_screenState
                         return announce_tag_widget(index);
                       },
                       separatorBuilder: (context, index) {
-                        return SizedBox(width: 4, height: 20);
+                        return SizedBox(width: 4,height: 20);
                       },
-                    ))
+                    )
+                )*/
               ],
             ),
           ),

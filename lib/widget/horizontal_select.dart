@@ -1,8 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, unused_field, avoid_print, no_logic_in_create_state, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:myapp/widget/header_no_detail.dart';
-import 'package:myapp/widget/header_no_detail.dart';
+import 'package:infou/widget/header_no_detail.dart';
 
 class HorizontalSelect extends StatefulWidget {
   final bool isLabel;

@@ -88,7 +88,7 @@ class _beginning_login_screenState extends State<beginning_login_screen> {
         context,
         MaterialPageRoute(
             builder: (context) => registerResult == 1
-                ? main_screen(jwt: "")
+                ? main_screen()
                 : register_screen_nickname()));
   }
 

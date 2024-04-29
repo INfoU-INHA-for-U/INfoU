@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:infou/component/refresh_token.dart';
+import 'package:myapp/component/refresh_token.dart';
 
 import '../class/api_url.dart';
 import '../class/current_token.dart';
@@ -58,20 +58,20 @@ Future<List<InfouSearch>> getDataInfouSearch(
   }
 }
 
-Future<List<InfouSearch>> getDataInfouRecommend(
-    Map<dynamic, dynamic> pageable) async {
+Future<List<InfouPopular>> getDataInfouRecommend(
+    Map<String, dynamic> pageable) async {
   CurrentToken _currentToken = CurrentToken();
   String decodeUrl = ApiUrl.apiUrl +
       '/api/v1/infou/recommend?' +
-      '&page=' +
-      pageable['page'] +
+      'page=' +
+      pageable['page'].toString() +
       '&size=' +
-      pageable['size'] +
+      pageable['size'].toString() +
       '&sort=' +
       pageable['sort'][0];
   String _fetch_url = Uri.encodeFull(decodeUrl);
   var url = Uri.parse(_fetch_url);
-
+  print(_fetch_url);
   while (true) {
     try {
       var headers = {
@@ -80,14 +80,17 @@ Future<List<InfouSearch>> getDataInfouRecommend(
       };
       var response = await http.get(url, headers: headers);
       print('Response data: ${utf8.decode(response.bodyBytes)}');
+      print("??");
       //서버통신 성공
       if (response.statusCode == 200) {
         Map jsonData = (jsonDecode(utf8.decode(response.bodyBytes)));
         //?? 이거 어떻게 생겨먹은건가요.. 세부 데이터가
         List<dynamic> _priorInfouSearch = jsonData['result']['content'];
         //accessToken이 유효하지 않음.
-        List<InfouSearch> _infouSearch =
-            _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
+        print("prior2 = ");
+        print(_priorInfouSearch);
+        List<InfouPopular> _infouSearch =
+            _priorInfouSearch.map((e) => InfouPopular.fromJson(e)).toList();
         return _infouSearch;
       } else if (_currentToken.getAccessToken() != null) {
         bool _refresh_token_result = await refreshToken();
@@ -96,7 +99,7 @@ Future<List<InfouSearch>> getDataInfouRecommend(
           print('refresh-token이 유효하지 않습니다.');
           //똥값 보내고 이거 판단해서 초기 로그인 화면으로 이동하면 됨.
           _googleSignIn.disconnect();
-          return [AA.aa];
+          return [BB.aa];
         } else {
           print('새로운 token을 발급받았습니다');
         }
@@ -160,7 +163,7 @@ Future<List<InfouSearch>> getDataInfouRecent(
 }
 
 //-완- refresh 제외
-Future<List<InfouSearch>> getDataInfouPopular(
+Future<List<InfouPopular>> getDataInfouPopular(
     Map<String, dynamic> pageable) async {
   CurrentToken _currentToken = CurrentToken();
   print("11");
@@ -176,7 +179,6 @@ Future<List<InfouSearch>> getDataInfouPopular(
   if (pageable['sort'].length != 0) {
     decodeUrl = decodeUrl + '&sort=' + pageable['sort'][0];
   }
-  print("@@");
   print(decodeUrl);
   print('decodeUrl = $decodeUrl');
   String _fetch_url = Uri.encodeFull(decodeUrl);
@@ -195,11 +197,11 @@ Future<List<InfouSearch>> getDataInfouPopular(
         //어떻게 데이터가 생겼나요..?
         List<dynamic> _priorInfouSearch = jsonData['result']['content'];
         print('_prior = ');
-        print(_priorInfouSearch[0]);
+        print(_priorInfouSearch);
         //accessToken이 유효하지 않음.
-        print(InfouSearch.fromJson(_priorInfouSearch[0]));
-        List<InfouSearch> infouSearch =
-            _priorInfouSearch.map((e) => InfouSearch.fromJson(e)).toList();
+        List<InfouPopular> infouSearch =
+            _priorInfouSearch.map((e) => InfouPopular.fromJson(e)).toList();
+        print("@@");
         print('infouSearch = ');
         print(infouSearch);
         return infouSearch;
@@ -210,7 +212,7 @@ Future<List<InfouSearch>> getDataInfouPopular(
           print('refresh-token이 유효하지 않습니다.');
           //똥값 보내고 이거 판단해서 초기 로그인 화면으로 이동하면 됨.
           _googleSignIn.disconnect();
-          return [AA.aa];
+          return [BB.aa];
         } else {
           print('새로운 token을 발급받았습니다');
         }

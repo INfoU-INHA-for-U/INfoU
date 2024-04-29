@@ -2,17 +2,22 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:blur/blur.dart';
+import 'package:myapp/view/beginning_login_screen.dart';
 import 'package:myapp/view/evaluate_screen_detail.dart';
 import 'package:myapp/view/evaluate_screen_write.dart';
 import 'package:myapp/class/lecture.dart';
 import 'package:myapp/widget/header.dart';
+import 'package:page_transition/page_transition.dart';
+import '../class/infou_search.dart';
+import '../class/trash_data.dart';
 import '../component/fetch_data.dart';
+import '../component/fetch_data_infou.dart';
+import '../main.dart';
+import 'evaluate_screen_popular_list.dart';
 import 'evaluate_search_screen.dart';
 
 class evaluate_screen extends StatefulWidget {
-  final String jwt;
-
-  const evaluate_screen({required this.jwt});
+  const evaluate_screen({super.key});
 
   @override
   State<evaluate_screen> createState() => _evalute_screenState();
@@ -25,10 +30,6 @@ class _evalute_screenState extends State<evaluate_screen> {
     super.initState();
     //새로운 api 형식에 따라 넣어뒀음. class lecture에 하나하나씩 차곡차곡 쌓이게 작업해뒀고,
     //그중 가장 첫번째 데이터를 정리해서 print로 출력하였으니 참고바람.
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _lecture_list = (await fetchData('데이터베이스', '컴퓨터공학과'))!;
-      setState(() {});
-    });
   }
 
   // component/fetch_data에서 가져온 데이터를 return해서 lits를 evaluate_screen에서 받아줌.
@@ -39,36 +40,20 @@ class _evalute_screenState extends State<evaluate_screen> {
   // 강의평 홈 = 0 / 강의평 검색 = 1 / 강의평 추가 화면 = 2
   int search_screen_state_number = 0;
 
-  Map _recent_evaluate_data = {
-    '0': {
-      'class': '파이썬 프로그래밍',
-      'professor': '서영덕',
-      'star_rate': 4,
-      'evaluate1': '정말 좋아요',
-      'evaluate2': '적당해요',
-      'recommend_rate': 4.7
-    },
-    '1': {
-      'class': '클라우드 컴퓨팅',
-      'professor': '권구인',
-      'star_rate': 4,
-      'evaluate1': '정말 좋아요',
-      'evaluate2': '어려워요',
-      'recommend_rate': 4.9
-    },
-    '2': {
-      'class': '클라우드 컴퓨팅',
-      'professor': '권구인',
-      'star_rate': 4,
-      'evaluate1': '정말 좋아요',
-      'evaluate2': '어려워요',
-      'recommend_rate': 4.9
-    },
-  };
+  List<InfouPopular> _popular_evaluate_data = [];
+  List<InfouSearch> _recent_evaluate_data = [];
+
+  String summarize_name(String aa) {
+    if (aa.length > 13) {
+      return aa.substring(0, 13) + '...';
+    } else
+      return aa;
+  }
 
   //최근 강의평 위젯
-  Widget _recent_evaluate_widget(int index) {
-    Map _current_evaluate_data = _recent_evaluate_data[index.toString()];
+  Widget _recent_evaluate_widget(
+      int index, List<dynamic> _recent_evaluate_data) {
+    InfouSearch _current_evaluate_data = _recent_evaluate_data[index];
     return Padding(
       padding: EdgeInsets.fromLTRB(13, 10, 20, 10),
       child: Row(
@@ -80,9 +65,9 @@ class _evalute_screenState extends State<evaluate_screen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(3, 0, 0, 0),
                 child: Text(
-                    _current_evaluate_data['class'] +
+                    _current_evaluate_data.lectureName +
                         ' [' +
-                        _current_evaluate_data['professor'] +
+                        summarize_name(_current_evaluate_data.professorName) +
                         ']',
                     style: TextStyle(fontSize: 15)),
               ),
@@ -96,7 +81,7 @@ class _evalute_screenState extends State<evaluate_screen> {
                     itemCount: 5,
                     itemBuilder: (context, index) {
                       //별 표시해주는겁니다. api식으로 바로 사용할수있게 코딩해놨습니다.
-                      if (index < _current_evaluate_data['star_rate'])
+                      if (index < _current_evaluate_data.score)
                         return const Icon(Icons.star, color: Colors.amber);
                       else
                         return const Icon(Icons.star, color: Colors.grey);
@@ -116,10 +101,8 @@ class _evalute_screenState extends State<evaluate_screen> {
                         padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
                         child: Row(
                           children: [
-                            Text(_current_evaluate_data['evaluate1'] + ' ',
+                            Text(_current_evaluate_data.skill + ' ',
                                 style: TextStyle(fontSize: 14)),
-                            //해당 이미지가 없어서 일단 아이콘으로 대체했습니다.
-                            Icon(Icons.thumb_up_alt_outlined, size: 13)
                           ],
                         ),
                       ),
@@ -135,10 +118,8 @@ class _evalute_screenState extends State<evaluate_screen> {
                           padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
                           child: Row(
                             children: [
-                              Text(_current_evaluate_data['evaluate2'] + ' ',
+                              Text(_current_evaluate_data.level + ' ',
                                   style: TextStyle(fontSize: 14)),
-                              //해당 이미지가 없어서 일단 아이콘으로 대체했습니다.
-                              Icon(Icons.thumb_down_alt_outlined, size: 13)
                             ],
                           ),
                         )),
@@ -149,7 +130,8 @@ class _evalute_screenState extends State<evaluate_screen> {
           ),
           Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text('추천도'),
-            Text(_current_evaluate_data['recommend_rate'].toString(),
+            //여기 수정해야함 평점 평균내서
+            Text(_current_evaluate_data.score.toString(),
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25))
           ])
         ],
@@ -157,251 +139,56 @@ class _evalute_screenState extends State<evaluate_screen> {
     );
   }
 
-  //나중에 필요한 구조일 수도 잇어서 주석 처리해놓았습니다.
-  /*
-  //인기 강의평 위젯 (현재 블러 처리 되어있음)
-  Widget _popular_class_evaluate_widget() {
+  Widget _popular_evaluate_widget(
+      int index, List<dynamic> _recent_evaluate_data) {
+    InfouPopular _current_evaluate_data = _recent_evaluate_data[index];
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 10, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: EdgeInsets.fromLTRB(13, 10, 20, 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
-                Icons.person,
-                size: 30,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(3, 0, 0, 0),
+                child: Text(
+                    _current_evaluate_data.lectureName +
+                        ' [' +
+                        summarize_name(_current_evaluate_data.professorName) +
+                        ']',
+                    style: TextStyle(fontSize: 15)),
               ),
-              Text('  익명의 거북이 [경영학과]', style: TextStyle(fontSize: 17))
-            ],
-          ),
-          Text('과목명  파이썬 프로그래밍', style: TextStyle(fontSize: 17)),
-          Row(
-            children: [
-              Text('교수명  ', style: TextStyle(fontSize: 17)),
-              Container(
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                child: Container(
                   width: 200,
-                  height: 25,
+                  height: 30,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 2,
+                    itemCount: 5,
                     itemBuilder: (context, index) {
-                      if (index == 0)
-                        return Text('홍길동, ', style: TextStyle(fontSize: 17));
+                      //별 표시해주는겁니다. api식으로 바로 사용할수있게 코딩해놨습니다.
+                      if (index < _current_evaluate_data.averageValue.toInt())
+                        return const Icon(Icons.star, color: Colors.amber);
                       else
-                        return Text('홍길동', style: TextStyle(fontSize: 17));
+                        return const Icon(Icons.star, color: Colors.grey);
                     },
-                  )),
-            ],
-          ),
-          Container(
-            width: MediaQuery.of(context).size.height,
-            height: 40,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                //별 표시해주는겁니다. api식으로 바로 사용할수있게 코딩해놨습니다.
-                if (index < 4)
-                  return Icon(Icons.star, color: Colors.amber, size: 30);
-                else
-                  return Icon(Icons.star, color: Colors.grey, size: 30);
-              },
-            ),
-          ),
-          // Padding(
-          //   padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-          //   child: Text(
-          //       '이러한 에러가 생기는 이유는 ListView는 부모 위젯의 높이에 따라 높이를 맞추게 되는데 ListView의 자식 내용이 적더라도 ListView는 자신이 사용할 수 있는 최대 공간을 사용하게 됩니다. Column의 높이는 무한이기 때문에 ListView의 높이도 따라 무한이 됨으로 에러가 생기게 되는 겁니다. '),
-          // ),
-          Row(
-            children: [
-              //도움됐어요
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-                child: GestureDetector(
-                  onTap: () {
-                    //눌렀을때 api내 값을 변경해줘야함.
-                    //따로 firebase와 같은 서버로 로그인에 따른 값을 처리해야함.
-                    debugPrint("sssss");
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.black),
-                    child: Padding(
-                      padding: EdgeInsets.all(1.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-                          child: Row(
-                            children: [
-                              Text('도움됐어요 '),
-                              Icon(Icons.check),
-                              //api처리
-                              Text(' 16'),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              //별로에요
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    //눌럿을때 api와 통신하며 값을 변경해야함.
-                    debugPrint("sssss");
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.black),
-                    child: Padding(
-                      padding: EdgeInsets.all(1.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-                          child: Row(
-                            children: [
-                              Text('별로예요 '),
-                              Icon(Icons.dangerous_outlined),
-                              //이부분 api처리
-                              Text(' 3'),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
                   ),
                 ),
               ),
             ],
-          )
+          ),
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text('추천도'),
+            //여기 수정해야함 평점 평균내서
+            Text(_current_evaluate_data.averageValue.toStringAsFixed(1),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25))
+          ])
         ],
       ),
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          scrolledUnderElevation: 0,
-            title: const Text(
-              'InfoU',
-              style: TextStyle(color: Colors.blueAccent),
-            ),
-            backgroundColor: Colors.white,
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      search_screen_state_number = 1;
-                      //Navigator.pushNamed나 Get.to 사용 안됩니다..
-                      //업데이트 된 수강 정보를 _lecture_list를 넘겨줌.
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => evaluate_search_screen(
-                                  lecture_list: _lecture_list)));
-                    });
-                  },
-                  icon: Icon(
-                    Icons.search,
-                    size: 25,
-                    color: Colors.black54,
-                  )),
-            ]),
-        body: Container(
-          color: Colors.white,
-          child: Column(
-            children: [
-              const Header(header_name: "최근 강의평"),
-              Container(
-                height: 260,
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EvaluateScreenDetail()))
-                      },
-                      child: Padding(
-                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(15)),
-                            height: 110,
-                            child: _recent_evaluate_widget(index),
-                          )),
-                    );
-                  },
-                  itemCount: _recent_evaluate_data.length,
-                ),
-              ),
-
-              Divider(
-                color: Colors.grey.shade300,
-                thickness: 5,
-              ),
-              Header(
-                header_name: '인기 교양 순위보기',
-              ),
-              Container(
-                height: 260,
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return Padding(
-                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(15)),
-                          height: 110,
-                          child: _recent_evaluate_widget(index),
-                        ));
-                  },
-                  itemCount: _recent_evaluate_data.length,
-                ),
-              ),
-              // Expanded(
-              //   child: Stack(
-              //     children: [
-              //       //여기에 블러 처리 되어있음. 블러 처리 방식도 따로 component형식으로 widget으로 빼놓으면 됨.
-              //       //현재는 블러 처리된 widget으로 넣어둠.
-              //       _popular_class_evaluate_widget(),
-              //       //이용권 구매 여부에 따라 삼항 연산자로 묶으면 됨.
-              //       // const Align(
-              //       //   alignment: Alignment.center,
-              //       //   child: Text('이용권 구매시 열람이 가능합니다 :D',
-              //       //       style: TextStyle(
-              //       //         fontWeight: FontWeight.bold,
-              //       //         fontSize: 18,
-              //       //       )),
-              //       // )
-              //     ],
-              //   ),
-              // ),
-
-
-            ],
-          ),
-        ));
-  }
-}*/
 
   @override
   Widget build(BuildContext context) {
@@ -422,10 +209,11 @@ class _evalute_screenState extends State<evaluate_screen> {
                       //업데이트 된 수강 정보를 _lecture_list를 넘겨줌.
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (_) =>
-                                  evaluate_search_screen(
-                                      lecture_list: _lecture_list)));
+                          PageTransition(
+                              type: PageTransitionType.fade,
+                              //많은 수정이 필요할것 같습니다..
+                              child: evaluate_search_screen(
+                                  lecture_list: _lecture_list)));
                     });
                   },
                   icon: Icon(
@@ -453,34 +241,88 @@ class _evalute_screenState extends State<evaluate_screen> {
                     ],
                   ),
                 ),
-                Container(
-                  height: 260,
-                  child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(15)),
-                            height: 110,
-                            child: _recent_evaluate_widget(index),
-                          ));
-                    },
-                    itemCount: _recent_evaluate_data.length - 1,
-                  ),
-                ), /*
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RatingScreenWrite()));
+                FutureBuilder(future: Future(
+                  () async {
+                    _recent_evaluate_data = await getDataInfouRecent({
+                      'page': 0,
+                      'size': 2,
+                      'sort': ["timestamp,asc"]
+                    });
+                    if (_recent_evaluate_data == [AA.aa])
+                      return 1;
+                    else
+                      return 2;
                   },
-                  child: Text('평가 작성하기',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                ),*/
+                ), builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.data == 2) {
+                    return Container(
+                      height: 260,
+                      child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      child: EvaluateScreenDetail(
+                                        academicNumber:
+                                            _recent_evaluate_data[index]
+                                                .academicNumber,
+                                        lectureName:
+                                            _recent_evaluate_data[index]
+                                                .lectureName,
+                                        professorName:
+                                            _recent_evaluate_data[index]
+                                                .professorName,
+                                        lectureType:
+                                            _recent_evaluate_data[index]
+                                                .lectureType,
+                                        department: _recent_evaluate_data[index]
+                                            .department,
+                                      ),
+                                      type: PageTransitionType.fade));
+                            },
+                            child: Padding(
+                                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  height: 110,
+                                  child: _recent_evaluate_widget(
+                                      index, _recent_evaluate_data),
+                                )),
+                          );
+                        },
+                        itemCount: _recent_evaluate_data.length,
+                      ),
+                    );
+                  } else if (snapshot.hasData && snapshot.data == 1) {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                            child: beginning_login_screen(),
+                            type: PageTransitionType.fade),
+                        (route) => false);
+                    return Container();
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Container(
+                        color: Colors.white,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                          ],
+                        ));
+                  } else {
+                    return Center(child: Text('No data available'));
+                  }
+                }),
                 SizedBox(
                   height: 30,
                 ),
@@ -493,35 +335,101 @@ class _evalute_screenState extends State<evaluate_screen> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18)),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () => Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.fade,
+                                  child: evaluate_screen_popular_list())),
                           child: Text(
                             '더 보기 > ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )),
-                          )),
                     ],
                   ),
                 ),
-                Container(
-                  //여기에 블러 처리 되어있음. 블러 처리 방식도 따로 component형식으로 widget으로 빼놓으면 됨.
-                  //현재는 블러 처리된 widget으로 넣어둠.
-                  height: 400,
-                  child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(15)),
-                            height: 110,
-                            child: _recent_evaluate_widget(index),
-                          ));
-                    },
-                    itemCount: _recent_evaluate_data.length,
-                  ),
-                ),
+                FutureBuilder(future: Future(
+                  () async {
+                    _popular_evaluate_data = await getDataInfouPopular(
+                        {'page': 0, 'size': 3, 'sort': []});
+                    if (_popular_evaluate_data == [BB.aa])
+                      return 1;
+                    else
+                      return 2;
+                  },
+                ), builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.data == 2) {
+                    print(snapshot.data);
+                    return Container(
+                      //여기에 블러 처리 되어있음. 블러 처리 방식도 따로 component형식으로 widget으로 빼놓으면 됨.
+                      //현재는 블러 처리된 widget으로 넣어둠.
+                      height: 400,
+                      child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      child: EvaluateScreenDetail(
+                                        academicNumber:
+                                            _popular_evaluate_data[index]
+                                                .academicNumber,
+                                        lectureName:
+                                            _popular_evaluate_data[index]
+                                                .lectureName,
+                                        professorName:
+                                            _popular_evaluate_data[index]
+                                                .professorName,
+                                        lectureType:
+                                            _popular_evaluate_data[index]
+                                                .lectureType,
+                                        department:
+                                            _popular_evaluate_data[index]
+                                                .department,
+                                      ),
+                                      type: PageTransitionType.fade));
+                            },
+                            child: Padding(
+                                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  height: 110,
+                                  child: _popular_evaluate_widget(
+                                      index, _popular_evaluate_data),
+                                )),
+                          );
+                        },
+                        itemCount: _popular_evaluate_data.length,
+                      ),
+                    );
+                  } else if (snapshot.hasData && snapshot.data == 1) {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                            child: beginning_login_screen(),
+                            type: PageTransitionType.fade),
+                        (route) => false);
+                    return Container();
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Container(
+                        color: Colors.white,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                          ],
+                        ));
+                  } else {
+                    return Center(child: Text('No data available'));
+                  }
+                }),
               ],
             ),
           ),

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../component/announce_tag.dart';
 
-import '../component/announce_tag.dart';
-
 class NoticeScreenDetail extends StatefulWidget {
   const NoticeScreenDetail({super.key});
 
@@ -59,184 +57,182 @@ class _NoticeScreenDetailState extends State<NoticeScreenDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(children: [
-              Container(
-                height: 30,
-                child: Center(
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) {
-                      return Text(
-                        '|',
-                        style: TextStyle(fontSize: 14),
-                      );
-                    },
-                    itemCount: announce_topic_name.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            notice_screen_topic_num = index;
-                          });
-                          print(index);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                          child: Text(
-                            announce_topic_name[index],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: (index == notice_screen_topic_num)
-                                    ? FontWeight.bold
-                                    : FontWeight.normal),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 2.5, 10, 0),
-                  child: GestureDetector(
-                      child: Text('추가하기',
-                          style: TextStyle(
-                              color: Colors.black38,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 11)),
-                      onTap: () {}),
-                ),
-              )
-            ]),
-
-            //검색창
+      body: Column(
+        children: [
+          Stack(children: [
             Container(
-              padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              width: MediaQuery.of(context).size.width * 0.87,
-              height: 35,
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    GestureDetector(
+              height: 30,
+              child: Center(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  separatorBuilder: (context, index) {
+                    return Text(
+                      '|',
+                      style: TextStyle(fontSize: 14),
+                    );
+                  },
+                  itemCount: announce_topic_name.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
                       onTap: () {
                         setState(() {
-                          _isExpanded = !_isExpanded;
-                          if (_isExpanded) {
-                            // 확장되면서 포커스 설정
-                            FocusScope.of(context).requestFocus(FocusNode());
-                          }
+                          notice_screen_topic_num = index;
                         });
+                        print(index);
                       },
-                      child: Icon(Icons.search, size: 19),
-                    ),
-                    if (_isExpanded)
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                          child: AnimatedContainer(
-                            duration: Duration(milliseconds: 300),
-                            width: _isExpanded ? null : 0,
-                            curve: Curves.easeInOut,
-                            child: TextField(
-                              controller: _controller,
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                              decoration: InputDecoration(
-                                hintText: '검색어를 입력해주세요',
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(color: Colors.black12),
-                              ),
-                              autofocus: true,
-                            ),
-                          ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                        child: Text(
+                          announce_topic_name[index],
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: (index == notice_screen_topic_num)
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
                         ),
                       ),
-                    if (_isExpanded)
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _controller?.text = '';
-                            _isExpanded = false;
-                            //포커스 해제
-                            FocusManager.instance.primaryFocus?.unfocus();
-                          });
-                        },
-                        child: Icon(Icons.cancel_outlined, size: 17),
-                      ),
-                  ],
-                ),
-              ),
-              // child: Row(
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   children: [
-              //     Icon(Icons.search, size: 19),
-              //     Expanded(
-              //       child: Padding(
-              //         padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-              //         child: TextField(
-              //           controller: _controller,
-              //           style:
-              //               TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              //           decoration: InputDecoration(
-              //               hintText: '검색어를 입력해주세요',
-              //               border: InputBorder.none,
-              //               hintStyle: TextStyle(color: Colors.black12)),
-              //         ),
-              //       ),
-              //     ),
-
-              //     GestureDetector(
-              //         onTap: () {
-              //           setState(() {
-              //             print(1);
-              //             _controller?.text = '';
-              //             //포커스 해제
-              //             FocusManager.instance.primaryFocus?.unfocus();
-              //           });
-              //         },
-              //         child: Icon(Icons.cancel_outlined, size: 17)),
-              //   ],
-              // ),
-            ),
-
-            // 날짜별 공지사항
-            Container(
-              height: 37,
-              width: 400,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(23, 8, 0, 4),
-                child: //index에 따라 api에서 가져온 값 넣어주면 됨.
-                    ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 6,
-                  itemBuilder: (context, index) {
-                    return announce_tag_widget(index);
+                    );
                   },
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-              child: Divider(thickness: 1, color: Colors.grey),
-            ),
-            DatenoticeView(
-              dateNoticeData: _DateNoticeData,
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 2.5, 10, 0),
+                child: GestureDetector(
+                    child: Text('추가하기',
+                        style: TextStyle(
+                            color: Colors.black38,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 11)),
+                    onTap: () {}),
+              ),
             )
-          ],
-        ),
+          ]),
+
+          //검색창
+          Container(
+            padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            width: MediaQuery.of(context).size.width * 0.87,
+            height: 35,
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isExpanded = !_isExpanded;
+                        if (_isExpanded) {
+                          // 확장되면서 포커스 설정
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        }
+                      });
+                    },
+                    child: Icon(Icons.search, size: 19),
+                  ),
+                  if (_isExpanded)
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          width: _isExpanded ? null : 0,
+                          curve: Curves.easeInOut,
+                          child: TextField(
+                            controller: _controller,
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                            decoration: InputDecoration(
+                              hintText: '검색어를 입력해주세요',
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(color: Colors.black12),
+                            ),
+                            autofocus: true,
+                          ),
+                        ),
+                      ),
+                    ),
+                  if (_isExpanded)
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _controller?.text = '';
+                          _isExpanded = false;
+                          //포커스 해제
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        });
+                      },
+                      child: Icon(Icons.cancel_outlined, size: 17),
+                    ),
+                ],
+              ),
+            ),
+            // child: Row(
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: [
+            //     Icon(Icons.search, size: 19),
+            //     Expanded(
+            //       child: Padding(
+            //         padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+            //         child: TextField(
+            //           controller: _controller,
+            //           style:
+            //               TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            //           decoration: InputDecoration(
+            //               hintText: '검색어를 입력해주세요',
+            //               border: InputBorder.none,
+            //               hintStyle: TextStyle(color: Colors.black12)),
+            //         ),
+            //       ),
+            //     ),
+
+            //     GestureDetector(
+            //         onTap: () {
+            //           setState(() {
+            //             print(1);
+            //             _controller?.text = '';
+            //             //포커스 해제
+            //             FocusManager.instance.primaryFocus?.unfocus();
+            //           });
+            //         },
+            //         child: Icon(Icons.cancel_outlined, size: 17)),
+            //   ],
+            // ),
+          ),
+
+          // 날짜별 공지사항
+          Container(
+            height: 37,
+            width: 400,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(23, 8, 0, 4),
+              child: //index에 따라 api에서 가져온 값 넣어주면 됨.
+                  ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 6,
+                itemBuilder: (context, index) {
+                  return announce_tag_widget(index);
+                },
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: Divider(thickness: 1, color: Colors.grey),
+          ),
+          DatenoticeView(
+            dateNoticeData: _DateNoticeData,
+          )
+        ],
       ),
     );
   }

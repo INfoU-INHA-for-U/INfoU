@@ -1,53 +1,41 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/model/notice_response.dart';
 import 'package:myapp/view/notice_screen.dart';
-import 'package:myapp/view/notice_screen_detail.dart';
 import 'package:myapp/widget/home_notice_view.dart';
-import 'package:myapp/model/notice_response.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
-import '../model/bookmark_response.dart';
-import '../model/normal_response.dart';
-import '../viewmodel/notice_repository.dart';
 
 class home_screen extends StatefulWidget {
-  final String jwt;
-
-  const home_screen({required this.jwt});
+  const home_screen({super.key});
 
   @override
   State<home_screen> createState() => _home_screenState();
 }
 
 class _home_screenState extends State<home_screen> {
-  //홈 페이지에서 모든 공지사항을 보는 요청입니다.
-  late Future<NoticeResponse?> notioceResponse =
-      noticeRepository(widget.jwt).notices();
-
-  // 연결 API - notice
-
-  late Future<BookmarkResponse?> noticesBookmark =
-      noticeRepository(widget.jwt).noticesBookmark();
-
-  late Future<BookmarkResponse?> noticeSearch =
-      noticeRepository(widget.jwt).noticeSearch('국어');
-
-  late Future<BookmarkResponse?> noticeSearchBookmark =
-      noticeRepository(widget.jwt).noticeSearchBookmark('국어');
-
-  late Future<BookmarkResponse?> noticeRecommend =
-      noticeRepository(widget.jwt).noticeRecommend();
-
-  late Future<NormalResponse?> noticeLog =
-      noticeRepository(widget.jwt).noticeLog('asd');
-
-  late Future<NormalResponse?> noticeBookmark =
-      noticeRepository(widget.jwt).noticeBookmark('asd');
-
-  // 연결 API - user
+  //공지사항 위젯
+  final Map<String, Map<String, String>> announce_list = {
+    '0': {
+      'date': '2024.02.28',
+      'major': '컴퓨터공학과',
+      'title': '[프런티어학부대학] 연구원 채용 공고',
+      'category': '채용 👔',
+      'link': "http://www.naver.com",
+    },
+    '1': {
+      'date': '2024.02.28',
+      'major': '컴퓨터공학과',
+      'title': '[프런티어학부대학] 연구원 채용 공고',
+      'category': '채용 👔',
+      'link': "http://www.naver.com",
+    },
+    '2': {
+      'date': '2024.02.28',
+      'major': '컴퓨터공학과',
+      'title': '[프런티어학부대학] 연구원 채용 공고',
+      'category': '채용 👔',
+      'link': "http://www.naver.com",
+    },
+  };
 
   Map _recent_evaluate_data = {
     '0': {
@@ -79,14 +67,6 @@ class _home_screenState extends State<home_screen> {
   //최근 강의평 위젯
   Widget _recent_evaluate_widget(int index) {
     Map _current_evaluate_data = _recent_evaluate_data[index.toString()];
-
-    print("===========================");
-    print(noticesBookmark);
-    print(noticeSearch);
-    print(noticeSearchBookmark);
-    print(noticeLog);
-    print(noticeBookmark);
-
     return Padding(
       padding: EdgeInsets.fromLTRB(13, 10, 20, 10),
       child: Row(
@@ -274,20 +254,11 @@ class _home_screenState extends State<home_screen> {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            NoticeScreenDetail()),
-                                  );
-                                },
-                                child: Text('더 보기 > '))
+                            TextButton(onPressed: () {}, child: Text('더 보기 > '))
                           ],
                         ),
                       ),
-                      homeNoticeView(noticeData: notioceResponse),
+                      homeNoticeView(noticeData: announce_list),
                     ],
                   ),
                 ),
