@@ -33,6 +33,7 @@ class _splash_screenState extends State<splash_screen> {
     //먼저 구글에 로그인이 되어있는지 확인하고,
     _checkGoogleSign = await _googleSignIn.isSignedIn();
     if (_checkGoogleSign == false) {
+      print("_checkGoogleSignIn 3");
       return 3;
     }
     _currentToken.changeAuthId(_login!.id);
@@ -73,6 +74,7 @@ class _splash_screenState extends State<splash_screen> {
         //해당 authId가 서버에 없음 = 회원가입이 안된 상태
         if (jsonData['isSuccess'] == false) {
           //회원가입 페이지로 이동
+          print("_sendTokenToBackend 2");
           return 2;
         }
         //authId가 존재함 = Token이 정상적으로 reponse됨.
