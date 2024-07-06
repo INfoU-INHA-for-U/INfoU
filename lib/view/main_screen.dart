@@ -64,11 +64,11 @@ class _main_screenState extends State<main_screen> {
               label: '홈',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard),
+              icon: _getIcon('assets/images/notice_icon.png', 1),
               label: '공지사항',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.library_books),
+              icon: _getIcon('assets/images/evaluate_icon.png', 2),
               label: '강의평가',
             ),
             // BottomNavigationBarItem(
@@ -76,7 +76,7 @@ class _main_screenState extends State<main_screen> {
             //   label: '포인트',
             // ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: _getIcon('assets/images/mypage_icon.png', 3),
               label: '마이',
             ),
           ],
@@ -87,6 +87,20 @@ class _main_screenState extends State<main_screen> {
           iconSize: 26,
           backgroundColor: Colors.white,
         ),
+      ),
+    );
+  }
+
+  Widget _getIcon(String assetPath, int index) {
+    return ColorFiltered(
+      colorFilter: ColorFilter.mode(
+        _current_index == index ? Colors.blueAccent : Colors.grey,
+        BlendMode.srcIn,
+      ),
+      child: Image.asset(
+        assetPath,
+        width: 26,
+        height: 26,
       ),
     );
   }

@@ -20,24 +20,18 @@ class _NoticeScreenSimilarState extends State<NoticeScreenSimilar> {
 
   final Map<String, Map<String, String>> _SimilarNoticeData = {
     '0': {
-      'date': '2024.02.28',
-      'major': '컴퓨터공학과',
-      'title': '[프런티어학부대학] 연구원 채용 공고',
-      'category': '채용 👔',
-      'link': "http://www.naver.com",
+      'title': "2024 「INHA SW NET-Zero 공동해커톤」참여자 모집 (~6.19.)",
+      'category': '모집 🤗',
+      'link': "http://www.naver.com"
     },
     '1': {
-      'date': '2024.02.28',
-      'major': '컴퓨터공학과',
-      'title': '[프런티어학부대학] 연구원 채용 공고',
-      'category': '채용 👔',
+      'title': '인하대학교 디지털 역사관 웹페이지 안내',
+      'category': '신청 ✍',
       'link': "http://www.naver.com",
     },
     '2': {
-      'date': '2024.02.28',
-      'major': '컴퓨터공학과',
-      'title': '[프런티어학부대학] 연구원 채용 공고',
-      'category': '채용 👔',
+      'title': '[현장실습지원센터] 2024-하계방학 및 2학기 "한국철도기술연구원" 현장실습생 모집(마감임박)',
+      'category': '인턴십 💼',
       'link': "http://www.naver.com",
     },
   };
@@ -46,7 +40,19 @@ class _NoticeScreenSimilarState extends State<NoticeScreenSimilar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("비슷한 사용자가 본 공지사항"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_sharp),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        scrolledUnderElevation: 0,
+        title: const Text(
+          '비슷한 사용자가 본 공지사항',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.white,
+        titleSpacing: -7,
       ),
       body: SafeArea(
         child: Column(
@@ -67,7 +73,7 @@ class _NoticeScreenSimilarState extends State<NoticeScreenSimilar> {
                         scrollDirection: Axis.horizontal,
                         itemCount: 5,
                         itemBuilder: (context, index) {
-                          return announce_tag_widget(index);
+                          return announce_tag_widget(context, index);
                         },
                       ),
                     )
@@ -75,10 +81,10 @@ class _NoticeScreenSimilarState extends State<NoticeScreenSimilar> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-              child: Divider(thickness: 1, color: Colors.grey),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+            //   child: Divider(thickness: 1, color: Colors.grey),
+            // ),
             noticeView(
               noticeData: _SimilarNoticeData,
             )

@@ -28,9 +28,64 @@ class EvaluateScreenDetail extends StatefulWidget {
 }
 
 class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
+  int _upper_lower_index = 1;
+
   List<Lecture> _lecture_list2 = [];
-  List<InfouSearch> _lecture_list = [];
-  List<InfouPopular> _lecture_recommend_list = [];
+  List<InfouSearch> _lecture_list = [
+    InfouSearch(
+      id: "12345",
+      timestamp: DateTime.now(),
+      lectureName: "컴퓨터 프로그래밍",
+      lectureType: "Elective",
+      professorName: "서영덕",
+      academicNumber: "CS101",
+      skill: "Intermediate",
+      level: "400",
+      score: 4.5,
+      review: "지금까지 들었던 수업중에 가장 만족도가 높았던 것 같습니다. 기회가 된다면 진짜 교수님한테 감사인사 드리고싶어요.",
+      agree: 50,
+      disagree: 2,
+      userId: "user123",
+      department: "Computer Science",
+      semester: "2023 1",
+      grade: "A",
+    )
+  ];
+  List<InfouPopular> _lecture_recommend_list = [
+    InfouPopular(
+      id: "67890",
+      academicNumber: "CS101",
+      lectureName: "컴퓨터 공학 입문 프로그래밍",
+      lectureType: "Elective",
+      professorName: "서영덕",
+      department: "Computer Science",
+      averageValue: 4.9,
+      sumValue: 84.0,
+      count: 20,
+    ),
+    InfouPopular(
+      id: "67890",
+      academicNumber: "CS101",
+      lectureName: "자료구조",
+      lectureType: "Elective",
+      professorName: "심정섭",
+      department: "Computer Science",
+      averageValue: 4.8,
+      sumValue: 84.0,
+      count: 20,
+    ),
+    InfouPopular(
+      id: "67890",
+      academicNumber: "CS101",
+      lectureName: "자료구조",
+      lectureType: "Elective",
+      professorName: "서영덕",
+      department: "Computer Science",
+      averageValue: 4.7,
+      sumValue: 84.0,
+      count: 20,
+    )
+  ];
   String _academicNumber = '';
   String _professorName = '';
   String _lectureName = '';
@@ -48,7 +103,48 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
     _department = widget.department;
   }
 
-  final double satisfactionPercentage = 90; // API로 받아와야 하는 데이터
+  InfouSearch searchExample = InfouSearch(
+    id: "12345",
+    timestamp: DateTime.now(),
+    lectureName: "컴퓨터 프로그래밍",
+    lectureType: "Elective",
+    professorName: "서영덕",
+    academicNumber: "CS101",
+    skill: "Intermediate",
+    level: "400",
+    score: 4.5,
+    review: "지금까지 들었던 수업중에 가장 만족도가 높았던 것 같습니다. 기회가 된다면 진짜 교수님한테 감사인사 드리고싶어요.",
+    agree: 50,
+    disagree: 2,
+    userId: "user123",
+    department: "Computer Science",
+    semester: "2023 1",
+    grade: "A",
+  );
+
+  // 예시데이터
+  final List<Map<String, dynamic>> scores = [
+    {'label': '수업방식의 적절성', 'score': 4.8},
+    {'label': '강의계획서 적절성', 'score': 4.7},
+    {'label': '수업 성과1', 'score': 5.0},
+    {'label': '수업 성과2', 'score': 4.9},
+    {'label': '추천도', 'score': 4.6},
+  ];
+
+  // InfouPopular 예시 데이터
+  InfouPopular popularExample = InfouPopular(
+    id: "67890",
+    academicNumber: "CS101",
+    lectureName: "Advanced Flutter",
+    lectureType: "Elective",
+    professorName: "Dr. John Doe",
+    department: "Computer Science",
+    averageValue: 4.2,
+    sumValue: 84.0,
+    count: 20,
+  );
+
+  final int satisfactionPercentage = 90; // API로 받아와야 하는 데이터
 
   //값에 따라 강의평 홈 / 강의평 검색 / 강의평 추가 화면 을 setState로 구별.
   //아래에 있는 bottomNaviagtorBar때문.
@@ -72,29 +168,29 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
             children: [
               Row(
                 children: [
-                  Text('과목 : '),
+                  Text('과목      '),
                   Text(
                       _current_evaluate_data.lectureName == ''
                           ? '                               '
                           : _current_evaluate_data.lectureName,
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                 ],
               ),
               Row(
                 children: [
-                  Text('교수 : '),
+                  Text('교수      '),
                   Text(_current_evaluate_data.professorName,
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                 ],
               ),
               Row(
                 children: [
-                  Text('추천도 : '),
+                  Text('추천도   '),
                   Text(_current_evaluate_data.averageValue.toStringAsFixed(1),
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 15))
                 ],
               ), /*
               Row(
@@ -150,8 +246,12 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
   }
 
   Widget class_detail(int index) {
+    double calcScore() {
+      return double.parse((_lecture_list[index].score).toStringAsFixed(2));
+    }
+
     return Padding(
-      padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
+      padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -160,7 +260,9 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
             children: [
               Row(
                 children: [
-                  Text('과목 : '),
+                  Text('과목           ',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                   Text(_lecture_list[index].lectureName,
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
@@ -168,7 +270,9 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
               ),
               Row(
                 children: [
-                  Text('교수 : '),
+                  Text('교수           ',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                   Text(_lecture_list[index].professorName,
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
@@ -176,14 +280,61 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
               ),
               Row(
                 children: [
-                  Text('수강학기 : '),
+                  Text('수강학기    ',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                   Text(
                       _lecture_list[index].semester.substring(0, 4) +
                           '년도 ' +
                           _lecture_list[index].semester.substring(5, 6) +
                           '학기',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+                          TextStyle(fontWeight: FontWeight.w400, fontSize: 15))
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: List.generate(5, (index) {
+                      return Image.asset(
+                        index < calcScore().floor()
+                            ? 'assets/images/gold_star.png'
+                            : 'assets/images/grey_star.png',
+                        width: 25,
+                        height: 18,
+                      );
+                    }),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    calcScore().toString(), // 현재 선택된 별점을 텍스트로 표시
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    ' / 5.0', // 현재 선택된 별점을 텍스트로 표시
+                    style: TextStyle(
+                        color: Colors.white60,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: 300,
+                    height: 85,
+                    child: Text(_lecture_list[index].review,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400, fontSize: 15)),
+                  )
                 ],
               ),
             ],
@@ -217,11 +368,11 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
             child: Row(
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width / 7 + 20,
+                  width: MediaQuery.of(context).size.width / 7 + 13,
                   child: Text(classLevel + ' '),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 7 + 20,
+                  width: MediaQuery.of(context).size.width / 7 + 13,
                   child: Text(detail + ' '),
                 ),
                 Container(
@@ -234,7 +385,7 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
                   ),
                   child: FractionallySizedBox(
                     alignment: Alignment.centerLeft,
-                    widthFactor: satisfactionPercentage / 100,
+                    widthFactor: 0.8, //satisfactionPercentage / 100,
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.blue, // 내부 바의 색상
@@ -245,7 +396,7 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
                 ),
                 SizedBox(width: 10),
                 Text(
-                  '${satisfactionPercentage.toInt()}%',
+                  '80%', //'${satisfactionPercentage.toInt()}%',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -314,11 +465,11 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
     _purposeIndex = 1;
     _purposeValue = '1';
     String _skill_data = '';
-    double _skill_data_rate = 0;
+    double _skill_data_rate = 50;
     String _grade_data = '';
-    double _grade_data_rate = 0;
+    double _grade_data_rate = 40;
     String _level_data = '';
-    double _level_data_rate = 0;
+    double _level_data_rate = 60;
 
     double calcScore() {
       double score_sum = 0.0;
@@ -417,6 +568,12 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
       }
     }
 
+    calcSkill();
+    //수강학년 계산
+    calcGrade();
+    //난이도 계산
+    calcLevel();
+
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.white, actions: [
         IconButton(
@@ -440,229 +597,564 @@ class _EvaluateScreenDetailState extends State<EvaluateScreenDetail> {
       ]),
       body: Container(
         child: SingleChildScrollView(
-          child: FutureBuilder(future: Future(
-            () async {
-              _lecture_list =
-                  await getDataInfouDetails(_academicNumber, _professorName, {
-                'page': 0,
-                'size': 50,
-                'sort': ['score,desc']
-              });
-              _lecture_recommend_list = await getDataInfouRecommend({
-                'page': 0,
-                'size': 5,
-                'sort': ['count,asc']
-              });
-              print("_lecture_recommend_list : ");
-              print(_lecture_recommend_list);
-              //await Future.delayed(Duration(seconds: 10));
-              return 0;
-            },
-          ), builder: (context, snapshot) {
-            if (snapshot.hasData &&
-                _lecture_list != null &&
-                _lecture_list != []) {
-              //강의력 계산
-              calcSkill();
-              //수강학년 계산
-              calcGrade();
-              //난이도 계산
-              calcLevel();
-              return Container(
-                color: Colors.white,
-                child: Center(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            MediaQuery.of(context).size.width * 0.1, 0, 10, 5),
-                        child: Row(
-                          children: [
-                            const Text('과목      ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                )),
-                            Text(_lectureName,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                )),
+          child: Container(
+            color: Colors.white,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Container(
+                        child: HorizontalSelect(
+                          label: "필터",
+                          items: const <String>[
+                            '2023년도 2학기',
+                            '2023년도 1학기',
+                            '2022년도 2학기',
+                            '2021년도 1학기',
+                            '2021년도 2학기'
                           ],
+                          //style: TextStyle(fontSize: 3, height: 1),
+                          isLabel: false,
+                          selectedIndex: _purposeIndex!,
+                          onChanged: (idx, value) {},
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            MediaQuery.of(context).size.width * 0.1, 0, 10, 5),
-                        child: Row(
-                          children: [
-                            const Text('교수     ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                )),
-                            Text(_professorName,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                )),
-                          ],
+                    ),
+
+                    //SizedBox(height: 20),
+
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.grey.shade200,
                         ),
-                      ),
-                      HeaderNoDetail(header_name: '나와 비슷한 사용자가 많이 조회한 강의평'),
-                      Container(
-                        height: 200,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
+                        child: Column(
+                          children: List.generate(scores.length, (index) {
+                            final score = scores[index];
                             return Padding(
-                                padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.grey.shade200,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  height: 140,
-                                  child: _recent_evaluate_widget(index),
-                                ));
-                          },
-                          itemCount: _lecture_recommend_list.length,
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(score['label'],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12,
+                                        )),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: LinearProgressIndicator(
+                                      value: score['score'] / 5,
+                                      backgroundColor: Colors.grey[300],
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.blue),
+                                    ),
+                                  ),
+                                  SizedBox(width: 30),
+                                  Text(score['score'].toString(),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                      )),
+                                ],
+                              ),
+                            );
+                          }),
                         ),
                       ),
-                      //..? 이상하게 짜놓은거 같은데..ㅎㅎㅎ..
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            MediaQuery.of(context).size.width * 0.05,
-                            10,
-                            20,
-                            0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(5, (index) {
-                                return Image.asset(
-                                  index < calcScore().floor()
-                                      ? 'assets/images/gold_star.png'
-                                      : 'assets/images/grey_star.png',
-                                  width: 35,
-                                  height: 20,
-                                );
-                              }),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              calcScore().toString(), // 현재 선택된 별점을 텍스트로 표시
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              ' / 5.0', // 현재 선택된 별점을 텍스트로 표시
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.normal),
-                            ),
-                          ],
-                        ),
-                      ),
-                      percent_bar('강의력', _skill_data, _skill_data_rate),
-                      percent_bar('수강학년', _grade_data, _grade_data_rate),
-                      percent_bar('난이도', _level_data, _level_data_rate),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+
+                    // Expanded(
+                    //   child: ListView.builder(
+                    //     itemCount: scores.length,
+                    //     itemBuilder: (context, index) {
+                    //       final score = scores[index];
+                    //       return Padding(
+                    //         padding:
+                    //             const EdgeInsets.symmetric(vertical: 8.0),
+                    //         child: Row(
+                    //           children: [
+                    //             Expanded(
+                    //               flex: 2,
+                    //               child: Text(score['label']),
+                    //             ),
+                    //             Expanded(
+                    //               flex: 3,
+                    //               child: LinearProgressIndicator(
+                    //                 value: score['score'] / 5.0,
+                    //                 backgroundColor: Colors.grey[300],
+                    //                 valueColor: AlwaysStoppedAnimation<Color>(
+                    //                     Colors.blue),
+                    //               ),
+                    //             ),
+                    //             SizedBox(width: 10),
+                    //             Text(score['score'].toString()),
+                    //           ],
+                    //         ),
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          MediaQuery.of(context).size.width * 0.1, 0, 10, 5),
+                      child: Row(
                         children: [
-                          Row(children: [
-                            Text('강의력'),
-                            Text('만족도'),
-                            Text('난이도'),
-                          ]),
+                          const Text('과목      ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                              )),
+                          Text(_lectureName,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              )),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          MediaQuery.of(context).size.width * 0.1, 0, 10, 5),
+                      child: Row(
+                        children: [
+                          const Text('교수      ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                              )),
+                          Text(_professorName,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              )),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+                      child: Container(
+                        width: double.infinity,
+                        height: 10, // 원하는 높이 설정
+                        color: Color(0xFFF3F3F3), // BBBBBB 색상 설정
+                      ),
+                    ),
+                    HeaderNoDetail(header_name: '나와 비슷한 사용자가 많이 조회한 강의평'),
+                    Container(
+                      height: 110,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                              padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
+                              child: Container(
+                                width: 300,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                    borderRadius: BorderRadius.circular(15)),
+                                height: 140,
+                                child: _recent_evaluate_widget(index),
+                              ));
+                        },
+                        itemCount: _lecture_recommend_list.length,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                      child: Container(
+                        width: double.infinity,
+                        height: 10, // 원하는 높이 설정
+                        color: Color(0xFFF3F3F3), // BBBBBB 색상 설정
+                      ),
+                    ),
+                    //..? 이상하게 짜놓은거 같은데..ㅎㅎㅎ..
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          MediaQuery.of(context).size.width * 0.05, 10, 20, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
                           Row(
-                            //로직도 구현이 안되어 있네요..ㅎㅎ..
-                            children: [
-                              IconButton(
-                                  onPressed: () => {}, icon: Icon(Icons.list)),
-                              Text('오름차순'),
-                            ],
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(5, (index) {
+                              return Image.asset(
+                                index < calcScore().floor()
+                                    ? 'assets/images/gold_star.png'
+                                    : 'assets/images/grey_star.png',
+                                width: 35,
+                                height: 20,
+                              );
+                            }),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            calcScore().toString(), // 현재 선택된 별점을 텍스트로 표시
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            ' / 5.0', // 현재 선택된 별점을 텍스트로 표시
+                            style: TextStyle(
+                                color: Colors.white60,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal),
                           ),
                         ],
                       ),
-                      Container(
-                        height: 200,
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            return Padding(
-                                padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white10,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  height: 140,
-                                  child: class_detail(index),
-                                ));
-                          },
-                          itemCount: _lecture_list.length,
+                    ),
+                    percent_bar('강의력', _skill_data, _skill_data_rate),
+                    percent_bar('수강학년', _grade_data, _grade_data_rate),
+                    percent_bar('난이도', _level_data, _level_data_rate),
+
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+                      child: Container(
+                        width: double.infinity,
+                        height: 10, // 원하는 높이 설정
+                        color: Color(0xFFF3F3F3), // BBBBBB 색상 설정
+                      ),
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                          child: Container(
+                            width: 280,
+                            child: HorizontalSelect(
+                              label: "필터",
+                              items: const <String>['강의력', '만족도', '난이도'],
+                              //style: TextStyle(fontSize: 3, height: 1),
+                              isLabel: false,
+                              selectedIndex: _purposeIndex!,
+                              onChanged: (idx, value) {},
+                            ),
+                          ),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  child: EvaluateScreenWrite(
-                                    professorName: _professorName,
-                                    lectureName: _lectureName,
-                                    academicNumber: _academicNumber,
-                                    lectureType: _lectureType,
-                                    department: _department,
-                                  ),
-                                  type: PageTransitionType.fade));
+                        Row(
+                          //로직도 구현이 안되어 있네요..ㅎㅎ..
+                          children: [
+                            GestureDetector(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Icon(Icons.filter_list, size: 16),
+                                    Text(
+                                        _upper_lower_index == 2
+                                            ? '내림차순'
+                                            : '오름차순',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10))
+                                  ],
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    if (_upper_lower_index == 0) {
+                                      _upper_lower_index = 1;
+                                    } else {
+                                      _upper_lower_index =
+                                          3 - _upper_lower_index;
+                                    }
+                                  });
+                                  print('오름차순');
+                                }),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Container(
+                      height: 200,
+                      width: 450,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return Padding(
+                              padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white10,
+                                    borderRadius: BorderRadius.circular(15)),
+                                height: 200,
+                                child: class_detail(index),
+                              ));
                         },
-                        child: Text('평가 작성하기',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        itemCount: _lecture_list.length,
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(120, 0, 120, 0),
+        child: SizedBox(
+          width: 100,
+          child: TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                PageTransition(
+                  child: EvaluateScreenWrite(
+                    professorName: _professorName,
+                    lectureName: _lectureName,
+                    academicNumber: _academicNumber,
+                    lectureType: _lectureType,
+                    department: _department,
                   ),
+                  type: PageTransitionType.fade,
                 ),
               );
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container(
-                  color: Colors.white,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(),
-                    ],
-                  ));
-            } else {
-              return Center(child: Text('No data available'));
-            }
-          }),
+            },
+            child:
+                Text('평가 작성하기', style: TextStyle(fontWeight: FontWeight.bold)),
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.blue, // 원하는 색상으로 설정
+              foregroundColor: Colors.white, // 텍스트 색상 설정
+            ),
+          ),
         ),
       ),
     );
   }
-}
+//           child: FutureBuilder(future: Future(
+//             () async {
+//               // _lecture_list =
+//               //     await getDataInfouDetails(_academicNumber, _professorName, {
+//               //   'page': 0,
+//               //   'size': 50,
+//               //   'sort': ['score,desc']
+//               //}
+//               // );
+//               // _lecture_recommend_list = await getDataInfouRecommend({
+//               //   'page': 0,
+//               //   'size': 5,
+//               //   'sort': ['count,asc']
+//               //});
+//               // print("_lecture_recommend_list : ");
+//               // print(_lecture_recommend_list);
+//               // //await Future.delayed(Duration(seconds: 10));
+//               // return 0;
+//             },
+//           ), builder: (context, snapshot) {
+//             if (snapshot.hasData &&
+//                 _lecture_list != null &&
+//                 _lecture_list != []) {
+//               //강의력 계산
+//               calcSkill();
+//               //수강학년 계산
+//               calcGrade();
+//               //난이도 계산
+//               calcLevel();
+//               return Container(
+//                 color: Colors.white,
+//                 child: Center(
+//                   child: Column(
+//                     children: [
+//                       Padding(
+//                         padding: EdgeInsets.fromLTRB(
+//                             MediaQuery.of(context).size.width * 0.1, 0, 10, 5),
+//                         child: Row(
+//                           children: [
+//                             const Text('과목      ',
+//                                 style: TextStyle(
+//                                   fontWeight: FontWeight.w600,
+//                                   fontSize: 18,
+//                                 )),
+//                             Text(_lectureName,
+//                                 style: const TextStyle(
+//                                   fontWeight: FontWeight.w400,
+//                                   fontSize: 14,
+//                                 )),
+//                           ],
+//                         ),
+//                       ),
+//                       Padding(
+//                         padding: EdgeInsets.fromLTRB(
+//                             MediaQuery.of(context).size.width * 0.1, 0, 10, 5),
+//                         child: Row(
+//                           children: [
+//                             const Text('교수     ',
+//                                 style: TextStyle(
+//                                   fontWeight: FontWeight.w600,
+//                                   fontSize: 18,
+//                                 )),
+//                             Text(_professorName,
+//                                 style: const TextStyle(
+//                                   fontWeight: FontWeight.w400,
+//                                   fontSize: 14,
+//                                 )),
+//                           ],
+//                         ),
+//                       ),
+//                       HeaderNoDetail(header_name: '나와 비슷한 사용자가 많이 조회한 강의평'),
+//                       Container(
+//                         height: 200,
+//                         child: ListView.builder(
+//                           scrollDirection: Axis.horizontal,
+//                           itemBuilder: (context, index) {
+//                             return Padding(
+//                                 padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
+//                                 child: Container(
+//                                   decoration: BoxDecoration(
+//                                       color: Colors.grey.shade200,
+//                                       borderRadius: BorderRadius.circular(15)),
+//                                   height: 140,
+//                                   child: _recent_evaluate_widget(index),
+//                                 ));
+//                           },
+//                           itemCount: _lecture_recommend_list.length,
+//                         ),
+//                       ),
+//                       //..? 이상하게 짜놓은거 같은데..ㅎㅎㅎ..
+//                       Padding(
+//                         padding: EdgeInsets.fromLTRB(
+//                             MediaQuery.of(context).size.width * 0.05,
+//                             10,
+//                             20,
+//                             0),
+//                         child: Row(
+//                           mainAxisAlignment: MainAxisAlignment.center,
+//                           children: [
+//                             Row(
+//                               mainAxisAlignment: MainAxisAlignment.center,
+//                               children: List.generate(5, (index) {
+//                                 return Image.asset(
+//                                   index < calcScore().floor()
+//                                       ? 'assets/images/gold_star.png'
+//                                       : 'assets/images/grey_star.png',
+//                                   width: 35,
+//                                   height: 20,
+//                                 );
+//                               }),
+//                             ),
+//                             SizedBox(
+//                               width: 10,
+//                             ),
+//                             Text(
+//                               calcScore().toString(), // 현재 선택된 별점을 텍스트로 표시
+//                               style: TextStyle(
+//                                   fontSize: 20, fontWeight: FontWeight.bold),
+//                             ),
+//                             Text(
+//                               ' / 5.0', // 현재 선택된 별점을 텍스트로 표시
+//                               style: TextStyle(
+//                                   fontSize: 14, fontWeight: FontWeight.normal),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                       percent_bar('강의력', _skill_data, _skill_data_rate),
+//                       percent_bar('수강학년', _grade_data, _grade_data_rate),
+//                       percent_bar('난이도', _level_data, _level_data_rate),
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                         children: [
+//                           Row(children: [
+//                             Text('강의력'),
+//                             Text('만족도'),
+//                             Text('난이도'),
+//                           ]),
+//                           Row(
+//                             //로직도 구현이 안되어 있네요..ㅎㅎ..
+//                             children: [
+//                               IconButton(
+//                                   onPressed: () => {}, icon: Icon(Icons.list)),
+//                               Text('오름차순'),
+//                             ],
+//                           ),
+//                         ],
+//                       ),
+//                       Container(
+//                         height: 200,
+//                         child: ListView.builder(
+//                           itemBuilder: (context, index) {
+//                             return Padding(
+//                                 padding: EdgeInsets.fromLTRB(20, 10, 20, 5),
+//                                 child: Container(
+//                                   decoration: BoxDecoration(
+//                                       color: Colors.white10,
+//                                       borderRadius: BorderRadius.circular(15)),
+//                                   height: 140,
+//                                   child: class_detail(index),
+//                                 ));
+//                           },
+//                           itemCount: _lecture_list.length,
+//                         ),
+//                       ),
+//                       TextButton(
+//                         onPressed: () {
+//                           Navigator.push(
+//                               context,
+//                               PageTransition(
+//                                   child: EvaluateScreenWrite(
+//                                     professorName: _professorName,
+//                                     lectureName: _lectureName,
+//                                     academicNumber: _academicNumber,
+//                                     lectureType: _lectureType,
+//                                     department: _department,
+//                                   ),
+//                                   type: PageTransitionType.fade));
+//                         },
+//                         child: Text('평가 작성하기',
+//                             style: TextStyle(fontWeight: FontWeight.bold)),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               );
+//             } else if (snapshot.connectionState == ConnectionState.waiting) {
+//               return Container(
+//                   color: Colors.white,
+//                   width: MediaQuery.of(context).size.width,
+//                   height: MediaQuery.of(context).size.height,
+//                   child: Column(
+//                     mainAxisAlignment: MainAxisAlignment.center,
+//                     crossAxisAlignment: CrossAxisAlignment.center,
+//                     children: [
+//                       CircularProgressIndicator(),
+//                     ],
+//                   ));
+//             } else {
+//               return Center(child: Text('No data available'));
+//             }
+//           }),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-void _showReviewSubmittedDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('알림'),
-        content: Text('강의평이 등록되었습니다.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('확인'),
-          ),
-        ],
-      );
-    },
-  );
+// void _showReviewSubmittedDialog(BuildContext context) {
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         title: Text('알림'),
+//         content: Text('강의평이 등록되었습니다.'),
+//         actions: [
+//           TextButton(
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//             child: Text('확인'),
+//           ),
+//         ],
+//       );
+//     },
 }

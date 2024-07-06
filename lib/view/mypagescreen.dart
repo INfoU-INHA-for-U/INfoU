@@ -19,17 +19,19 @@ class _mypage_screenState extends State<mypage_screen> {
     double ffem = fem * 0.97;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "마이페이지",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w800,
-            height: 0,
-            letterSpacing: 0.02,
-          ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_sharp),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
+        scrolledUnderElevation: 0,
+        title: const Text(
+          '마이페이지',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.white,
+        titleSpacing: -7,
         actions: [
           IconButton(
             icon: Icon(Icons.settings), // 톱니바퀴 모양의 아이콘
@@ -54,22 +56,22 @@ class _mypage_screenState extends State<mypage_screen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '[닉네임] 님',
+                    '[전민혜] 님',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 15,
+                      fontSize: 20,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w700,
-                      height: 0,
+                      height: 2,
                     ),
                   ),
                   Text(
                     'push@inha.edu',
                     style: TextStyle(
                       color: Color(0xFFBBBBBB),
-                      fontSize: 9,
+                      fontSize: 14,
                       fontFamily: 'Inter',
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w400,
                       height: 0,
                     ),
                   ),
@@ -79,7 +81,7 @@ class _mypage_screenState extends State<mypage_screen> {
 
             // 2번, 강의평가
             Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+              margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -90,14 +92,23 @@ class _mypage_screenState extends State<mypage_screen> {
                       fontSize: 20,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w700,
-                      height: 0,
+                      height: 3,
                     ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      MyPageCard(title: '보유 포인트', count: '300P'),
-                      MyPageCard(title: '작성 리뷰', count: '2')
+                      MyPageCard(
+                        title: '보유 포인트',
+                        count: '300P',
+                        image: Image.asset('assets/images/pig.png',
+                            fit: BoxFit.contain, width: 35, height: 50),
+                      ),
+                      MyPageCard(
+                          title: '작성 리뷰',
+                          count: '2',
+                          image: Image.asset('assets/images/review.png',
+                              fit: BoxFit.contain, width: 30, height: 48))
                     ],
                   ),
                 ],
@@ -115,12 +126,18 @@ class _mypage_screenState extends State<mypage_screen> {
                     fontSize: 20,
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w700,
-                    height: 0,
+                    height: 3,
                   ),
                 ),
                 Row(
                   children: [
-                    MyPageCard(title: '즐겨찾는 학과', count: '2'),
+                    Expanded(
+                        child: MyPageCard(
+                            title: '즐겨찾는 학과',
+                            count: '2',
+                            image: Image.asset('assets/images/major.png',
+                                fit: BoxFit.contain, width: 35, height: 50))),
+                    Expanded(child: Container(child: SizedBox())),
                   ],
                 ),
               ],
@@ -135,65 +152,67 @@ class _mypage_screenState extends State<mypage_screen> {
 class MyPageCard extends StatelessWidget {
   final String title;
   final String count;
+  final Widget image;
 
-  const MyPageCard({
-    Key? key,
-    required this.title,
-    required this.count,
-  }) : super(key: key);
+  const MyPageCard(
+      {Key? key, required this.title, required this.count, required this.image})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MypageScreenPoint(),
-            ));
-      },
-      child: Container(
-        width: 154 * 1.4,
-        height: 111 * 1.4,
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-        margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
-        decoration: ShapeDecoration(
-          color: Color(0xFFF1F8FF),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 12,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w700,
-                height: 0,
-              ),
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MypageScreenPoint(),
+              ));
+        },
+        child: Container(
+          width: 154 * 1.4,
+          height: 111 * 1.4,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+          decoration: ShapeDecoration(
+            color: Color(0xFFF1F8FF),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
             ),
-            SizedBox(
-              width: 94,
-              child: Text(
-                count,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              image,
+              Text(
+                title,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 12,
+                  fontSize: 18,
                   fontFamily: 'Inter',
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w700,
                   height: 0,
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: 100,
+                child: Text(
+                  count,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w400,
+                    height: 3,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

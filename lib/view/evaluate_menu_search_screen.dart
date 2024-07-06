@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infou/class/lecture.dart';
+import 'package:infou/view/evaluate_screen_detail.dart';
 
 import '../component/announce_tag.dart';
 
@@ -109,14 +110,18 @@ class _evaluate_menu_search_screenState
       height: 95,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _rate_check(index),
-          Text((index + 1).toString()),
           Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+            child: Text((index + 1).toString()),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(20, 13, 0, 13),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: EdgeInsets.fromLTRB(10, 2.5, 0, 0),
@@ -124,7 +129,7 @@ class _evaluate_menu_search_screenState
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(_one_lecture_list.lectureName,
-                          style: TextStyle(fontWeight: FontWeight.w500)),
+                          style: TextStyle(fontWeight: FontWeight.w800)),
                       Text(
                         ' ' + _one_lecture_list.academicNumber,
                         style: TextStyle(
@@ -137,7 +142,7 @@ class _evaluate_menu_search_screenState
                 ),
                 Container(
                     padding: EdgeInsets.fromLTRB(10, 3.5, 0, 0),
-                    width: 290,
+                    width: 230,
                     height: 25,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -183,90 +188,111 @@ class _evaluate_menu_search_screenState
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Divider(thickness: 3, color: Colors.black26),
-        Stack(children: [
-          Container(
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 3),
-            height: 33,
-            child: Center(
-              child: ListView.separated(
-                shrinkWrap: true,
-                separatorBuilder: (context, index) {
-                  return Text(
-                    '|',
-                    style: TextStyle(fontSize: 14),
-                  );
-                },
-                itemCount: _information_type.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      setState(() {
-                        _information_type_index = index;
-                      });
-                      print(index);
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                      child: Text(
-                        _information_type[index],
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: (index == _information_type_index)
-                                ? FontWeight.bold
-                                : FontWeight.normal),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Divider(thickness: 3, color: Colors.black26),
+          Stack(children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(0, 5, 0, 3),
+              height: 33,
+              child: Center(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  separatorBuilder: (context, index) {
+                    return Text(
+                      '|',
+                      style: TextStyle(fontSize: 14),
+                    );
+                  },
+                  itemCount: _information_type.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        setState(() {
+                          _information_type_index = index;
+                        });
+                        print(index);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                        child: Text(
+                          _information_type[index],
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: (index == _information_type_index)
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 2.5, 10, 0),
-              child: GestureDetector(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Icon(Icons.access_alarm),
-                      Text(_upper_lower_index == 2 ? '내림차순' : '오름차순',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 10))
-                    ],
-                  ),
-                  onTap: () {
-                    setState(() {
-                      if (_upper_lower_index == 0) {
-                        _upper_lower_index = 1;
-                      } else {
-                        _upper_lower_index = 3 - _upper_lower_index;
-                      }
-                    });
-                    print('오름차순');
-                  }),
-            ),
-          )
-        ]),
-        Container(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            height: 650,
-            child: ListView.separated(
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index) =>
-                    _evaluate_menu_search_screen_infou_list_widget(
-                        index, _lecture_list[index]),
-                separatorBuilder: (context, index) => Divider(
-                      thickness: 1,
-                      color: Colors.black,
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 2.5, 10, 0),
+                child: GestureDetector(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(Icons.filter_list, size: 16),
+                        Text(_upper_lower_index == 2 ? '내림차순' : '오름차순',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 10))
+                      ],
                     ),
-                itemCount: _lecture_list.length)),
-      ],
+                    onTap: () {
+                      setState(() {
+                        if (_upper_lower_index == 0) {
+                          _upper_lower_index = 1;
+                        } else {
+                          _upper_lower_index = 3 - _upper_lower_index;
+                        }
+                      });
+                      print('오름차순');
+                    }),
+              ),
+            )
+          ]),
+          Container(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              height: 580,
+              child: ListView.separated(
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EvaluateScreenDetail(
+                                academicNumber: 'CS101',
+                                department: '컴퓨터공학과',
+                                professorName: '서영덕',
+                                lectureName: '컴퓨터 프로그래밍',
+                                lectureType: '전공필수',
+                              ),
+                            ),
+                          );
+                        },
+                        child: _evaluate_menu_search_screen_infou_list_widget(
+                            index, _lecture_list[index]),
+                      ),
+                  separatorBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                        child: Container(
+                          width: double.infinity, // 상위 위젯의 width와 일치
+                          height: 1, // 원하는 높이 설정
+                          color: Color(0xFFBBBBBB), // BBBBBB 색상 설정
+                        ),
+                      ),
+                  itemCount: _lecture_list.length)),
+        ],
+      ),
     );
   }
 }

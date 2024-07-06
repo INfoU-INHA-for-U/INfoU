@@ -51,10 +51,10 @@ class _HorizontalSelectState extends State<HorizontalSelect> {
             //   style: TextStyle(fontSize: 20, color: Colors.grey.shade700),
             // ),
           ],
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: 40,
+            height: 30,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: widget.items.length,
@@ -68,7 +68,7 @@ class _HorizontalSelectState extends State<HorizontalSelect> {
                         backgroundColor:
                             MaterialStateProperty.all(Colors.white),
                         minimumSize: MaterialStateProperty.all<Size>(Size(
-                            MediaQuery.of(context).size.width * 0.80 / 5, 40)),
+                            MediaQuery.of(context).size.width * 0.70 / 5, 40)),
                         side: MaterialStateProperty.all<BorderSide>(
                           BorderSide(
                             color: selectedIndex == index

@@ -20,24 +20,24 @@ class _NoticeScreenFavoriteState extends State<NoticeScreenFavorite> {
 
   final Map<String, Map<String, String>> _SimilarNoticeData = {
     '0': {
-      'date': '2024.02.28',
-      'major': '컴퓨터공학과',
-      'title': '[프런티어학부대학] 연구원 채용 공고',
-      'category': '채용 👔',
-      'link': "http://www.naver.com",
+      'title':
+          "[미래자동차 사업단] 2024학년도 하계방학 표준 현장실습학기제(Co-op) '(주)이지트로닉스' 참여학생 모집 안내",
+      'category': '인턴십 💼',
+      'link': "http://www.naver.com"
     },
     '1': {
-      'date': '2024.02.28',
-      'major': '컴퓨터공학과',
-      'title': '[프런티어학부대학] 연구원 채용 공고',
-      'category': '채용 👔',
+      'title': '[인하대학교 개교 70주년 기념 “하와이-인하공원” 조형물 건립 기공식 안내]',
+      'category': '신청 ✍',
       'link': "http://www.naver.com",
     },
     '2': {
-      'date': '2024.02.28',
-      'major': '컴퓨터공학과',
-      'title': '[프런티어학부대학] 연구원 채용 공고',
-      'category': '채용 👔',
+      'title': '2024 인천 블록체인 칼리지 "재직자과정(신규)" 교육생 모집',
+      'category': '모집 🤗',
+      'link': "http://www.naver.com",
+    },
+    '3': {
+      'title': "2024 인천 블록체인 칼리지 '기초과정' 교육생 모집",
+      'category': '모집 🤗',
       'link': "http://www.naver.com",
     },
   };
@@ -46,7 +46,19 @@ class _NoticeScreenFavoriteState extends State<NoticeScreenFavorite> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("즐겨찾기"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_sharp),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        scrolledUnderElevation: 0,
+        title: const Text(
+          '저장한 공지사항',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.white,
+        titleSpacing: -7,
       ),
       body: SafeArea(
         child: Column(
@@ -67,7 +79,7 @@ class _NoticeScreenFavoriteState extends State<NoticeScreenFavorite> {
                         scrollDirection: Axis.horizontal,
                         itemCount: 5,
                         itemBuilder: (context, index) {
-                          return announce_tag_widget(index);
+                          return announce_tag_widget(context, index);
                         },
                       ),
                     )
@@ -75,10 +87,10 @@ class _NoticeScreenFavoriteState extends State<NoticeScreenFavorite> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-              child: Divider(thickness: 1, color: Colors.grey),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+            //   child: Divider(thickness: 1, color: Colors.grey),
+            // ),
             favoriteNoticeView(
               noticeData: _SimilarNoticeData,
             )

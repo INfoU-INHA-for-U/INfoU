@@ -22,7 +22,7 @@ class homeNoticeView extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: 210,
+            height: 280,
             child: ListView.builder(
               itemCount: noticeData.length,
               itemBuilder: (context, index) {

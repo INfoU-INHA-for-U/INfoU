@@ -168,7 +168,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
+                  padding: EdgeInsets.fromLTRB(5, 15, 5, 0),
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Row(
@@ -177,7 +177,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
                             onTap: () => Navigator.of(context).pop(),
                             child: Icon(Icons.keyboard_backspace)),
                         Container(
-                          padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                          padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
                           decoration: BoxDecoration(
                             color: Colors.grey.shade200,
                             borderRadius: BorderRadius.circular(20),
@@ -191,17 +191,18 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
                               Expanded(
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                      const EdgeInsets.fromLTRB(5, 10, 0, 0),
                                   child: TextField(
                                     controller: _controller,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
                                     decoration: InputDecoration(
-                                        hintText: '검색어를 입력해주세요',
-                                        border: InputBorder.none,
-                                        hintStyle:
-                                            TextStyle(color: Colors.black12)),
+                                      hintText: '검색어를 입력해주세요',
+                                      border: InputBorder.none,
+                                      hintStyle:
+                                          TextStyle(color: Colors.black12),
+                                    ),
                                     onSubmitted: (value) {
                                       _search_menu_index_submitted =
                                           _search_menu_index_not_submitted;
@@ -257,7 +258,7 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
                       shrinkWrap: true,
                       separatorBuilder: (context, index) {
                         return Text(
-                          '|',
+                          ' | ',
                           style: TextStyle(fontSize: 14),
                         );
                       },
@@ -295,6 +296,10 @@ class _evaluate_search_screenState extends State<evaluate_search_screen> {
                   ),
                 ),
                 _screen_select(),
+                Expanded(
+                    child: Container(
+                        child: Text("원하는 강의평을 검색해 보세요! 😄",
+                            style: TextStyle(height: 40, fontSize: 18))))
               ],
             ),
           )),

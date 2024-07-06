@@ -38,6 +38,7 @@ class LineListView extends StatelessWidget {
               ),
               Text(
                 item[1],
+                selectionColor: Colors.white54,
                 style: TextStyle(fontSize: fontSize),
               ),
             ],

@@ -22,17 +22,19 @@ class _MypageScreenSettingState extends State<MypageScreenSetting> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            "설정",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.w800,
-              height: 0,
-              letterSpacing: 0.02,
-            ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_sharp),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
+          scrolledUnderElevation: 0,
+          title: const Text(
+            '설정',
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.white,
+          titleSpacing: -7,
         ),
         body: Column(
           children: [

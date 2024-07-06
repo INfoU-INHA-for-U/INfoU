@@ -17,49 +17,49 @@ class _home_screenState extends State<home_screen> {
     '0': {
       'date': '2024.02.28',
       'major': '컴퓨터공학과',
-      'title': '[프런티어학부대학] 연구원 채용 공고',
-      'category': '채용 👔',
+      'title': '[대학일자리플러스센터] 전문 인력 채용 공고 (컨설턴트)',
+      'category': '   채용 👔',
       'link': "http://www.naver.com",
     },
     '1': {
       'date': '2024.02.28',
       'major': '컴퓨터공학과',
-      'title': '[프런티어학부대학] 연구원 채용 공고',
-      'category': '채용 👔',
+      'title': "[현장실습지원센터] 2024-하계+2학기 '타이코에이엠피 주식회사' 현장실습생 모집 안내",
+      'category': '   교육 🏫',
       'link': "http://www.naver.com",
     },
     '2': {
       'date': '2024.02.28',
       'major': '컴퓨터공학과',
-      'title': '[프런티어학부대학] 연구원 채용 공고',
-      'category': '채용 👔',
+      'title': '[어학과정] 2024 여름학기 교내 어학특강 수강생 모집 안내 ',
+      'category': '    교육 🏫',
       'link': "http://www.naver.com",
     },
   };
 
   Map _recent_evaluate_data = {
     '0': {
-      'class': '파이썬 프로그래밍',
-      'professor': '서영덕',
+      'class': '자료구조',
+      'professor': '김영호',
       'star_rate': 4,
-      'evaluate1': '정말 좋아요',
-      'evaluate2': '적당해요',
+      'evaluate1': '만족스러워요 👍',
+      'evaluate2': '보통이에요 😊',
       'recommend_rate': 4.7
     },
     '1': {
       'class': '클라우드 컴퓨팅',
       'professor': '권구인',
       'star_rate': 4,
-      'evaluate1': '정말 좋아요',
-      'evaluate2': '어려워요',
+      'evaluate1': '만족스러워요 👍',
+      'evaluate2': '어려워요 🤨',
       'recommend_rate': 4.9
     },
     '2': {
       'class': '클라우드 컴퓨팅',
       'professor': '권구인',
       'star_rate': 4,
-      'evaluate1': '정말 좋아요',
-      'evaluate2': '어려워요',
+      'evaluate1': '만족스러워요 👍',
+      'evaluate2': '보통이에요 😊',
       'recommend_rate': 4.9
     },
   };
@@ -67,90 +67,102 @@ class _home_screenState extends State<home_screen> {
   //최근 강의평 위젯
   Widget _recent_evaluate_widget(int index) {
     Map _current_evaluate_data = _recent_evaluate_data[index.toString()];
-    return Padding(
-      padding: EdgeInsets.fromLTRB(13, 10, 20, 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(
+              color: Color(0xFFBBBBBB), // 테두리 색상을 f3f3f3로 설정
+              width: 0.5, // 테두리 두께
+            ),
+            borderRadius: BorderRadius.circular(12.0)),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(13, 10, 20, 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(3, 0, 0, 0),
-                child: Text(
-                    _current_evaluate_data['class'] +
-                        ' [' +
-                        _current_evaluate_data['professor'] +
-                        ']',
-                    style: TextStyle(fontSize: 15)),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                child: Container(
-                  width: 200,
-                  height: 30,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      //별 표시해주는겁니다. api식으로 바로 사용할수있게 코딩해놨습니다.
-                      if (index < _current_evaluate_data['star_rate'])
-                        return const Icon(Icons.star, color: Colors.amber);
-                      else
-                        return const Icon(Icons.star, color: Colors.grey);
-                    },
-                  ),
-                ),
-              ),
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                    padding: const EdgeInsets.fromLTRB(3, 0, 0, 0),
+                    child: Text(
+                        _current_evaluate_data['class'] +
+                            ' [' +
+                            _current_evaluate_data['professor'] +
+                            ']',
+                        style: TextStyle(fontSize: 15)),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                     child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
-                        child: Row(
-                          children: [
-                            Text(_current_evaluate_data['evaluate1'] + ' ',
-                                style: TextStyle(fontSize: 14)),
-                            //해당 이미지가 없어서 일단 아이콘으로 대체했습니다.
-                            Icon(Icons.thumb_up_alt_outlined, size: 13)
-                          ],
-                        ),
+                      width: 200,
+                      height: 30,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                          //별 표시해주는겁니다. api식으로 바로 사용할수있게 코딩해놨습니다.
+                          if (index < _current_evaluate_data['star_rate'])
+                            return const Icon(Icons.star, color: Colors.amber);
+                          else
+                            return const Icon(Icons.star, color: Colors.grey);
+                        },
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
-                          child: Row(
-                            children: [
-                              Text(_current_evaluate_data['evaluate2'] + ' ',
-                                  style: TextStyle(fontSize: 14)),
-                              //해당 이미지가 없어서 일단 아이콘으로 대체했습니다.
-                              Icon(Icons.thumb_down_alt_outlined, size: 13)
-                            ],
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
+                            child: Row(
+                              children: [
+                                Text(_current_evaluate_data['evaluate1'] + ' ',
+                                    style: TextStyle(fontSize: 14)),
+                                //해당 이미지가 없어서 일단 아이콘으로 대체했습니다.
+                                //Icon(Icons.thumb_up_alt_outlined, size: 13)
+                              ],
+                            ),
                           ),
-                        )),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                      _current_evaluate_data['evaluate2'] + ' ',
+                                      style: TextStyle(fontSize: 14)),
+                                  //해당 이미지가 없어서 일단 아이콘으로 대체했습니다.
+                                  //Icon(Icons.thumb_down_alt_outlined, size: 13)
+                                ],
+                              ),
+                            )),
+                      )
+                    ],
                   )
                 ],
-              )
+              ),
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Text('추천도'),
+                Text(_current_evaluate_data['recommend_rate'].toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25))
+              ])
             ],
           ),
-          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text('추천도'),
-            Text(_current_evaluate_data['recommend_rate'].toString(),
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25))
-          ])
-        ],
+        ),
       ),
     );
   }
@@ -159,8 +171,8 @@ class _home_screenState extends State<home_screen> {
 
   List bannerPath = [
     'assets/images/logo.png',
-    'assets/samples/ad_sample1.png',
-    'assets/samples/ad_sample2.png',
+    //'assets/samples/ad_sample1.png',
+    //'assets/samples/ad_sample2.png',
   ];
 
   Widget bannerSlider(path, index) {
@@ -212,17 +224,17 @@ class _home_screenState extends State<home_screen> {
           alignment: Alignment.bottomCenter,
           child: sliderBannerIndicator(),
         ),
-        Padding(
-          padding: EdgeInsets.all(20),
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: Text(
-                (activeBannerIndex + 1).toString() +
-                    '|' +
-                    bannerPath.length.toString(),
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          ),
-        )
+        // Padding(
+        //   padding: EdgeInsets.all(20),
+        //   child: Align(
+        //     alignment: Alignment.bottomRight,
+        //     child: Text(
+        //         (activeBannerIndex + 1).toString() +
+        //             '|' +
+        //             bannerPath.length.toString(),
+        //         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+        //   ),
+        // )
       ],
     );
   }
@@ -231,16 +243,21 @@ class _home_screenState extends State<home_screen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("InfoU"),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.white,
+          title: Image.asset(
+            'assets/images/infou_logo.png',
+            height: 20,
+          ), //text("InfoU"),
         ),
         body: Container(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  height: 180,
-                  child: sliderBannerWidget(),
-                ),
+                // Container(
+                //   height: 180,
+                //   child: sliderBannerWidget(),
+                // ),
                 Container(
                   child: Column(
                     children: [
@@ -252,9 +269,15 @@ class _home_screenState extends State<home_screen> {
                             Text(
                               '전체 공지사항',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
+                                  fontWeight: FontWeight.bold, fontSize: 16),
                             ),
-                            TextButton(onPressed: () {}, child: Text('더 보기 > '))
+                            TextButton(
+                                onPressed: () {},
+                                style: TextButton.styleFrom(
+                                  foregroundColor:
+                                      Colors.black, // 텍스트 색상을 검정색으로 설정
+                                ),
+                                child: Text('더보기 > '))
                           ],
                         ),
                       ),
@@ -262,25 +285,39 @@ class _home_screenState extends State<home_screen> {
                     ],
                   ),
                 ),
-                Divider(
-                  color: Colors.black,
+                Container(
+                  width: double.infinity, // 상위 위젯의 width와 일치
+                  height: 10, // 원하는 높이 설정
+                  color: Color(0xFFF3F3F3), // BBBBBB 색상 설정
                 ),
+                // Divider(
+                //   color: Colors.black,
+                // ),
                 Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('최근 강의평',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold)),
-                          TextButton(onPressed: () {}, child: Text('더보기 > '))
-                        ],
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                      child: Container(
+                        height: 40,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('최근 강의평',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold)),
+                            // TextButton(
+                            //     onPressed: () {},
+                            //     style: TextButton.styleFrom(
+                            //       foregroundColor:
+                            //           Colors.black, // 텍스트 색상을 검정색으로 설정
+                            //     ),
+                            //     child: Text('더보기 > '))
+                          ],
+                        ),
                       ),
                     ),
                     Container(
-                      height: 260,
+                      height: 400,
                       child: ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
@@ -294,7 +331,7 @@ class _home_screenState extends State<home_screen> {
                                 child: _recent_evaluate_widget(index),
                               ));
                         },
-                        itemCount: _recent_evaluate_data.length - 1,
+                        itemCount: _recent_evaluate_data.length,
                       ),
                     ),
                   ],
