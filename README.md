@@ -1,6 +1,6 @@
 <div align="center">
   
-![image](descript/image1.gif)
+<img src="descript/image1.gif" width="200">
 
 
 # INFOU (인하대 공지사항, 강의평 간편 확인 서비스)
@@ -52,7 +52,7 @@ INFOU 는 Inha Univ. 내부 강의평과 공지사항 데이터를 한눈에 확
 ## Built With
 ![Python](https://img.shields.io/badge/Python-3.11.4-3776AB?style=for-the-badge&logo=python&logoColor=yellow)   
 ![java](https://img.shields.io/badge/NodeJS-18.17.0-339933?style=for-the-badge&logo=nodedotjs&logoColor=yellow)  
-![mySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white)
+![mySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white)  
 ![Flutter](https://img.shields.io/badge/flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 &nbsp;
 
@@ -60,3 +60,4 @@ INFOU 는 Inha Univ. 내부 강의평과 공지사항 데이터를 한눈에 확
 &nbsp;
 -- 준비중 --
 
+![image](descript/image2.gif)
