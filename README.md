@@ -41,7 +41,7 @@ INFOU 는 Inha Univ. 내부 강의평과 공지사항 데이터를 한눈에 확
 
 <!-- Team -->
 ## Team Members
-* **팀장, 추천시스템 :** 전민혜, 컴퓨터공학과, Inha Univ.* 
+* **팀장, 추천시스템, 아키텍쳐 구성 :** 전민혜, 컴퓨터공학과, Inha Univ.* 
 * **Flutter (프론트):** 하성민, 경영학과, Inha Univ.
 * **Java Spring (백):** 김률아, 컴퓨터공학과, Inha Univ.* 
 
