@@ -1,6 +1,12 @@
 <div align="center">
   
-![image](descript/image1.gif)
+
+<img src="descript/image1.gif" width="200">
+
+
+
+
+
 
 
 # INFOU (인하대 공지사항, 강의평 간편 확인 서비스)
