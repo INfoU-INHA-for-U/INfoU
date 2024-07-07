@@ -1,6 +1,6 @@
 <div align="center">
   
-![image](descript/image1.gif)
+<img src="image1.gif" width="200">
 
 
 # INFOU (인하대 공지사항, 강의평 간편 확인 서비스)
@@ -60,4 +60,4 @@ INFOU 는 Inha Univ. 내부 강의평과 공지사항 데이터를 한눈에 확
 &nbsp;
 -- 준비중 --
 
-![image](descript/image2.gif)
+![image](descript/image2.jpg)
