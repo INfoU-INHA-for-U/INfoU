@@ -3,7 +3,8 @@
 <img src="/descript/image1.gif" width="200">
 
 
-# INFOU (인하대 공지사항, 강의평 간편 확인 서비스)
+# INFOU
+# 인하대 공지사항, 강의평 간편 확인 서비스
 
 <details>
   <summary><strong>&nbsp;Table of Contents</strong></summary>
